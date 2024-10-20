@@ -1,3 +1,3 @@
 # POS
 
-Utpala Moters
+Uthpala Moters
