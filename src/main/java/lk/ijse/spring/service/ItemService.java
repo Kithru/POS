@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 
 /**
- * @author : Kavithma Thushal
+ * @author : Kithru Viduranga
  * @project : SpringBoot-POS
  **/
 public interface ItemService {

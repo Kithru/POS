@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 /**
- * @author : Kavithma Thushal
+ * @author : Kithru Viduranga
  * @project : SpringBoot-POS
  **/
 @Service
