@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author : Kithru Viduranga
+ * @author : Kithru Viduranga - KV
  * @project : SpringBoot-POS
  **/
 @SpringBootApplication
