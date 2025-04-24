@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * @author : Kavithma Thushal
+ * @author : Kithru Viduranga
  * @project : SpringBoot-POS
  **/
 @Data
