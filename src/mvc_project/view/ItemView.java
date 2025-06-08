@@ -4,7 +4,9 @@
  */
 package mvc_project.view;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import mvc_project.controller.ItemController;
 import mvc_project.dto.ItemDto;
 
@@ -40,7 +42,7 @@ public class ItemView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         description = new java.awt.TextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblItem = new javax.swing.JTable();
         saveDetails = new java.awt.Button();
         deleteDetails = new java.awt.Button();
         updateDetails = new java.awt.Button();
@@ -75,7 +77,7 @@ public class ItemView extends javax.swing.JFrame {
         jLabel3.setText("Description");
         jLabel3.setToolTipText("");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,7 +88,7 @@ public class ItemView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblItem);
 
         saveDetails.setBackground(new java.awt.Color(153, 153, 255));
         saveDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -240,11 +242,11 @@ public class ItemView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblHeader;
     private java.awt.TextField packsize;
     private java.awt.TextField quantity;
     private java.awt.Button saveDetails;
+    private javax.swing.JTable tblItem;
     private java.awt.TextField uniteprice;
     private java.awt.Button updateDetails;
     // End of variables declaration//GEN-END:variables
@@ -258,6 +260,81 @@ public class ItemView extends javax.swing.JFrame {
         try {
             String resp = ItemController.saveItem(itemDto);
             JOptionPane.showMessageDialog(this, resp);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+     private void clear(){
+        itemcode.setText("");
+        description.setText("");
+        packsize.setText("");
+        quantity.setText("");
+        uniteprice.setText("");
+    }
+
+    public void loadTable(){
+        String [] colums = {"Item Code", "Item Description", "Pack Size", "Unit Price", "Qty On Hand"};
+        DefaultTableModel dtm = new DefaultTableModel(colums, 0){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+            
+        };
+        tblItem.setModel(dtm);
+        
+        try {
+            ArrayList<ItemDto> dtos = ItemController.getAllItem();
+            for (ItemDto dto : dtos) {
+                Object[] rowData = {dto.getId(), dto.getDesc(), dto.getPack(), dto.getUnitPrice(), dto.getQty()};
+                dtm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void searchItem() {
+        String itemCode = (String) tblItem.getValueAt(tblItem.getSelectedRow(), 0);
+        
+        try {
+            ItemDto itemDto = ItemController.searchItem(itemCode);
+            if(itemDto != null){
+                itemcode.setText(itemDto.getId());
+                description.setText(itemDto.getDesc());
+                packsize.setText(itemDto.getPack());
+                uniteprice.setText(Double.toString(itemDto.getUnitPrice()));
+                quantity.setText(Integer.toString(itemDto.getQty()));
+            } else {
+                JOptionPane.showMessageDialog(this, "Item Not Found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }   
+    }
+    
+    public void updateItem(){
+        ItemDto itemDto = new ItemDto(itemcode.getText(), description.getText(),
+                packsize.getText(), Double.parseDouble(uniteprice.getText()),
+                Integer.parseInt(quantity.getText()));
+        
+        System.out.println(itemDto);
+        try {
+            String resp = ItemController.updateItem(itemDto);
+            JOptionPane.showMessageDialog(this, resp);
+            loadTable();
+            clear();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    public void deleteItem(){
+        try {
+            String resp = ItemController.deleteItem(itemcode.getText());
+            JOptionPane.showMessageDialog(this, resp);
+            loadTable();
+            clear();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
