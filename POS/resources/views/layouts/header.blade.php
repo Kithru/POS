@@ -5,6 +5,6 @@
         <a href="#">Products</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
-        <a href="#">Login</a>
+        <a href="{{ route('login') }}">Login</a> 
     </nav>
 </header>
