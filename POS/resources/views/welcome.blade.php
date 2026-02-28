@@ -15,7 +15,7 @@
         <div class="login-card">
             <h2>Login</h2>
             <p>Welcome back! Please login to your account.</p>
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="input-group">
                     <label for="email">Email</label>
