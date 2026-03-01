@@ -3,7 +3,7 @@ body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     display: flex;
-    background-color: #f8f4ef;
+    background-color: #f8f4ef; /* Soft cream */
 }
 
 /* ================================
@@ -15,7 +15,7 @@ body {
     left: 0;
     height: 60px;
     width: 100%;
-    background-color: #4b0f3a;
+    background-color: #4b0f3a; /* Deep plum */
     color: #fff;
     display: flex;
     align-items: center;
@@ -36,16 +36,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 40px;
-    height: 25px;
+    width: 40px; 
+    height: 25px; 
     padding: 0;
+    margin-left: 0;
 }
 
 .toggle-btn .bar {
     width: 100%;
-    height: 4px;
+    height: 4px; 
     border-radius: 2px;
-    background-color: #f3c1d8;
+    background-color: #f3c1d8; /* Sakura pink */
 }
 
 /* ================================
@@ -54,7 +55,7 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #2e1a26;
+    background-color: #2e1a26; /* Dark plum */
     color: #fff;
     position: fixed;
     top: 60px;
@@ -63,6 +64,11 @@ body {
     flex-direction: column;
     transition: all 0.3s ease;
     z-index: 999;
+
+    /* Make sidebar scrollable for long menus */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 .sidebar.collapsed {
@@ -81,7 +87,7 @@ body {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    color: #e6d5df;
+    color: #e6d5df; /* Soft light plum */
     text-decoration: none;
     position: relative;
     transition: all 0.3s;
@@ -95,10 +101,10 @@ body {
     display: none;
 }
 
-/* Hover & Active */
+/* Active & hover states */
 .nav-links li a:hover,
 .nav-links li a.active {
-    background-color: #7a0f5c;
+    background-color: #7a0f5c; /* Wine purple */
     color: #fff;
     border-radius: 8px;
 }
@@ -106,7 +112,6 @@ body {
 /* ================================
    Submenu Styling
 ================================= */
-
 .has-submenu > a {
     justify-content: space-between;
 }
@@ -116,7 +121,7 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Rotate arrow */
+/* Rotate arrow when submenu open */
 .has-submenu.open > a .dropdown-icon {
     transform: rotate(180deg);
 }
@@ -126,10 +131,10 @@ body {
     list-style: none;
     padding-left: 0;
     margin: 0;
-    display: none;
+    display: none; /* hidden by default */
 }
 
-/* Show submenu */
+/* Show submenu when parent has 'open' class */
 .has-submenu.open .submenu {
     display: block;
 }
@@ -142,7 +147,6 @@ body {
     transition: 0.3s;
 }
 
-/* Submenu hover */
 .submenu li a:hover {
     background-color: #7a0f5c;
     border-radius: 6px;
@@ -161,7 +165,7 @@ body {
     left: 70px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #7a0f5c;
+    background-color: #7a0f5c; /* Wine purple */
     padding: 5px 10px;
     border-radius: 4px;
     color: #fff;
@@ -195,7 +199,7 @@ body {
 .logout-btn {
     width: 100%;
     padding: 10px;
-    background-color: #7a0f5c;
+    background-color: #7a0f5c; /* Wine purple */
     border: none;
     color: #fff;
     display: flex;
@@ -210,11 +214,11 @@ body {
 }
 
 .logout-btn:hover {
-    background-color: #4b0f3a;
+    background-color: #4b0f3a; /* Deep plum */
 }
 
 /* ================================
-   Top Right Section
+   Top Right Section (Date & Profile)
 ================================= */
 .top-right {
     margin-left: auto;
@@ -240,7 +244,7 @@ body {
     height: 35px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #f3c1d8;
+    border: 2px solid #f3c1d8; /* Sakura pink border */
 }
 
 .dropdown-content {
@@ -248,7 +252,7 @@ body {
     position: absolute;
     right: 0;
     top: 45px;
-    background-color: #2e1a26;
+    background-color: #2e1a26; /* Dark plum */
     padding: 10px;
     border-radius: 6px;
     min-width: 100px;
@@ -271,7 +275,6 @@ body {
     background-color: #4b0f3a;
 }
 
-
 /* ================================
    Responsive
 ================================= */
@@ -279,6 +282,8 @@ body {
     .sidebar {
         top: 60px;
         left: -250px;
+        height: calc(100vh - 60px);
+        overflow-y: auto;
     }
 
     .sidebar.collapsed {
