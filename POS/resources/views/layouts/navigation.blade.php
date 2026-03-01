@@ -37,24 +37,43 @@
             </a>
         </li>
         <li>
+        <li class="has-submenu">
             <a href="#" data-tooltip="Category">
                 <i class="fas fa-folder"></i>
                 <span class="link-text">Category</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> <span class="link-text">Add</span></a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> <span class="link-text">Manage</span></a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> <span class="link-text">View</span></a></li>
+            </ul>
         </li>
 
-        <li>
+        <li class="has-submenu">
             <a href="#" data-tooltip="Sub Category">
                 <i class="fas fa-folder-open"></i>
                 <span class="link-text">Sub Category</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> <span class="link-text">Add</span></a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> <span class="link-text">Manage</span></a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> <span class="link-text">View</span></a></li>
+            </ul>
         </li>
 
-        <li>
+        <li class="has-submenu">
             <a href="#" data-tooltip="Item">
                 <i class="fas fa-utensils"></i>
                 <span class="link-text">Item</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> <span class="link-text">Add</span></a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> <span class="link-text">Manage</span></a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> <span class="link-text">View</span></a></li>
+            </ul>
         </li>
         <li>
             <a href="#" data-tooltip="Reports">
