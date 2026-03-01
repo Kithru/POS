@@ -37,6 +37,26 @@
             </a>
         </li>
         <li>
+            <a href="#" data-tooltip="Category">
+                <i class="fas fa-folder"></i>
+                <span class="link-text">Category</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" data-tooltip="Sub Category">
+                <i class="fas fa-folder-open"></i>
+                <span class="link-text">Sub Category</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" data-tooltip="Item">
+                <i class="fas fa-utensils"></i>
+                <span class="link-text">Item</span>
+            </a>
+        </li>
+        <li>
             <a href="#" data-tooltip="Reports">
                 <i class="fas fa-file-alt"></i>
                 <span class="link-text">Reports</span>
