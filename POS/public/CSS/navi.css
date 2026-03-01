@@ -3,7 +3,7 @@ body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     display: flex;
-    background-color: #f0f2f5;
+    background-color: #f8f4ef; /* Soft cream */
 }
 
 /* ================================
@@ -15,7 +15,7 @@ body {
     left: 0;
     height: 60px;
     width: 100%;
-    background-color: #1f2937;
+    background-color: #4b0f3a; /* Deep plum */
     color: #fff;
     display: flex;
     align-items: center;
@@ -28,7 +28,7 @@ body {
     margin-left: 20px;
 }
 
-/* Hamburger button in top navbar */
+/* Hamburger button */
 .toggle-btn {
     background: none;
     border: none;
@@ -46,7 +46,7 @@ body {
     width: 100%;
     height: 4px; 
     border-radius: 2px;
-    background-color: #fff;
+    background-color: #f3c1d8; /* Sakura pink */
 }
 
 /* ================================
@@ -55,10 +55,10 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #1f2937;
+    background-color: #2e1a26; /* Dark plum */
     color: #fff;
     position: fixed;
-    top: 60px; /* below top navbar */
+    top: 60px;
     left: 0;
     display: flex;
     flex-direction: column;
@@ -81,7 +81,7 @@ body {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    color: #cbd5e1;
+    color: #e6d5df; /* Soft light plum */
     text-decoration: none;
     position: relative;
     transition: all 0.3s;
@@ -101,7 +101,7 @@ body {
     left: 70px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #2563eb;
+    background-color: #7a0f5c; /* Wine purple */
     padding: 5px 10px;
     border-radius: 4px;
     color: #fff;
@@ -113,7 +113,7 @@ body {
 /* Active & hover states */
 .nav-links li a:hover,
 .nav-links li a.active {
-    background-color: #2563eb;
+    background-color: #7a0f5c; /* Wine purple */
     color: #fff;
     border-radius: 8px;
 }
@@ -123,7 +123,7 @@ body {
 ================================= */
 .content {
     margin-left: 250px;
-    margin-top: 60px; /* below navbar */
+    margin-top: 60px;
     padding: 30px;
     width: 100%;
     transition: margin-left 0.3s;
@@ -143,7 +143,7 @@ body {
 .logout-btn {
     width: 100%;
     padding: 10px;
-    background-color: #ef4444;
+    background-color: #7a0f5c; /* Wine purple */
     border: none;
     color: #fff;
     display: flex;
@@ -158,7 +158,7 @@ body {
 }
 
 .logout-btn:hover {
-    background-color: #dc2626;
+    background-color: #4b0f3a; /* Deep plum */
 }
 
 /* ================================
@@ -188,7 +188,7 @@ body {
     height: 35px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fff;
+    border: 2px solid #f3c1d8; /* Sakura pink border */
 }
 
 .dropdown-content {
@@ -196,18 +196,18 @@ body {
     position: absolute;
     right: 0;
     top: 45px;
-    background-color: #1f2937;
+    background-color: #2e1a26; /* Dark plum */
     padding: 10px;
     border-radius: 6px;
     min-width: 100px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(75, 15, 58, 0.3);
     z-index: 1002;
 }
 
 .logout-btn-dropdown {
     width: 100%;
     padding: 8px;
-    background-color: #ef4444;
+    background-color: #7a0f5c;
     border: none;
     color: #fff;
     border-radius: 4px;
@@ -216,7 +216,7 @@ body {
 }
 
 .logout-btn-dropdown:hover {
-    background-color: #dc2626;
+    background-color: #4b0f3a;
 }
 
 /* ================================

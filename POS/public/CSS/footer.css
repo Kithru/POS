@@ -1,5 +1,5 @@
 footer {
-    background-color: #222;
+    background-color: #2e1a26; /* Dark plum */
     color: #fff;
     padding: 40px 50px;
     text-align: center;
@@ -10,12 +10,12 @@ footer .social-icons {
 }
 
 footer .social-icons a {
-    color: #fff;
+    color: #f3c1d8; /* Sakura pink */
     margin: 0 10px;
     font-size: 20px;
     transition: 0.3s;
 }
 
 footer .social-icons a:hover {
-    color: #ff6f61;
+    color: #7a0f5c; /* Wine purple */
 }

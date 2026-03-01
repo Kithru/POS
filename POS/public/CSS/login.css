@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(to right, #ff6f61, #ff9a76);
+    background: linear-gradient(to right, #4b0f3a, #7a0f5c); /* Deep plum → Wine */
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -23,21 +23,21 @@ body {
 
 /* Card */
 .login-card {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 40px 30px;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(75, 15, 58, 0.25); /* Soft plum shadow */
     text-align: center;
 }
 
 .login-card h2 {
     margin-bottom: 10px;
-    color: #ff6f61;
+    color: #7a0f5c; /* Wine purple */
 }
 
 .login-card p {
     margin-bottom: 30px;
-    color: #555;
+    color: #6e4a5e; /* Muted plum */
 }
 
 /* Input Fields */
@@ -50,26 +50,26 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: #2e1a26; /* Dark plum */
 }
 
 .input-group input {
     width: 100%;
     padding: 12px 15px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #e6d5df; /* Soft pink border */
     outline: none;
     transition: 0.3s;
 }
 
 .input-group input:focus {
-    border-color: #ff6f61;
-    box-shadow: 0 0 5px rgba(255,111,97,0.5);
+    border-color: #7a0f5c;
+    box-shadow: 0 0 5px rgba(122, 15, 92, 0.4);
 }
 
 /* Error */
 .error {
-    color: #ff4b3a;
+    color: #a83a7a; /* Soft wine */
     font-size: 14px;
 }
 
@@ -91,7 +91,7 @@ button {
     width: 100%;
     padding: 12px;
     border: none;
-    background-color: #ff6f61;
+    background-color: #7a0f5c; /* Wine purple */
     color: #fff;
     font-weight: bold;
     border-radius: 8px;
@@ -100,7 +100,7 @@ button {
 }
 
 button:hover {
-    background-color: #ff4b3a;
+    background-color: #4b0f3a; /* Deep plum */
 }
 
 /* Sign up text */
@@ -110,13 +110,14 @@ button:hover {
 }
 
 .signup-text a {
-    color: #ff6f61;
+    color: #7a0f5c;
     font-weight: bold;
     text-decoration: none;
 }
 
 .signup-text a:hover {
     text-decoration: underline;
+    color: #4b0f3a;
 }
 
 /* Responsive */
@@ -133,11 +134,11 @@ button:hover {
 }
 
 .home-icon a {
-    color: #ff6f61;
+    color: #f3c1d8; /* Sakura pink */
     font-size: 24px;
     transition: 0.3s;
 }
 
 .home-icon a:hover {
-    color: #ff4b3a;
+    color: #7a0f5c;
 }
