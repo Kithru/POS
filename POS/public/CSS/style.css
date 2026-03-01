@@ -5,24 +5,27 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
+
 body {
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: #f8f4ef; /* Soft cream */
+    color: #2e1a26; /* Elegant dark plum */
 }
 
 /* Header */
 header {
-    background-color: #ff6f61;
+    background-color: #4b0f3a; /* Deep plum */
     padding: 15px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #fff;
 }
+
 header h1 {
     font-size: 28px;
     letter-spacing: 1px;
 }
+
 nav a {
     color: #fff;
     text-decoration: none;
@@ -30,8 +33,10 @@ nav a {
     font-weight: bold;
     transition: 0.3s;
 }
+
 nav a:hover {
     text-decoration: underline;
+    color: #f3c1d8; /* Sakura pink */
 }
 
 /* Hero Slideshow */
@@ -65,7 +70,7 @@ nav a:hover {
     content: '';
     position: absolute;
     inset: 0;
-    background-color: rgba(0,0,0,0.4);
+    /* background-color: rgba(75, 15, 58, 0.55); /* Purple overlay */
 }
 
 /* Hero Content */
@@ -78,16 +83,19 @@ nav a:hover {
     text-align: center;
     z-index: 2;
 }
+
 .hero-content h2 {
     font-size: 48px;
     margin-bottom: 20px;
 }
+
 .hero-content p {
     font-size: 20px;
     margin-bottom: 30px;
 }
+
 .hero-content a {
-    background-color: #ff6f61;
+    background-color: #7a0f5c; /* Wine purple */
     color: #fff;
     padding: 15px 30px;
     text-decoration: none;
@@ -95,8 +103,9 @@ nav a:hover {
     font-weight: bold;
     transition: 0.3s;
 }
+
 .hero-content a:hover {
-    background-color: #ff4b3a;
+    background-color: #4b0f3a; /* Dark plum */
 }
 
 /* Fade animation for slides */
@@ -129,8 +138,9 @@ nav a:hover {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .dot.active {
-    background-color: #ff6f61;
+    background-color: #7a0f5c; /* Wine purple */
 }
 
 /* Products Section */
@@ -140,69 +150,81 @@ nav a:hover {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
+
 .product-card {
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(75, 15, 58, 0.1); /* Soft purple shadow */
     transition: transform 0.3s;
 }
+
 .product-card:hover {
     transform: translateY(-5px);
 }
+
 .product-card img {
     width: 100%;
     height: 250px;
     object-fit: cover;
 }
+
 .product-info {
     padding: 20px;
     text-align: center;
 }
+
 .product-info h3 {
     margin-bottom: 10px;
     font-size: 20px;
 }
+
 .product-info p {
     margin-bottom: 15px;
-    color: #888;
+    color: #6e4a5e; /* Muted plum */
 }
+
 .product-info span {
     font-weight: bold;
     font-size: 18px;
-    color: #ff6f61;
+    color: #7a0f5c; /* Wine purple */
 }
+
 .product-info button {
     padding: 10px 20px;
     border: none;
-    background-color: #ff6f61;
+    background-color: #7a0f5c;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
 }
+
 .product-info button:hover {
-    background-color: #ff4b3a;
+    background-color: #4b0f3a;
 }
 
 /* Footer */
 footer {
-    background-color: #222;
+    background-color: #2e1a26; /* Dark plum */
     color: #fff;
     padding: 40px 50px;
     text-align: center;
 }
+
 footer .social-icons {
     margin-top: 15px;
 }
+
 footer .social-icons a {
-    color: #fff;
+    color: #f3c1d8; /* Sakura pink */
     margin: 0 10px;
     font-size: 20px;
     transition: 0.3s;
 }
+
 footer .social-icons a:hover {
-    color: #ff6f61;
+    color: #ffffff;
 }
 
 /* Responsive */
@@ -211,12 +233,15 @@ footer .social-icons a:hover {
         flex-direction: column;
         text-align: center;
     }
+
     nav {
         margin-top: 10px;
     }
+
     .hero-content h2 {
         font-size: 32px;
     }
+
     .hero-content p {
         font-size: 16px;
     }
