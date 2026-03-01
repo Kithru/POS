@@ -1,6 +1,4 @@
 <!-- Top Navbar -->
-<script src="{{ asset('js/navi.js') }}"></script>
-
 <div class="top-navbar">
     <button class="toggle-btn" id="sidebarToggle">
         <span class="bar"></span>
@@ -9,16 +7,12 @@
     </button>
     <div class="top-title">Rajarata Sakura</div>
 
-        <div class="top-right">
-            <!-- Date & Time -->
-            <div id="datetime">
-                {{ now()->format('D, M d, Y | H:i:s') }}
-            </div>
-
-            <!-- Logout Button -->
-            
+    <div class="top-right">
+        <!-- Date & Time -->
+        <div id="datetime">
+            {{ now()->format('D, M d, Y | H:i:s') }}
         </div>
-    
+    </div>
 </div>
 
 <!-- Sidebar -->
@@ -36,6 +30,49 @@
                 <span class="link-text">Users</span>
             </a>
         </li>
+
+        <!-- Category submenu -->
+        <li class="has-submenu">
+            <a href="#" data-tooltip="Category">
+                <i class="fas fa-folder"></i>
+                <span class="link-text">Category</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
+            </ul>
+        </li>
+
+        <!-- Sub Category submenu -->
+        <li class="has-submenu">
+            <a href="#" data-tooltip="Sub Category">
+                <i class="fas fa-folder-open"></i>
+                <span class="link-text">Sub Category</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
+            </ul>
+        </li>
+
+        <!-- Item submenu -->
+        <li class="has-submenu">
+            <a href="#" data-tooltip="Item">
+                <i class="fas fa-utensils"></i>
+                <span class="link-text">Item</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
+                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
+                <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
+            </ul>
+        </li>
+
         <li>
             <a href="#" data-tooltip="Reports">
                 <i class="fas fa-file-alt"></i>
@@ -50,6 +87,7 @@
         </li>
     </ul>
 
+    <!-- Logout -->
     <div class="logout-section">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
@@ -61,7 +99,9 @@
     </div>
 </div>
 
+<!-- Inline JS -->
 <script>
+    // Sidebar collapse toggle
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
 
@@ -84,4 +124,34 @@
             if(tooltip) tooltip.remove();
         });
     });
+
+    // Submenu toggle
+    document.querySelectorAll('.has-submenu > a').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const parent = link.parentElement;
+
+            // Toggle clicked submenu
+            parent.classList.toggle('open');
+
+            // Close other submenus
+            document.querySelectorAll('.has-submenu').forEach(item => {
+                if(item !== parent){
+                    item.classList.remove('open');
+                }
+            });
+        });
+    });
+
+    // Date & time update
+    function updateDateTime() {
+        const now = new Date();
+        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        const dateStr = now.toLocaleDateString('en-US', options);
+        const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+        const dateTimeEl = document.getElementById('datetime');
+        if(dateTimeEl) dateTimeEl.innerText = `${dateStr} | ${timeStr}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 </script>

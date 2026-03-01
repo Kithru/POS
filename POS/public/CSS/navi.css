@@ -64,6 +64,11 @@ body {
     flex-direction: column;
     transition: all 0.3s ease;
     z-index: 999;
+
+    /* Make sidebar scrollable for long menus */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 .sidebar.collapsed {
@@ -77,6 +82,7 @@ body {
     flex: 1;
 }
 
+/* Main Links */
 .nav-links li a {
     display: flex;
     align-items: center;
@@ -95,7 +101,65 @@ body {
     display: none;
 }
 
-/* Tooltip */
+/* Active & hover states */
+.nav-links li a:hover,
+.nav-links li a.active {
+    background-color: #7a0f5c; /* Wine purple */
+    color: #fff;
+    border-radius: 8px;
+}
+
+/* ================================
+   Submenu Styling
+================================= */
+.has-submenu > a {
+    justify-content: space-between;
+}
+
+.dropdown-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when submenu open */
+.has-submenu.open > a .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Submenu container */
+.submenu {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: none; /* hidden by default */
+}
+
+/* Show submenu when parent has 'open' class */
+.has-submenu.open .submenu {
+    display: block;
+}
+
+/* Submenu links */
+.submenu li a {
+    padding: 10px 20px 10px 50px;
+    font-size: 0.9rem;
+    color: #e6d5df;
+    transition: 0.3s;
+}
+
+.submenu li a:hover {
+    background-color: #7a0f5c;
+    border-radius: 6px;
+}
+
+/* Hide submenu when collapsed */
+.sidebar.collapsed .submenu {
+    display: none !important;
+}
+
+/* ================================
+   Tooltip
+================================= */
 .tooltip {
     position: absolute;
     left: 70px;
@@ -108,14 +172,6 @@ body {
     white-space: nowrap;
     font-size: 0.85rem;
     z-index: 1000;
-}
-
-/* Active & hover states */
-.nav-links li a:hover,
-.nav-links li a.active {
-    background-color: #7a0f5c; /* Wine purple */
-    color: #fff;
-    border-radius: 8px;
 }
 
 /* ================================
@@ -226,6 +282,8 @@ body {
     .sidebar {
         top: 60px;
         left: -250px;
+        height: calc(100vh - 60px);
+        overflow-y: auto;
     }
 
     .sidebar.collapsed {
