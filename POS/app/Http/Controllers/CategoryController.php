@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderBy('category_id','desc')->get();
+        $categories = Category::orderBy('category_id','asc')->get();
         return view('category.category_add', compact('categories'));
     }
 

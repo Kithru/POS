@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubcategoryController;
 
 // Default home page
 Route::get('/', function () {return view('home');})->name('home');
@@ -23,3 +24,7 @@ Route::get('/category/manage', [CategoryController::class, 'manage'])->name('cat
 Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
 Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+// Sub Category
+Route::get('/subcategory/add', [SubcategoryController::class, 'create'])->name('subcategory.create');
+Route::post('/subcategory/add', [SubcategoryController::class, 'store'])->name('subcategory.store');
