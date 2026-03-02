@@ -43,8 +43,8 @@
             </a>
             <ul class="submenu">
                 <li><a href="{{ route('category.add') }}"><i class="fas fa-plus"></i> Add</a></li>
-                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
-                <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
+                <li><a href="{{ route('category.manage') }}"><i class="fas fa-edit"></i> Manage</a></li>
+                <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
             </ul>
         </li>
 

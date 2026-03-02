@@ -19,3 +19,7 @@ Route::get('/dashboard', function () {return view('dashboard'); })->middleware('
 // Category
 Route::get('/category/add', [CategoryController::class, 'index'])->name('category.add');
 Route::post('/category/add', [CategoryController::class, 'store'])->name('category.store');
+Route::get('/category/manage', [CategoryController::class, 'manage'])->name('category.manage');
+Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
