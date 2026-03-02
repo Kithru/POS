@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 
 // Default home page
 Route::get('/', function () {return view('home');})->name('home');
@@ -14,3 +15,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard route
 Route::get('/dashboard', function () {return view('dashboard'); })->middleware('auth')->name('dashboard');
+
+// Category
+Route::get('/category/add', [CategoryController::class, 'index'])->name('category.add');
+Route::post('/category/add', [CategoryController::class, 'store'])->name('category.store');

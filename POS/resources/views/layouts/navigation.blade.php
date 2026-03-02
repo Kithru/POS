@@ -28,7 +28,7 @@
         </li>
 
         <li>
-            <a href="" class="{{ request()->is('users*') ? 'active' : '' }}">
+            <a href="#" class="{{ request()->is('users*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span class="link-text">Users</span>
             </a>
@@ -42,7 +42,7 @@
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#"><i class="fas fa-plus"></i> Add</a></li>
+                <li><a href="{{ route('category.add') }}"><i class="fas fa-plus"></i> Add</a></li>
                 <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
