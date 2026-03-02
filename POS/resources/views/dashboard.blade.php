@@ -12,8 +12,47 @@
     @include('layouts.navigation')
 
     <div class="content">
-        <h1>Welcome </h1>
-        <p>Your dashboard content goes here.</p>
+        <!-- Welcome Section -->
+        <div class="dashboard-welcome" style="margin-bottom: 30px;">
+            <h1>Welcome Back, <span style="color:#7a0f5c;">Admin!</span></h1>
+            <p style="font-size:1rem; color:#555;">Here’s a quick overview of your system today.</p>
+        </div>
+
+        <!-- Quick Stats Cards -->
+        <div class="dashboard-cards" style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px;">
+            <div class="card" style="flex:1 1 200px; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                <h3>Total Items</h3>
+                <p style="font-size:1.5rem; font-weight:bold;">350</p>
+            </div>
+            <div class="card" style="flex:1 1 200px; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                <h3>Categories</h3>
+                <p style="font-size:1.5rem; font-weight:bold;">28</p>
+            </div>
+            <div class="card" style="flex:1 1 200px; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                <h3>Sub Categories</h3>
+                <p style="font-size:1.5rem; font-weight:bold;">64</p>
+            </div>
+            <div class="card" style="flex:1 1 200px; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                <h3>Users</h3>
+                <p style="font-size:1.5rem; font-weight:bold;">120</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-actions" style="display:flex; gap:20px; flex-wrap:wrap;">
+            <a href="#" class="action-btn" style="flex:1 1 200px; background:#7a0f5c; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
+                <i class="fas fa-plus-circle" style="margin-right:8px;"></i> Add New Item
+            </a>
+            <a href="#" class="action-btn" style="flex:1 1 200px; background:#4b0f3a; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
+                <i class="fas fa-tasks" style="margin-right:8px;"></i> Manage Categories
+            </a>
+            <a href="#" class="action-btn" style="flex:1 1 200px; background:#ff4dc4; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
+                <i class="fas fa-chart-line" style="margin-right:8px;"></i> View Reports
+            </a>
+            <a href="#" class="action-btn" style="flex:1 1 200px; background:#1f1f2e; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
+                <i class="fas fa-users" style="margin-right:8px;"></i> User Management
+            </a>
+        </div>
     </div>
 
 </body>

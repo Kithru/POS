@@ -1,93 +1,97 @@
-<!-- Top Navbar -->
+<!-- TOP NAVBAR -->
 <div class="top-navbar">
     <button class="toggle-btn" id="sidebarToggle">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
     </button>
+
     <div class="top-title">Rajarata Sakura</div>
 
     <div class="top-right">
-        <!-- Date & Time -->
         <div id="datetime">
             {{ now()->format('D, M d, Y | H:i:s') }}
         </div>
     </div>
 </div>
 
-<!-- Sidebar -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <ul class="nav-links">
+
         <li>
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}" data-tooltip="Dashboard">
+            <a href="{{ route('dashboard') }}"
+               class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
                 <span class="link-text">Dashboard</span>
             </a>
         </li>
+
         <li>
-            <a href="#" class="{{ request()->is('users*') ? 'active' : '' }}" data-tooltip="Users">
+            <a href="" class="{{ request()->is('users*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span class="link-text">Users</span>
             </a>
         </li>
 
-        <!-- Category submenu -->
+        <!-- CATEGORY -->
         <li class="has-submenu">
-            <a href="#" data-tooltip="Category">
+            <a href="#">
                 <i class="fas fa-folder"></i>
                 <span class="link-text">Category</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
+                <li><a href="#"><i class="fas fa-plus"></i> Add</a></li>
                 <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
         </li>
 
-        <!-- Sub Category submenu -->
+        <!-- SUB CATEGORY -->
         <li class="has-submenu">
-            <a href="#" data-tooltip="Sub Category">
+            <a href="#">
                 <i class="fas fa-folder-open"></i>
                 <span class="link-text">Sub Category</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
-                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
+                <li><a href="#"><i class="fas fa-plus-square"></i> Add</a></li>
+                <li><a href="#"><i class="fas fa-tasks"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
         </li>
 
-        <!-- Item submenu -->
+        <!-- ITEM -->
         <li class="has-submenu">
-            <a href="#" data-tooltip="Item">
-                <i class="fas fa-utensils"></i>
+            <a href="#">
+                <i class="fas fa-archive"></i> <!-- Updated icon -->
                 <span class="link-text">Item</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
                 <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
-                <li><a href="#"><i class="fas fa-edit"></i> Manage</a></li>
+                <li><a href="#"><i class="fas fa-pen"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="#" data-tooltip="Reports">
+            <a href="#">
                 <i class="fas fa-file-alt"></i>
                 <span class="link-text">Reports</span>
             </a>
         </li>
+
         <li>
-            <a href="#" data-tooltip="Settings">
+            <a href="#">
                 <i class="fas fa-cog"></i>
                 <span class="link-text">Settings</span>
             </a>
         </li>
     </ul>
 
-    <!-- Logout -->
+    <!-- LOGOUT -->
     <div class="logout-section">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
@@ -99,59 +103,50 @@
     </div>
 </div>
 
-<!-- Inline JS -->
+<!-- OVERLAY (MOBILE ONLY) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SCRIPT -->
 <script>
-    // Sidebar collapse toggle
+document.addEventListener("DOMContentLoaded", function () {
+
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
+    const overlay = document.getElementById('sidebarOverlay');
 
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
+    // Sidebar toggle
+    toggleBtn.addEventListener('click', function () {
+
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        } else {
+            sidebar.classList.toggle('collapsed');
+        }
+
     });
 
-    // Tooltip for collapsed sidebar
-    document.querySelectorAll('.nav-links li a').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            if(sidebar.classList.contains('collapsed')){
-                const tooltip = document.createElement('span');
-                tooltip.classList.add('tooltip');
-                tooltip.innerText = link.dataset.tooltip;
-                link.appendChild(tooltip);
+    // Close on overlay click (mobile)
+    overlay.addEventListener('click', function () {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    document.querySelectorAll('.has-submenu > a').forEach(menu => {
+    menu.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const parent = this.parentElement;
+
+        document.querySelectorAll('.has-submenu').forEach(item => {
+            if (item !== parent) {
+                item.classList.remove('open');
             }
         });
-        link.addEventListener('mouseleave', () => {
-            const tooltip = link.querySelector('.tooltip');
-            if(tooltip) tooltip.remove();
-        });
+
+        parent.classList.toggle('open');
     });
+});
 
-    // Submenu toggle
-    document.querySelectorAll('.has-submenu > a').forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            const parent = link.parentElement;
-
-            // Toggle clicked submenu
-            parent.classList.toggle('open');
-
-            // Close other submenus
-            document.querySelectorAll('.has-submenu').forEach(item => {
-                if(item !== parent){
-                    item.classList.remove('open');
-                }
-            });
-        });
-    });
-
-    // Date & time update
-    function updateDateTime() {
-        const now = new Date();
-        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-        const dateStr = now.toLocaleDateString('en-US', options);
-        const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
-        const dateTimeEl = document.getElementById('datetime');
-        if(dateTimeEl) dateTimeEl.innerText = `${dateStr} | ${timeStr}`;
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
+});
 </script>
