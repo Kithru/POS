@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
 @include('layouts.navigation')  {{-- Your sidebar + top navbar --}}
 
-<div class="content" style="margin-left:250px; padding:30px; margin-top:70px;">
+<div class="content page-content">
 
     <h1>Add New Category</h1>
     <p style="margin-top:5px;">Manage categories here. Prevent duplicate names.</p>
@@ -36,26 +37,21 @@
     @endif
 
     <!-- Add Category Form -->
-    <div style="padding:20px; margin-bottom:30px; margin-top:15px; border-radius:12px; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    <div class="form-card">
         <form action="{{ route('category.store') }}" method="POST">
             @csrf
 
-            <div style="margin-bottom:15px;">
-                <label>Category Name</label>
-                <input type="text" name="category_name"
-                       value="{{ old('category_name') }}"
-                       required
-                       style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            <div class="form-group">
+                <label class="form-label">Category Name</label>
+                <input type="text" name="category_name" value="{{ old('category_name') }}" required class="form-input">
             </div>
 
-            <div style="margin-bottom:15px;">
-                <label>Description</label>
-                <textarea name="description" rows="3"
-                          style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">{{ old('description') }}</textarea>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="3" class="form-textarea">{{ old('description') }}</textarea>
             </div>
 
-            <button type="submit"
-                    style="padding:12px 20px; background:#7a0f5c; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+            <button type="submit" class="btn-primary">
                 Add Category
             </button>
         </form>

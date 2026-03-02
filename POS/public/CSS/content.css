@@ -1,0 +1,78 @@
+.page-content {
+    margin-left: 250px;
+    padding: 30px;
+    margin-top: 70px;
+}
+
+/* =========================
+   Form Styles
+========================= */
+
+.form-card {
+    padding: 25px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    border-color: #7a0f5c;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(122, 15, 92, 0.15);
+}
+
+.btn-primary {
+    padding: 12px 22px;
+    background: #7a0f5c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background: #5e0c47;
+}
+
+/* /////////////////////////////////////////////////////////////////////// */
+
+.action-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.3s;
+    margin-right: 5px;
+}
+.edit-btn { background: #007bff; color: #fff; }
+.edit-btn:hover { background: #0056b3; }
+.delete-btn { background: #dc3545; color: #fff; }
+.delete-btn:hover { background: #a71d2a; }
+table td, table th { padding: 12px; }
