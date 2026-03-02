@@ -55,8 +55,8 @@
                 <span class="link-text">Sub Category</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
-            <ul class="submenu">
-                <li><a href="#"><i class="fas fa-plus-square"></i> Add</a></li>
+            <ul class="submenu"> 
+                <li><a href="{{ route('subcategory.create') }}"><i class="fas fa-plus-square"></i> Add</a></li>
                 <li><a href="#"><i class="fas fa-tasks"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
