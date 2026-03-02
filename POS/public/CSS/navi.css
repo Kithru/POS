@@ -1,34 +1,44 @@
-/* Reset */
-body {
+/* ================= RESET ================= */
+* {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    background-color: #f8f4ef; /* Soft cream */
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* ================================
-   Top Navbar
-================================= */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* ================= TOP NAVBAR ================= */
 .top-navbar {
     position: fixed;
     top: 0;
     left: 0;
-    height: 60px;
     width: 100%;
-    background-color: #4b0f3a; /* Deep plum */
+    height: 60px;
+    background: linear-gradient(135deg, #4b0f3a, #7a0f5c);
     color: #fff;
     display: flex;
     align-items: center;
     padding: 0 20px;
     z-index: 1001;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 }
 
-.top-navbar .top-title {
-    font-size: 1.5rem;
-    margin-left: 20px;
+.top-title {
+    margin-left: 15px;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
-/* Hamburger button */
+.top-right {
+    margin-left: auto;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* ================= HAMBURGER ================= */
 .toggle-btn {
     background: none;
     border: none;
@@ -36,265 +46,242 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 40px; 
-    height: 25px; 
-    padding: 0;
-    margin-left: 0;
+    width: 25px;
+    height: 18px;
 }
 
 .toggle-btn .bar {
+    height: 3px;
     width: 100%;
-    height: 4px; 
-    border-radius: 2px;
-    background-color: #f3c1d8; /* Sakura pink */
+    background: #fff;
+    border-radius: 3px;
+    transition: 0.3s;
 }
 
-/* ================================
-   Sidebar
-================================= */
+/* Animate hamburger */
+.sidebar.collapsed ~ .top-navbar .bar:nth-child(1) {
+    transform: rotate(45deg) translateY(7px);
+}
+.sidebar.collapsed ~ .top-navbar .bar:nth-child(2) {
+    opacity: 0;
+}
+.sidebar.collapsed ~ .top-navbar .bar:nth-child(3) {
+    transform: rotate(-45deg) translateY(-7px);
+}
+
+/* ================= SIDEBAR ================= */
 .sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: #2e1a26; /* Dark plum */
-    color: #fff;
     position: fixed;
     top: 60px;
     left: 0;
-    display: flex;
-    flex-direction: column;
+    width: 250px;
+    height: calc(100vh - 60px);
+    background: #1f1f2e;
     transition: all 0.3s ease;
-    z-index: 999;
-
-    /* Make sidebar scrollable for long menus */
     overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+    z-index: 1000;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
 }
 
+/* Collapsed desktop */
 .sidebar.collapsed {
     width: 70px;
 }
 
-.nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0 0 0;
-    flex: 1;
+/* Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
 }
 
-/* Main Links */
+/* ================= NAV LINKS ================= */
+.nav-links {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.nav-links li {
+    margin: 5px 10px;
+}
+
 .nav-links li a {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
-    color: #e6d5df; /* Soft light plum */
+    padding: 12px 15px;
     text-decoration: none;
+    color: #cfcfd6;
+    border-radius: 10px;
+    transition: all 0.25s ease;
     position: relative;
-    transition: all 0.3s;
 }
 
 .nav-links li a i {
     margin-right: 15px;
+    width: 20px;
+    text-align: center;
 }
 
+/* Hover effect */
+.nav-links li a:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateX(5px);
+    color: #fff;
+}
+
+/* Active link */
+.nav-links li a.active {
+    background: #7a0f5c;
+    color: #fff;
+}
+
+.nav-links li a.active::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #ff4dc4;
+    border-radius: 5px;
+}
+
+/* ================= COLLAPSED MODE ================= */
 .sidebar.collapsed .link-text {
     display: none;
 }
 
-/* Active & hover states */
-.nav-links li a:hover,
-.nav-links li a.active {
-    background-color: #7a0f5c; /* Wine purple */
-    color: #fff;
-    border-radius: 8px;
+.sidebar.collapsed .nav-links li a {
+    justify-content: center;
 }
 
-/* ================================
-   Submenu Styling
-================================= */
+.sidebar.collapsed .nav-links li a i {
+    margin-right: 0;
+}
+
+/* ================= SUBMENU ================= */
+
+/* Submenu parent link */
 .has-submenu > a {
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* text aligned left */
+    padding: 12px 15px;
+    gap: 10px; /* space between text and arrow */
 }
 
-.dropdown-icon {
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
+/* Keep text left-aligned, push arrow to right */
+.has-submenu > a .link-text {
+    margin-left: 0; /* no extra margin */
 }
 
-/* Rotate arrow when submenu open */
+/* Dropdown arrow on right */
+.has-submenu > a .dropdown-icon {
+    margin-left: auto; /* pushes arrow to far right */
+    font-size: 0.75rem;
+    transition: 0.3s;
+}
+
+/* Rotate arrow when submenu is open */
 .has-submenu.open > a .dropdown-icon {
     transform: rotate(180deg);
 }
 
-/* Submenu container */
+/* Submenu items */
 .submenu {
     list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
     padding-left: 0;
-    margin: 0;
-    display: none; /* hidden by default */
 }
 
-/* Show submenu when parent has 'open' class */
 .has-submenu.open .submenu {
-    display: block;
+    max-height: 500px;
 }
 
-/* Submenu links */
 .submenu li a {
-    padding: 10px 20px 10px 50px;
-    font-size: 0.9rem;
-    color: #e6d5df;
+    padding: 10px 15px 10px 45px; /* indent submenu items */
+    font-size: 0.85rem;
+    text-align: left; /* align text left */
+    background: rgba(255,255,255,0.03);
+}
+
+/* Apply consistent gap for all main tabs */
+.nav-links > li > a {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* adjust to your preferred spacing */
+}
+
+/* Make sure icons have same right margin */
+.nav-links > li > a i:first-child {
+    margin-right: 0; /* no extra margin, gap controls spacing */
+}
+
+
+/* ================= LOGOUT ================= */
+.logout-section {
+    padding: 15px;
+    margin-top: auto;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #7a0f5c, #4b0f3a);
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-.submenu li a:hover {
-    background-color: #7a0f5c;
-    border-radius: 6px;
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Hide submenu when collapsed */
-.sidebar.collapsed .submenu {
-    display: none !important;
-}
-
-/* ================================
-   Tooltip
-================================= */
-.tooltip {
-    position: absolute;
-    left: 70px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #7a0f5c; /* Wine purple */
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: #fff;
-    white-space: nowrap;
-    font-size: 0.85rem;
-    z-index: 1000;
-}
-
-/* ================================
-   Content Area
-================================= */
+/* ================= CONTENT ================= */
 .content {
     margin-left: 250px;
     margin-top: 60px;
     padding: 30px;
-    width: 100%;
-    transition: margin-left 0.3s;
+    transition: 0.3s;
 }
 
 .sidebar.collapsed ~ .content {
     margin-left: 70px;
 }
 
-/* ================================
-   Logout Section
-================================= */
-.logout-section {
-    padding: 20px;
-}
-
-.logout-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #7a0f5c; /* Wine purple */
-    border: none;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: 0.3s;
-}
-
-.logout-btn i {
-    margin-right: 10px;
-}
-
-.logout-btn:hover {
-    background-color: #4b0f3a; /* Deep plum */
-}
-
-/* ================================
-   Top Right Section (Date & Profile)
-================================= */
-.top-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    color: #fff;
-    font-size: 0.9rem;
-}
-
-#datetime {
-    font-weight: 500;
-}
-
-/* Profile dropdown */
-.profile-dropdown {
-    position: relative;
-    cursor: pointer;
-}
-
-.profile-dropdown .profile-img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #f3c1d8; /* Sakura pink border */
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 45px;
-    background-color: #2e1a26; /* Dark plum */
-    padding: 10px;
-    border-radius: 6px;
-    min-width: 100px;
-    box-shadow: 0 2px 8px rgba(75, 15, 58, 0.3);
-    z-index: 1002;
-}
-
-.logout-btn-dropdown {
-    width: 100%;
-    padding: 8px;
-    background-color: #7a0f5c;
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.logout-btn-dropdown:hover {
-    background-color: #4b0f3a;
-}
-
-/* ================================
-   Responsive
-================================= */
 @media (max-width: 768px) {
-    .sidebar {
-        top: 60px;
-        left: -250px;
-        height: calc(100vh - 60px);
-        overflow-y: auto;
-    }
-
-    .sidebar.collapsed {
-        left: 0;
-    }
-
     .content {
         margin-left: 0;
     }
-
-    .sidebar.collapsed ~ .content {
-        margin-left: 250px;
-    }
 }
+
+/* ================= OVERLAY ================= */
+.sidebar-overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 999;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+.sidebar.collapsed .has-submenu > a .dropdown-icon {
+    display: none;
+}
+
