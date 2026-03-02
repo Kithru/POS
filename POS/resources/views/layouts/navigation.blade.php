@@ -9,9 +9,7 @@
     <div class="top-title">Rajarata Sakura</div>
 
     <div class="top-right">
-        <div id="datetime">
-            {{ now()->format('D, M d, Y | H:i:s') }}
-        </div>
+        <div id="datetime"></div>
     </div>
 </div>
 
@@ -114,39 +112,47 @@ document.addEventListener("DOMContentLoaded", function () {
     const toggleBtn = document.getElementById('sidebarToggle');
     const overlay = document.getElementById('sidebarOverlay');
 
-    // Sidebar toggle
+    // ---------------- Sidebar toggle ----------------
     toggleBtn.addEventListener('click', function () {
-
         if (window.innerWidth <= 768) {
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
         } else {
             sidebar.classList.toggle('collapsed');
         }
-
     });
 
-    // Close on overlay click (mobile)
+    // Close overlay on mobile
     overlay.addEventListener('click', function () {
         sidebar.classList.remove('active');
         overlay.classList.remove('active');
     });
 
+    // Submenu toggle
     document.querySelectorAll('.has-submenu > a').forEach(menu => {
-    menu.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const parent = this.parentElement;
-
-        document.querySelectorAll('.has-submenu').forEach(item => {
-            if (item !== parent) {
-                item.classList.remove('open');
-            }
+        menu.addEventListener('click', function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            document.querySelectorAll('.has-submenu').forEach(item => {
+                if (item !== parent) item.classList.remove('open');
+            });
+            parent.classList.toggle('open');
         });
-
-        parent.classList.toggle('open');
     });
-});
+
+    // ---------------- Live Clock ----------------
+    const datetimeDiv = document.getElementById('datetime');
+
+    function updateClock() {
+        const now = new Date();
+        const options = { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' };
+        const dateStr = now.toLocaleDateString('en-US', options);
+        const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+        datetimeDiv.textContent = `${dateStr} | ${timeStr}`;
+    }
+
+    updateClock(); // initial call
+    setInterval(updateClock, 1000); // update every second
 
 });
 </script>
