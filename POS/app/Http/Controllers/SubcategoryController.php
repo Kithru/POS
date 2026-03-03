@@ -118,4 +118,23 @@ class SubcategoryController extends Controller
         return view('category.subcategory_edit', compact('subcategory', 'categories'));
     }
 
+
+    public function view(Request $request){
+
+        $categories = Category::orderBy('category_name', 'asc')->get();
+
+        $query = Subcategory::with('category')->orderBy('subcategory_id', 'asc');
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        $subcategories = $query->paginate(10)->withQueryString();
+
+        return view('category.subcategory_view', compact('subcategories', 'categories'));
+    }
+
 }
