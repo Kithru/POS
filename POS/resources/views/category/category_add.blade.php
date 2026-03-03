@@ -28,13 +28,13 @@
     <!-- Error Message -->
     @if($errors->any())
         <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:20px; margin-top:20px;">
-            <ul style="list-style-type: none; padding: 0; margin: 0;">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
         </div>
     @endif
+
+
 
     <!-- Add Category Form -->
     <div class="form-card">

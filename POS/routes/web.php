@@ -31,4 +31,6 @@ Route::post('/subcategory/add', [SubcategoryController::class, 'store'])->name('
 Route::get('/subcategory/manage', [SubcategoryController::class, 'manage'])->name('subcategory.manage');
 Route::get('/subcategory/deactivate/{id}', [SubcategoryController::class, 'deactivate'])->name('subcategory.deactivate');
 Route::get('/subcategory/activate/{id}', [SubcategoryController::class, 'activate'])->name('subcategory.activate');
-Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');
+Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');   // show edit form
+Route::put('/subcategory/edit/{id}', [SubcategoryController::class, 'update'])->name('subcategory.update');
+Route::get('/subcategory/view', [SubcategoryController::class, 'view'])->name('subcategory.view');

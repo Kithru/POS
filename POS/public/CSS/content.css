@@ -76,3 +76,45 @@
 .delete-btn { background: #dc3545; color: #fff; }
 .delete-btn:hover { background: #a71d2a; }
 table td, table th { padding: 12px; }
+
+/* Filter form styles */
+.filter-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.filter-form select,
+.filter-form button,
+.filter-form a {
+    height: 38px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+.filter-form button {
+    background-color: #4b0f3a;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.filter-form button:hover {
+    background-color: #370a26;
+}
+.filter-form a {
+    text-decoration: none;
+    background-color: #6c757d;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+}
+.filter-form a:hover {
+    background-color: #5a6268;
+}
+.filter-form label {
+    font-weight: 500;
+}
