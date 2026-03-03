@@ -43,7 +43,7 @@
             <a href="#" class="action-btn" style="flex:1 1 200px; background:#7a0f5c; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
                 <i class="fas fa-plus-circle" style="margin-right:8px;"></i> Add New Item
             </a>
-            <a href="#" class="action-btn" style="flex:1 1 200px; background:#4b0f3a; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
+            <a href="{{ route('category.manage') }}" class="action-btn" style="flex:1 1 200px; background:#4b0f3a; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 
                 <i class="fas fa-tasks" style="margin-right:8px;"></i> Manage Categories
             </a>
             <a href="#" class="action-btn" style="flex:1 1 200px; background:#ff4dc4; color:#fff; padding:20px; border-radius:12px; text-align:center; text-decoration:none; transition:0.3s;"> 

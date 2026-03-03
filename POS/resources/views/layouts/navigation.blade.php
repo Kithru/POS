@@ -55,7 +55,7 @@
             </a>
             <ul class="submenu"> 
                 <li><a href="{{ route('subcategory.create') }}"><i class="fas fa-plus-square"></i> Add</a></li>
-                <li><a href="#"><i class="fas fa-tasks"></i> Manage</a></li>
+                <li><a href="{{ route('subcategory.manage') }}"><i class="fas fa-tasks"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
         </li>

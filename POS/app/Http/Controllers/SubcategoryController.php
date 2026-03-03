@@ -50,4 +50,32 @@ class SubcategoryController extends Controller
 
         return redirect()->back()->with('success', 'Subcategory added successfully!');
     }
+
+    public function manage(){
+        $subcategories = Subcategory::with('category')
+                            ->orderBy('subcategory_id', 'asc')
+                            ->paginate(10);
+
+        return view('category.subcategory_manage', compact('subcategories'));
+    }
+    public function deactivate($id){
+        $subcategory = Subcategory::findOrFail($id);
+        $subcategory->update([
+            'status' => 0,
+            'modified_date' => now()
+        ]);
+
+        return redirect()->back()->with('success', 'Subcategory deactivated successfully.');
+    }
+
+    public function activate($id){
+        $subcategory = Subcategory::findOrFail($id);
+        $subcategory->update([
+            'status' => 1,
+            'modified_date' => now()
+        ]);
+
+        return redirect()->back()->with('success', 'Subcategory activated successfully.');
+    }
+
 }
