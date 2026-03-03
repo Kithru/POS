@@ -21,14 +21,14 @@
 
         <h2 style="margin-bottom:20px;">Manage Sub Categories</h2>
 
-        {{-- Success Message --}}
+        <!-- Success Message -->
         @if(session('success'))
             <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:15px;">
                 {{ session('success') }}
             </div>
         @endif
 
-        {{-- Error Message --}}
+         <!-- Error Message -->
         @if(session('error'))
             <div style="background:#f8d7da; color:#721c24; padding:10px; border-radius:6px; margin-bottom:15px;">
                 {{ session('error') }}
@@ -63,7 +63,7 @@
                         {{ $subcategory->subcategory_name }}
                     </td>
 
-                    {{-- Status --}}
+                    <!-- -- Status ---->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <span style="background:#d4edda; color:#155724; padding:5px 12px; border-radius:20px; font-size:12px;">
@@ -76,7 +76,7 @@
                         @endif
                     </td>
 
-                    {{-- Activate / Deactivate --}}
+                    <!-- -- Activate / Deactivate -- -->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <a href="{{ route('subcategory.deactivate', $subcategory->subcategory_id) }}"
@@ -93,7 +93,7 @@
                         @endif
                     </td>
 
-                    {{-- Edit Column --}}
+                    <!-- -- Edit Column -- -->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <a href="{{ route('subcategory.edit', $subcategory->subcategory_id) }}"
@@ -118,7 +118,7 @@
             </tbody>
         </table>
 
-        {{-- Pagination --}}
+         <!-- Pagination -->
         @if ($subcategories->hasPages())
             <div style="display:flex; justify-content:center; margin-top:25px; gap:8px; flex-wrap:wrap;">
 
