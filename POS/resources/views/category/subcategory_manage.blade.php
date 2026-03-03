@@ -13,7 +13,6 @@
 
 <body>
 
-{{-- Navigation --}}
 @include('layouts.navigation')
 
 <div class="page-content">
@@ -29,6 +28,13 @@
             </div>
         @endif
 
+        {{-- Error Message --}}
+        @if(session('error'))
+            <div style="background:#f8d7da; color:#721c24; padding:10px; border-radius:6px; margin-bottom:15px;">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <table style="width:100%; border-collapse:collapse; font-size:14px;">
             <thead>
                 <tr style="background:#f5f5f5; text-align:center;">
@@ -37,13 +43,14 @@
                     <th style="padding:12px; text-align:left;">Subcategory</th>
                     <th style="padding:12px;">Status</th>
                     <th style="padding:12px;">Action</th>
+                    <th style="padding:12px;">Edit</th>
                 </tr>
             </thead>
 
             <tbody>
             @forelse($subcategories as $subcategory)
                 <tr style="border-bottom:1px solid #eee; text-align:center;">
-                    
+
                     <td style="padding:12px;">
                         {{ $subcategory->subcategory_id }}
                     </td>
@@ -69,7 +76,7 @@
                         @endif
                     </td>
 
-                    {{-- Action --}}
+                    {{-- Activate / Deactivate --}}
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <a href="{{ route('subcategory.deactivate', $subcategory->subcategory_id) }}"
@@ -86,10 +93,24 @@
                         @endif
                     </td>
 
+                    {{-- Edit Column --}}
+                    <td style="padding:12px;">
+                        @if($subcategory->status == 1)
+                            <a href="{{ route('subcategory.edit', $subcategory->subcategory_id) }}"
+                               style="padding:6px 12px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none;">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        @else
+                            <span style="padding:6px 12px; background:#e9ecef; color:#6c757d; border-radius:6px; font-size:13px;">
+                                <i class="fas fa-lock"></i> Locked
+                            </span>
+                        @endif
+                    </td>
+
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" style="padding:20px; text-align:center; color:#888;">
+                    <td colspan="6" style="padding:20px; text-align:center; color:#888;">
                         No subcategories found.
                     </td>
                 </tr>
@@ -97,32 +118,46 @@
             </tbody>
         </table>
 
+        {{-- Pagination --}}
         @if ($subcategories->hasPages())
-            <div style="display:flex; justify-content:center; margin-top:20px; gap:8px; flex-wrap:wrap;">
-                {{-- Previous Page Link --}}
+            <div style="display:flex; justify-content:center; margin-top:25px; gap:8px; flex-wrap:wrap;">
+
+                {{-- Previous --}}
                 @if ($subcategories->onFirstPage())
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">&laquo; Prev</span>
+                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">&laquo; Prev</span>
                 @else
-                    <a href="{{ $subcategories->previousPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none; transition:0.2s;">&laquo; Prev</a>
+                    <a href="{{ $subcategories->previousPageUrl() }}"
+                       style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">
+                        &laquo; Prev
+                    </a>
                 @endif
 
-                {{-- Pagination Elements --}}
+                {{-- Page Numbers --}}
                 @foreach ($subcategories->getUrlRange(1, $subcategories->lastPage()) as $page => $url)
                     @if ($page == $subcategories->currentPage())
-                        <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">{{ $page }}</span>
+                        <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">
+                            {{ $page }}
+                        </span>
                     @else
-                        <a href="{{ $url }}" style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none; transition:0.2s;">
+                        <a href="{{ $url }}"
+                           style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none;">
                             {{ $page }}
                         </a>
                     @endif
                 @endforeach
 
-                {{-- Next Page Link --}}
+                {{-- Next --}}
                 @if ($subcategories->hasMorePages())
-                    <a href="{{ $subcategories->nextPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none; transition:0.2s;">Next &raquo;</a>
+                    <a href="{{ $subcategories->nextPageUrl() }}"
+                       style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">
+                        Next &raquo;
+                    </a>
                 @else
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">Next &raquo;</span>
+                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">
+                        Next &raquo;
+                    </span>
                 @endif
+
             </div>
         @endif
 

@@ -78,4 +78,14 @@ class SubcategoryController extends Controller
         return redirect()->back()->with('success', 'Subcategory activated successfully.');
     }
 
+    public function edit($id)
+    {
+        $subcategory = Subcategory::findOrFail($id);
+
+        // Only get active categories (status = 1)
+        $categories = Category::orderBy('category_name', 'asc')->get();
+
+        return view('category.subcategory_edit', compact('subcategory', 'categories'));
+    }
+
 }

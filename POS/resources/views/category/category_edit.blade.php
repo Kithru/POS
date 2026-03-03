@@ -5,14 +5,13 @@
     <title>Edit Category</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Navigation CSS -->
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-@include('layouts.navigation') {{-- Sidebar + Top Navbar --}}
+@include('layouts.navigation') 
 
 <div class="page-content">
 
