@@ -9,6 +9,7 @@
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -21,27 +22,33 @@
         <h2 style="margin-bottom:20px;">View Sub Categories</h2>
 
         <!-- Filters -->
-        <form method="GET" action="{{ route('subcategory.view') }}" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
-            <select name="category_id" class="form-input" style="width:200px;">
-                <option value="">-- Select Category --</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->category_id }}" {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
-            </select>
+        <form method="GET" action="{{ route('subcategory.view') }}" class="filter-form">
+            <label>
+                Category:
+                <select name="category_id">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category_id }}" {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
+                            {{ $category->category_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
 
-            <select name="status" class="form-input" style="width:150px;">
-                <option value="">-- Select Status --</option>
-                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
-                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Deactive</option>
-            </select>
+            <label style="margin-left:25px;">
+                Status:
+                <select name="status">
+                    <option value="">All Status</option>
+                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Deactive</option>
+                </select>
+            </label>
 
-            <button type="submit" class="btn-primary">
+            <button type="submit" style="margin-left:25px;">
                 <i class="fas fa-filter"></i> Filter
             </button>
 
-            <a href="{{ route('subcategory.view') }}" class="btn-link">
+            <a href="{{ route('subcategory.view') }}" style="margin-left:25px;">
                 <i class="fas fa-sync-alt"></i> Reset
             </a>
         </form>
