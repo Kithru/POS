@@ -10,7 +10,7 @@
 </head>
 <body>
 
-@include('layouts.navigation') {{-- Sidebar + Top Navbar --}}
+@include('layouts.navigation') 
 
 <div class="content" style="margin-left:250px; padding:30px; margin-top:70px;">
     <h1>Manage Categories</h1>

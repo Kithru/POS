@@ -28,3 +28,6 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->
 // Sub Category
 Route::get('/subcategory/add', [SubcategoryController::class, 'create'])->name('subcategory.create');
 Route::post('/subcategory/add', [SubcategoryController::class, 'store'])->name('subcategory.store');
+Route::get('/subcategory/manage', [SubcategoryController::class, 'manage'])->name('subcategory.manage');
+Route::get('/subcategory/deactivate/{id}', [SubcategoryController::class, 'deactivate'])->name('subcategory.deactivate');
+Route::get('/subcategory/activate/{id}', [SubcategoryController::class, 'activate'])->name('subcategory.activate');
