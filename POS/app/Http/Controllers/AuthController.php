@@ -36,6 +36,13 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
+            // Store required data in session
+            session([
+                'user_id'    => Auth::user()->id,
+                'name'       => Auth::user()->name,
+                'user_level' => Auth::user()->user_level,
+            ]);
+
             return redirect()->intended('/dashboard')
                 ->with('success', 'Login successful!');
         }
@@ -45,10 +52,9 @@ class AuthController extends Controller
     }
 
     // Logout
-    public function logout(Request $request)
-    {
+    public function logout(Request $request) {
         Auth::logout();
-
+        $request->session()->flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
