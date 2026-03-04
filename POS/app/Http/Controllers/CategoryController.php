@@ -25,7 +25,13 @@ class CategoryController extends Controller
         // Create
         Category::create([
             'category_name' => $request->category_name,
-            'description' => $request->description,
+            'description'   => $request->description,
+
+            'added_date'    => now(),                 // Current timestamp
+            'added_by'      => session('user_id'),    // Logged user ID from session
+
+            'modified_date' => null,
+            'modified_by'   => null,
         ]);
 
         return redirect()->back()->with('success', 'Category added successfully!');
@@ -57,6 +63,7 @@ class CategoryController extends Controller
         $category->update([
             'category_name' => $request->category_name,
             'description' => $request->description,
+            'modified_by' => session('user_id'),
             'modified_date' => now(),
         ]);
 

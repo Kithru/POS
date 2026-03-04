@@ -105,6 +105,7 @@ class SubcategoryController extends Controller
             'category_id' => $request->category_id,
             'subcategory_name' => $request->subcategory_name,
             'status' => $request->status,
+            'modified_by' => session('user_id'),
             'modified_date' => now(),
         ]);
 

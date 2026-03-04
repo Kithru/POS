@@ -34,3 +34,4 @@ Route::get('/subcategory/activate/{id}', [SubcategoryController::class, 'activat
 Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');   // show edit form
 Route::put('/subcategory/edit/{id}', [SubcategoryController::class, 'update'])->name('subcategory.update');
 Route::get('/subcategory/view', [SubcategoryController::class, 'view'])->name('subcategory.view');
+

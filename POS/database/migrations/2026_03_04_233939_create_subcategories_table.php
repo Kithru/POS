@@ -13,8 +13,10 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id'); 
             $table->string('subcategory_name');
             $table->text('description')->nullable();
-            $table->date('added_date');
-            $table->date('modified_date');
+            $table->timestamp('added_date')->useCurrent(); // automatically set current timestamp
+            $table->unsignedBigInteger('added_by')->nullable();
+            $table->timestamp('modified_date')->nullable();
+            $table->unsignedBigInteger('modified_by')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1 = Active, 0 = Inactive'); // Status column
             $table->timestamps(); 
 
