@@ -29,8 +29,10 @@
                     <th>ID</th>
                     <th style="text-align:left;">Category Name</th>
                     <th style="text-align:left;">Description</th>
+                    @if(session('user_level') == 1)
                     <th>Added Date</th>
                     <th>Modified Date</th>
+                    @endif
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -40,8 +42,10 @@
                     <td>{{ $category->category_id }}</td>
                     <td style="text-align:left;">{{ $category->category_name }}</td>
                     <td style="text-align:left;">{{ $category->description }}</td>
+                    @if(session('user_level') == 1)
                     <td>{{ $category->added_date }}</td>
                     <td>{{ $category->modified_date }}</td>
+                    @endif
                     <td>
                         <a href="{{ route('category.edit', $category->category_id) }}" class="action-btn edit-btn">
                             <i class="fas fa-pen"></i> Edit
