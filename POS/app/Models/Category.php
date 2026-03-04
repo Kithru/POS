@@ -19,6 +19,8 @@ class Category extends Model
         'category_name',
         'description',
         'added_date',
-        'modified_date'
+        'added_by',
+        'modified_date',
+        'modified_by'
     ];
 }
