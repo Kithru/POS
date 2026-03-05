@@ -16,7 +16,7 @@
 <div class="content page-content">
 
     <h1>Add New Item</h1>
-    <p style="margin-top:5px;">Manage items here. Add product details, stock, and image.</p>
+    <p style="margin-top:5px;">Add product details, stock, and image.</p>
 
     <!-- Success Message -->
     @if(session('success'))
@@ -47,9 +47,10 @@
 
             <div class="form-group">
                 <label class="form-label">Currency Type</label>
-                <select name="currency_type" class="form-input">
+                <select name="currency" class="form-input" id="currency_select" onchange="updateCurrencyIcon()">
                     @foreach($currencies as $currency)
-                        <option value="{{ $currency->currency_code }}" {{ old('currency_type') == $currency->currency_code ? 'selected' : '' }}>
+                        <option value="{{ $currency->currency_code }}" data-icon="{{ $currency->currency_icon }}" 
+                            {{ old('currency_type') == $currency->currency_code ? 'selected' : '' }}>
                             {{ $currency->currency }} ({{ $currency->currency_icon }})
                         </option>
                     @endforeach

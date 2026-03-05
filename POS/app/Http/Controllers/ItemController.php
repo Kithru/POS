@@ -24,7 +24,7 @@ class ItemController extends Controller
     {
         $request->validate([
             'item_name'     => 'required|max:255',
-            'currency_type' => 'required',
+            'currency'      => 'required',
             'description'   => 'nullable',
             'price'         => 'required|numeric',
             'quantity'      => 'required|numeric',
@@ -39,12 +39,12 @@ class ItemController extends Controller
             $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
             $imageName = $filename . '_' . time() . '.' . $extension;
-            $file->storeAs('images/uploads', $imageName);
+            $file->move(public_path('images/uploads'), $imageName);
         }
 
         Item::create([
             'item_name'      => $request->item_name,
-            'currency_type'  => $request->currency_type,
+            'currency'       => $request->currency,
             'description'    => $request->description,
             'price'          => $request->price,
             'quantity'       => $request->quantity,
