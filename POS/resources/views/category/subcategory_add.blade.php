@@ -78,8 +78,10 @@
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:20%;">Category</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:22%;">Subcategory Name</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:30%;">Description</th>
+                     @if(session('user_level') == 1)
                     <th style="padding:12px; border-bottom:2px solid #ddd; width:10%;">Added Date</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; width:10%;">Modified Date</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -89,8 +91,10 @@
                         <td style="padding:12px; text-align:left;">{{ $subcategory->category->category_name ?? '' }}</td>
                         <td style="padding:12px; text-align:left;">{{ $subcategory->subcategory_name }}</td>
                         <td style="padding:12px; text-align:left;">{{ $subcategory->description }}</td>
+                        @if(session('user_level') == 1)
                         <td style="padding:12px;">{{ $subcategory->added_date }}</td>
                         <td style="padding:12px;">{{ $subcategory->modified_date }}</td>
+                        @endif
                     </tr>
                 @empty
                     <tr>
