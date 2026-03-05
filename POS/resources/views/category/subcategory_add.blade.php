@@ -92,8 +92,8 @@
                         <td style="padding:12px; text-align:left;">{{ $subcategory->subcategory_name }}</td>
                         <td style="padding:12px; text-align:left;">{{ $subcategory->description }}</td>
                         @if(session('user_level') == 1)
-                        <td style="padding:12px;">{{ $subcategory->added_date }}</td>
-                        <td style="padding:12px;">{{ $subcategory->modified_date }}</td>
+                        <td style="padding:12px;"> {{ $subcategory->added_date ?? 'N/A' }} </td>
+                        <td style="padding:12px;"> {{ $subcategory->modified_date ?? 'N/A' }}</td>
                         @endif
                     </tr>
                 @empty
