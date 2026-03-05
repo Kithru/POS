@@ -127,7 +127,7 @@
                 <tr style="text-align:center; border-bottom:1px solid #eee;">
                     <td style="padding:12px;">{{ $item->item_id }}</td>
                     <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
-                    <td style="padding:12px;">{{ $item->currency_type }}</td>
+                    <td style="padding:12px;">{{ $item->currency }}</td>
                     <td style="padding:12px;">{{ number_format($item->price,2) }}</td>
                     <td style="padding:12px;">{{ $item->quantity }}</td>
                     <td style="padding:12px;">
