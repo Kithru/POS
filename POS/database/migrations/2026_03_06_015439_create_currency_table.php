@@ -6,20 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('currency', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // id (auto-increment primary key)
+            $table->string('currency'); // currency name, e.g., "US Dollar"
+            $table->string('currency_code', 10); // e.g., "USD", "LKR"
+            $table->decimal('currency_rate', 15, 4); // e.g., 1.0000
+            $table->timestamps(); // created_at & updated_at
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('currency');
