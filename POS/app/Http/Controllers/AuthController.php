@@ -38,7 +38,7 @@ class AuthController extends Controller
 
             // Store required data in session
             session([
-                'user_id'    => Auth::user()->id,
+                'user_id'    => Auth::user()->userid,
                 'name'       => Auth::user()->name,
                 'user_level' => Auth::user()->user_level,
             ]);

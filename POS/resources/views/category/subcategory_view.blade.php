@@ -67,8 +67,10 @@
                     <th style="padding:12px; text-align:left;">Category</th>
                     <th style="padding:12px; text-align:left;">Subcategory</th>
                     <th style="padding:12px;">Status</th>
+                     @if(session('user_level') == 1)
                     <th style="padding:12px;">Added Date</th>
                     <th style="padding:12px;">Modified Date</th>
+                    @endif
                 </tr>
             </thead>
 
@@ -85,8 +87,10 @@
                             <span style="background:#f8d7da; color:#721c24; padding:5px 12px; border-radius:20px; font-size:12px;">Deactive</span>
                         @endif
                     </td>
+                     @if(session('user_level') == 1)
                     <td style="padding:12px;">{{ $subcategory->added_date }}</td>
                     <td style="padding:12px;">{{ $subcategory->modified_date }}</td>
+                    @endif
                 </tr>
             @empty
                 <tr>
