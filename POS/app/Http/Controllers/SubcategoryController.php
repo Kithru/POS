@@ -44,8 +44,11 @@ class SubcategoryController extends Controller
             'subcategory_name' => $request->subcategory_name,
             'description' => $request->description,
             'added_date' => now()->toDateString(),
-            'modified_date' => now()->toDateString(),
+            'added_by'      => session('user_id'), 
+            'modified_date' => null,
+            'modified_by'   => null,
             'status' => 1, // default active
+
         ]);
 
         return redirect()->back()->with('success', 'Subcategory added successfully!');
@@ -62,6 +65,7 @@ class SubcategoryController extends Controller
         $subcategory = Subcategory::findOrFail($id);
         $subcategory->update([
             'status' => 0,
+            'modified_by' => session('user_id'), 
             'modified_date' => now()
         ]);
 
@@ -72,6 +76,7 @@ class SubcategoryController extends Controller
         $subcategory = Subcategory::findOrFail($id);
         $subcategory->update([
             'status' => 1,
+            'modified_by' => session('user_id'),
             'modified_date' => now()
         ]);
 
