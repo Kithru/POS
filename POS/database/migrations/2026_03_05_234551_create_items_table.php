@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id('item_id');
             $table->string('item_name');
             $table->text('description')->nullable();
-            $table->string('currency_type',10);
+            $table->string('currency');
             $table->decimal('price',10,2);
             $table->integer('quantity');
             $table->boolean('countable')->default(1);
