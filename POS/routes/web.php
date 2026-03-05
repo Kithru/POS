@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\ItemController;
 
 // Default home page
 Route::get('/', function () {return view('home');})->name('home');
@@ -34,4 +35,8 @@ Route::get('/subcategory/activate/{id}', [SubcategoryController::class, 'activat
 Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');   // show edit form
 Route::put('/subcategory/edit/{id}', [SubcategoryController::class, 'update'])->name('subcategory.update');
 Route::get('/subcategory/view', [SubcategoryController::class, 'view'])->name('subcategory.view');
+
+// Items
+Route::get('/add-item', [ItemController::class, 'create'])->name('item.add');
+Route::post('/save-item', [ItemController::class, 'store'])->name('item.save');
 
