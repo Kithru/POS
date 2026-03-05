@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/content.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+@include('layouts.navigation')
+
+<div class="content page-content">
+
+    <h1>Add New Item</h1>
+    <p style="margin-top:5px;">Manage items here. Add product details, stock, and image.</p>
+
+    <!-- Success Message -->
+    @if(session('success'))
+        <div style="padding:10px; background:#d4edda; color:#155724; border-radius:8px; margin-bottom:20px; margin-top:20px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Error Message -->
+    @if($errors->any())
+        <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:20px; margin-top:20px;">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </div>
+    @endif
+
+
+    <!-- Add Item Form -->
+    <div class="form-card">
+        <form action="{{ route('item.save') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="form-group">
+                <label class="form-label">Item Name</label>
+                <input type="text" name="item_name" class="form-input" value="{{ old('item_name') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Currency Type</label>
+                <select name="currency_type" class="form-input">
+                    <option value="LKR">LKR</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="3" class="form-textarea">{{ old('description') }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Price</label>
+                <input type="number" step="0.01" name="price" class="form-input" value="{{ old('price') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-input" value="{{ old('quantity') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Countable</label>
+                <select name="countable" class="form-input">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- New Image Upload Field -->
+            <div class="form-group">
+                <label class="form-label">Item Image</label>
+
+                <label class="custom-file-upload">
+                    <i class="fa fa-cloud-upload-alt"></i> Choose Image
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+                </label>
+
+                <div id="image-preview" style="margin-top:10px;">
+                    <img id="preview-img" src="{{ asset('images/uploads/'.$item->image) }}" alt="Preview" style="display:none; width:100px; height:100px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Add Item
+            </button>
+
+        </form>
+    </div>
+
+    <!-- Item Table -->
+    <div style="padding:20px; border-radius:12px; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:30px;">
+        <h2 style="margin-bottom:15px;">Existing Items</h2>
+
+        <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">
+            <thead>
+                <tr style="background:#f5f5f5; text-align:center;">
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">ID</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left;">Item Name</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Currency</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Price</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Quantity</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Image</th>
+
+                    @if(session('user_level') == 1)
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Added Date</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Modified Date</th>
+                    @endif
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($items as $item)
+                <tr style="text-align:center; border-bottom:1px solid #eee;">
+                    <td style="padding:12px;">{{ $item->item_id }}</td>
+                    <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
+                    <td style="padding:12px;">{{ $item->currency_type }}</td>
+                    <td style="padding:12px;">{{ number_format($item->price,2) }}</td>
+                    <td style="padding:12px;">{{ $item->quantity }}</td>
+                    <td style="padding:12px;">
+                        @if($item->image)
+                            <img src="{{ asset('storage/items/'.$item->image) }}" alt="Item Image" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    @if(session('user_level') == 1)
+                    <td style="padding:12px;">{{ $item->added_date }}</td>
+                    <td style="padding:12px;">{{ $item->modified_date ?? 'N/A' }}</td>
+                    @endif
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" style="padding:20px; text-align:center; color:#888;">
+                        No items found.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

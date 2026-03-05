@@ -1,33 +1,30 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Item extends Model
 {
-    public function up(): void
-    {
-        Schema::create('items', function (Blueprint $table) {
+    use HasFactory;
 
-            $table->id('item_id');
-            $table->string('item_name');
-            $table->string('currency_type',10);
-            $table->text('description')->nullable();
-            $table->decimal('price',10,2);
-            $table->integer('quantity');
-            $table->boolean('countable')->default(1);
+    protected $table = 'items'; 
+    protected $primaryKey = 'item_id';
 
-            $table->timestamp('added_date');
-            $table->integer('added_by');
+    protected $fillable = [
+        'item_name',
+        'currency_type',
+        'description',
+        'price',
+        'quantity',
+        'countable',
+        'image',
+        'added_date',
+        'added_by',
+        'modified_date',
+        'modified_by'
+    ];
 
-            $table->timestamp('modified_date')->nullable();
-            $table->integer('modified_by')->nullable();
-        });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('items');
-    }
-};
+    public $timestamps = false; // since you use custom added_date/modified_date
+}

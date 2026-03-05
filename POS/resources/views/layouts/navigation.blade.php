@@ -64,11 +64,11 @@
         <li class="has-submenu">
             <a href="#">
                 <i class="fas fa-archive"></i> <!-- Updated icon -->
-                <span class="link-text">Item</span>
+                <span class="link-text">Item</span>  
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#"><i class="fas fa-plus-circle"></i> Add</a></li>
+                <li><a href="{{ route('item.add') }}"><i class="fas fa-plus-circle"></i> Add</a></li>
                 <li><a href="#"><i class="fas fa-pen"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
