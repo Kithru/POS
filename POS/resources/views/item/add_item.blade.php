@@ -89,7 +89,7 @@
                 </label>
 
                 <div id="image-preview" style="margin-top:10px;">
-                    <img id="preview-img" src="{{ asset('images/uploads/'.$item->image) }}" alt="Preview" style="display:none; width:100px; height:100px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
+                    <img id="preview-img" src="#" alt="Preview" style="display:none; width:100px; height:100px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
                 </div>
             </div>
 
@@ -131,7 +131,7 @@
                     <td style="padding:12px;">{{ $item->quantity }}</td>
                     <td style="padding:12px;">
                         @if($item->image)
-                            <img src="{{ asset('storage/items/'.$item->image) }}" alt="Item Image" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                            <img src="{{ asset('images/uploads/'.$item->image) }}" alt="Item Image" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
                         @else
                             N/A
                         @endif
@@ -155,4 +155,17 @@
 </div>
 
 </body>
+
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('preview-img');
+        output.src = reader.result;
+        output.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+
 </html>
