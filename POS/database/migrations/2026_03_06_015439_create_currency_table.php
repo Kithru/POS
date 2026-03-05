@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id(); // id (auto-increment primary key)
             $table->string('currency'); // currency name, e.g., "US Dollar"
             $table->string('currency_code', 10); // e.g., "USD", "LKR"
+            $table->string('currency_icon', 10);
             $table->decimal('currency_rate', 15, 4); // e.g., 1.0000
             $table->timestamps(); // created_at & updated_at
         });

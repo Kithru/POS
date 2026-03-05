@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Currency;
 
 class ItemController extends Controller
 {
@@ -13,7 +14,9 @@ class ItemController extends Controller
     public function create()
     {
         $items = Item::orderBy('item_id', 'desc')->get();
-        return view('item.add_item', compact('items'));
+        $currencies = Currency::orderBy('currency')->get(); // Fetch currencies from DB
+
+        return view('item.add_item', compact('items', 'currencies'));
     }
 
     // Store Item

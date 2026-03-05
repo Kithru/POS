@@ -48,9 +48,11 @@
             <div class="form-group">
                 <label class="form-label">Currency Type</label>
                 <select name="currency_type" class="form-input">
-                    <option value="LKR">LKR</option>
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
+                    @foreach($currencies as $currency)
+                        <option value="{{ $currency->currency_code }}" {{ old('currency_type') == $currency->currency_code ? 'selected' : '' }}>
+                            {{ $currency->currency }} ({{ $currency->currency_icon }})
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
