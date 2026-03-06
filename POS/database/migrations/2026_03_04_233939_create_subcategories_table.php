@@ -13,6 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id'); 
             $table->string('subcategory_name');
             $table->text('description')->nullable();
+            $table->text('subcategory_code')->nullable();
             $table->timestamp('added_date')->useCurrent(); // automatically set current timestamp
             $table->unsignedBigInteger('added_by')->nullable();
             $table->timestamp('modified_date')->nullable();

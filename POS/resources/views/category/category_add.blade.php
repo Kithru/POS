@@ -51,6 +51,13 @@
                 <textarea name="description" rows="3" class="form-textarea">{{ old('description') }}</textarea>
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Category Code</label>
+                <input type="text" name="category_code" value="{{ old('category_code') }}" required class="form-input">
+            </div>
+
+            </div>
+
             <button type="submit" class="btn-primary">
                 Add Category
             </button>
@@ -67,6 +74,7 @@
                     <th style="padding:12px; border-bottom:2px solid #ddd; width:8%;">ID</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:22%;">Category Name</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:30%;">Description</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left; width:22%;">category_code</th>
                     @if(session('user_level') == 1)
                     <th style="padding:12px; border-bottom:2px solid #ddd; width:20%;">Added Date</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; width:20%;">Modified Date</th>
@@ -82,8 +90,12 @@
                             {{ $category->category_name }}
                         </td>
 
-                        <td style="padding:12px; text-align:left;">
+                        <td style="padding:12px; text-align:left;">  
                             {{ $category->description }}
+                        </td>
+
+                        <td style="padding:12px; text-align:left;">
+                            {{ $category->category_code }}
                         </td>
                         @if(session('user_level') == 1)
                             <td style="padding:12px;">

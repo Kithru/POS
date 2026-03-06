@@ -53,6 +53,11 @@
                 <textarea name="description" id="description" rows="3" class="form-textarea">{{ old('description', $category->description) }}</textarea>
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Category Code</label>
+                <input type="text" name="category_code" value="{{ old('category_code') }}" required class="form-input">
+            </div>
+
             <button type="submit" class="btn-primary">Update Category</button>
         </form>
     </div>

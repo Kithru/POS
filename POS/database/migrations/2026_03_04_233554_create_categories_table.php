@@ -13,6 +13,7 @@ return new class extends Migration
             $table->bigIncrements('category_id'); // Primary key
             $table->string('category_name')->unique();
             $table->text('description')->nullable();
+            $table->text('category_code')->nullable();
 
             $table->timestamp('added_date')->useCurrent(); // automatically set current timestamp
             $table->unsignedBigInteger('added_by')->nullable();
