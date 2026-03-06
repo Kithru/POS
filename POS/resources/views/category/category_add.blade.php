@@ -53,7 +53,7 @@
 
             <div class="form-group">
                 <label class="form-label">Category Code</label>
-                <input type="text" name="category_code" value="{{ old('category_code') }}" required class="form-input">
+                <input type="text" name="category_code" value="{{ old('category_code') }}" required class="form-input" oninput="validateCategoryCode(this)">
             </div>
 
             </div>
@@ -121,4 +121,16 @@
 </div>
 
 </body>
+
+<script>
+function validateCategoryCode(input) {
+    let value = input.value;
+
+    if (!/^[A-Z0-9]*$/.test(value)) {
+        alert("Only CAPITAL letters and numbers are allowed.");
+        input.value = value.replace(/[^A-Z0-9]/g, '');
+    }
+}
+</script>
+
 </html>

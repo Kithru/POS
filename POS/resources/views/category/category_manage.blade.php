@@ -28,6 +28,7 @@
                 <tr style="background:#f5f5f5; text-align:center;">
                     <th>ID</th>
                     <th style="text-align:left;">Category Name</th>
+                    <th style="text-align:left;">Category Code</th>
                     <th style="text-align:left;">Description</th>
                     @if(session('user_level') == 1)
                     <th>Added Date</th>
@@ -41,6 +42,7 @@
                 <tr style="border-bottom:1px solid #eee; text-align:center;">
                     <td>{{ $category->category_id }}</td>
                     <td style="text-align:left;">{{ $category->category_name }}</td>
+                    <td style="text-align:left;">{{ $category->category_code }}</td>
                     <td style="text-align:left;">{{ $category->description }}</td>
                     @if(session('user_level') == 1)
                     <td>{{ $category->added_date }}</td>
