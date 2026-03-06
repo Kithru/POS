@@ -16,6 +16,7 @@ class Subcategory extends Model
         'category_id',
         'subcategory_name',
         'description',
+        'subcategory_code',
         'added_date',
         'added_by',
         'modified_date',

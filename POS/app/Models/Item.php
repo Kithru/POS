@@ -16,6 +16,7 @@ class Item extends Model
         'item_name',
         'currency',
         'description',
+        'item_code',
         'price',
         'quantity',
         'countable',

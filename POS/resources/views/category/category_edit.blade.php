@@ -53,6 +53,11 @@
                 <textarea name="description" id="description" rows="3" class="form-textarea">{{ old('description', $category->description) }}</textarea>
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Category Code</label>
+                <input type="text" name="category_code" value="{{ old('category_code') }}" required class="form-input" oninput="validateCategoryCode(this)">
+            </div>
+
             <button type="submit" class="btn-primary">Update Category</button>
         </form>
     </div>
@@ -64,4 +69,15 @@
 </div>
 
 </body>
+<script>
+function validateCategoryCode(input) {
+    let value = input.value;
+
+    if (!/^[A-Z0-9]*$/.test(value)) {
+        alert("Only CAPITAL letters and numbers are allowed.");
+        input.value = value.replace(/[^A-Z0-9]/g, '');
+    }
+}
+</script>
+
 </html>
