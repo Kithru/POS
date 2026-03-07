@@ -64,10 +64,9 @@
 
         <h2 style="margin-bottom:15px;">Existing Categories</h2>
         <table style="width:100%; border-collapse:collapse;">
-
             <thead>
                 <tr style="background:#f5f5f5; text-align:center;">
-                    <th>ID</th>
+                    <th>#</th>
                     <th style="text-align:left;">Category Name</th>
                     <th style="text-align:left;">Category Code</th>
                     <th style="text-align:left;">Description</th>
@@ -77,20 +76,18 @@
             </thead>
 
             <tbody>
-
-                @forelse($categories as $category)
-
+                @forelse($categories as $index => $category)
                 <tr style="border-bottom:1px solid #eee; text-align:center;">
-                    <td> {{ $category->category_id }} </td>
-                    <td style="text-align:left;"> {{ $category->category_name }} </td>
-                    <td style="text-align:left;"> {{ $category->category_code }} </td>
-                    <td style="text-align:left;"> {{ $category->description }}</td>
-                    <td>{{ $category->added_date }} </td>
-                    <td> {{ $category->modified_date ?? 'N/A' }}</td>
+                    <!-- Serial Number -->
+                    <td>{{ $index + 1 }}</td>
+
+                    <td style="text-align:left;">{{ $category->category_name }}</td>
+                    <td style="text-align:left;">{{ $category->category_code }}</td>
+                    <td style="text-align:left;">{{ $category->description }}</td>
+                    <td>{{ $category->added_date ?? 'N/A' }}</td>
+                    <td>{{ $category->modified_date ?? 'N/A' }}</td>
                 </tr>
-
                 @empty
-
                 <tr>
                     <td colspan="6" style="text-align:center; color:#888;">
                         No categories found.
