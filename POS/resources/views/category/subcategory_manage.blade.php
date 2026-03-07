@@ -17,7 +17,7 @@
 
 <div class="page-content">
 
-    <div style="padding:25px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:20px;">
+    <div class="form-card">
 
         <h2 style="margin-bottom:20px;">Manage Sub Categories</h2>
 
@@ -28,7 +28,7 @@
             </div>
         @endif
 
-         <!-- Error Message -->
+        <!-- Error Message -->
         @if(session('error'))
             <div style="background:#f8d7da; color:#721c24; padding:10px; border-radius:6px; margin-bottom:15px;">
                 {{ session('error') }}
@@ -38,7 +38,8 @@
         <table style="width:100%; border-collapse:collapse; font-size:14px;">
             <thead>
                 <tr style="background:#f5f5f5; text-align:center;">
-                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">#</th>
+                    <th style="padding:12px; text-align:left;">Subcategory Code</th>
                     <th style="padding:12px; text-align:left;">Category</th>
                     <th style="padding:12px; text-align:left;">Subcategory</th>
                     <th style="padding:12px;">Status</th>
@@ -48,22 +49,30 @@
             </thead>
 
             <tbody>
-            @forelse($subcategories as $subcategory)
+            @forelse($subcategories as $index => $subcategory)
                 <tr style="border-bottom:1px solid #eee; text-align:center;">
 
+                    <!-- Serial Number -->
                     <td style="padding:12px;">
-                        {{ $subcategory->subcategory_id }}
+                        {{ $subcategories->firstItem() + $index }}
                     </td>
 
+                    <!-- Subcategory Code -->
+                    <td style="padding:12px; text-align:left;">
+                        {{ $subcategory->subcategory_code ?? '-' }}
+                    </td>
+
+                    <!-- Category Name -->
                     <td style="padding:12px; text-align:left;">
                         {{ $subcategory->category->category_name ?? '-' }}
                     </td>
 
+                    <!-- Subcategory Name -->
                     <td style="padding:12px; text-align:left;">
                         {{ $subcategory->subcategory_name }}
                     </td>
 
-                    <!-- -- Status ---->
+                    <!-- Status -->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <span style="background:#d4edda; color:#155724; padding:5px 12px; border-radius:20px; font-size:12px;">
@@ -76,32 +85,32 @@
                         @endif
                     </td>
 
-                    <!-- -- Activate / Deactivate -- -->
+                    <!-- Activate / Deactivate -->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <a href="{{ route('subcategory.deactivate', $subcategory->subcategory_id) }}"
                                onclick="return confirm('Are you sure you want to deactivate this subcategory?')"
-                               style="padding:6px 12px; background:#dc3545; color:#fff; border-radius:6px; text-decoration:none;">
+                               class="action-btn delete-btn" style="text-decoration:none;">
                                 <i class="fas fa-ban"></i> Deactivate
                             </a>
                         @else
                             <a href="{{ route('subcategory.activate', $subcategory->subcategory_id) }}"
                                onclick="return confirm('Do you want to activate this subcategory?')"
-                               style="padding:6px 12px; background:#28a745; color:#fff; border-radius:6px; text-decoration:none;">
+                               class="action-btn edit-btn" style="background:#28a745; text-decoration:none;">
                                 <i class="fas fa-check"></i> Activate
                             </a>
                         @endif
                     </td>
 
-                    <!-- -- Edit Column -- -->
+                    <!-- Edit Column -->
                     <td style="padding:12px;">
                         @if($subcategory->status == 1)
                             <a href="{{ route('subcategory.edit', $subcategory->subcategory_id) }}"
-                               style="padding:6px 12px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none;">
+                               class="action-btn edit-btn" style="text-decoration:none;">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         @else
-                            <span style="padding:6px 12px; background:#e9ecef; color:#6c757d; border-radius:6px; font-size:13px;">
+                            <span class="action-btn" style="background:#e9ecef; color:#6c757d; font-size:13px;">
                                 <i class="fas fa-lock"></i> Locked
                             </span>
                         @endif
@@ -110,7 +119,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="padding:20px; text-align:center; color:#888;">
+                    <td colspan="7" style="padding:20px; text-align:center; color:#888;">
                         No subcategories found.
                     </td>
                 </tr>
@@ -118,46 +127,29 @@
             </tbody>
         </table>
 
-         <!-- Pagination -->
+        <!-- Pagination -->
         @if ($subcategories->hasPages())
             <div style="display:flex; justify-content:center; margin-top:25px; gap:8px; flex-wrap:wrap;">
-
-                {{-- Previous --}}
+                
                 @if ($subcategories->onFirstPage())
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">&laquo; Prev</span>
+                    <span class="pagination-disabled">&laquo; Prev</span>
                 @else
-                    <a href="{{ $subcategories->previousPageUrl() }}"
-                       style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">
-                        &laquo; Prev
-                    </a>
+                    <a href="{{ $subcategories->previousPageUrl() }}" class="pagination-link">&laquo; Prev</a>
                 @endif
 
-                {{-- Page Numbers --}}
                 @foreach ($subcategories->getUrlRange(1, $subcategories->lastPage()) as $page => $url)
                     @if ($page == $subcategories->currentPage())
-                        <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">
-                            {{ $page }}
-                        </span>
+                        <span class="pagination-active">{{ $page }}</span>
                     @else
-                        <a href="{{ $url }}"
-                           style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none;">
-                            {{ $page }}
-                        </a>
+                        <a href="{{ $url }}" class="pagination-link">{{ $page }}</a>
                     @endif
                 @endforeach
 
-                {{-- Next --}}
                 @if ($subcategories->hasMorePages())
-                    <a href="{{ $subcategories->nextPageUrl() }}"
-                       style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">
-                        Next &raquo;
-                    </a>
+                    <a href="{{ $subcategories->nextPageUrl() }}" class="pagination-link">Next &raquo;</a>
                 @else
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">
-                        Next &raquo;
-                    </span>
+                    <span class="pagination-disabled">Next &raquo;</span>
                 @endif
-
             </div>
         @endif
 

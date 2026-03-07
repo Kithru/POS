@@ -20,35 +20,45 @@ class SubcategoryController extends Controller
     }
 
     // Store new subcategory
-    public function store(Request $request)
-    {
-        // Validate input
+    public function store(Request $request){
         $request->validate([
-            'category_id' => 'required|exists:categories,category_id', // match database column
+            'category_id' => 'required|exists:categories,category_id',
             'subcategory_name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        // Check for duplicate subcategory in the same category
+        // Check duplicate
         $duplicate = Subcategory::where('category_id', $request->category_id)
             ->where('subcategory_name', $request->subcategory_name)
             ->first();
 
         if ($duplicate) {
-            return redirect()->back()->withErrors(['subcategory_name' => 'This subcategory already exists for the selected category.'])->withInput();
+            return redirect()->back()
+                ->withErrors(['subcategory_name' => 'This subcategory already exists for the selected category.'])
+                ->withInput();
         }
 
-        // Create subcategory with default status = 1
+        // Get category code
+        $category = Category::where('category_id', $request->category_id)->first();
+
+        // Get last subcategory id
+        $lastId = Subcategory::max('subcategory_id');
+
+        // Next ID
+        $nextId = $lastId + 1;
+        $formattedId = str_pad($nextId, 3, '0', STR_PAD_LEFT);
+        $subcategoryCode = $category->category_code . $formattedId;
+
         Subcategory::create([
             'category_id' => $request->category_id,
+            'subcategory_code' => $subcategoryCode,
             'subcategory_name' => $request->subcategory_name,
             'description' => $request->description,
             'added_date' => now()->toDateString(),
-            'added_by'      => session('user_id'), 
+            'added_by' => session('user_id'),
             'modified_date' => null,
-            'modified_by'   => null,
-            'status' => 1, // default active
-
+            'modified_by' => null,
+            'status' => 1
         ]);
 
         return redirect()->back()->with('success', 'Subcategory added successfully!');

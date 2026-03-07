@@ -35,13 +35,11 @@
         </div>
     @endif
 
-    {{-- Edit Form --}}
     <div class="form-card">
         <form action="{{ route('subcategory.update', $subcategory->subcategory_id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            {{-- Category Dropdown --}}
             <div class="form-group">
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="category_id" class="form-input" required>
@@ -54,18 +52,19 @@
                 </select>
             </div>
 
-            {{-- Subcategory Name --}}
             <div class="form-group">
                 <label for="subcategory_name" class="form-label">Subcategory Name</label>
-                <input type="text"
-                       name="subcategory_name"
-                       id="subcategory_name"
-                       value="{{ old('subcategory_name', $subcategory->subcategory_name) }}"
-                       class="form-input"
-                       required>
+                <input type="text" name="subcategory_name"
+                       id="subcategory_name" value="{{ old('subcategory_name', $subcategory->subcategory_name) }}" class="form-input" required>
             </div>
 
-            {{-- Status --}}
+            <div class="form-group">
+                <label for="subcategory_code" class="form-label">Subcategory Code</label>
+                <input type="text" name="subcategory_code" id="subcategory_code"
+                    value="{{ old('subcategory_code', $subcategory->subcategory_code) }}"
+                    class="form-input" readonly maxlength="10" pattern="[A-Z0-9]+" title="You Can't edit Subcategory Code">
+            </div>
+
             <div class="form-group">
                 <label for="status" class="form-label">Status</label>
                 <select name="status" id="status" class="form-input" required>
@@ -74,7 +73,6 @@
                 </select>
             </div>
 
-            {{-- Buttons --}}
             <div class="form-group" style="display:flex; justify-content:space-between;">
                 <a href="{{ route('subcategory.manage') }}" class="btn-link">
                     <i class="fas fa-arrow-left"></i> Back
