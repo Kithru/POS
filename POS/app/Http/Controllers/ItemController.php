@@ -27,8 +27,8 @@ class ItemController extends Controller
         $request->validate([
             'item_name'        => 'required|max:255',
             'currency'         => 'required',
-            'category_id'      => 'required|exists:categories,id',
-            'subcategory_id'  => 'required|exists:subcategories,id',
+            'category_id'      => 'required|exists:categories,category_id',
+            'subcategory_id'   => 'required|exists:sub_categories,subcategory_id',
             'description'      => 'nullable',
             'price'            => 'required|numeric',
             'quantity'         => 'required|numeric',
@@ -38,7 +38,7 @@ class ItemController extends Controller
 
         // Check for duplicate in same subcategory
         $exists = Item::where('item_name', $request->item_name)
-                    ->where('sub_category_id', $request->sub_category_id)
+                    ->where('subcategory_id', $request->subcategory_id)
                     ->exists();
 
         if ($exists) {
