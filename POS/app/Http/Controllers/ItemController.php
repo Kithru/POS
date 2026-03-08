@@ -14,7 +14,7 @@ class ItemController extends Controller
 {
     // Show Add Item Page
     public function create() {
-        $items = Item::orderBy('item_id', 'desc')->get();
+        $items = Item::orderBy('item_id', 'desc')->paginate(10);
         $currencies = Currency::orderBy('currency')->get(); 
         $categories = Category::orderBy('category_name')->get();
 
