@@ -150,9 +150,11 @@
             </thead>
 
             <tbody>
-                @forelse($items as $item)
+                @forelse($items as $index => $item)
                 <tr style="text-align:center; border-bottom:1px solid #eee;">
-                    <td style="padding:12px;">{{ $item->item_id }}</td>
+                    <td style="padding:12px;">
+                        {{ $loop->iteration + ($items->currentPage() - 1) * $items->perPage() }}
+                    </td>
                     <td style="padding:12px;">{{ $item->item_code ?? 'N/A' }}</td>
                     <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
                     <td style="padding:12px;">{{ $item->currency }}</td>
@@ -179,7 +181,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="10" style="padding:20px; text-align:center; color:#888;"> <!-- updated colspan -->
+                    <td colspan="10" style="padding:20px; text-align:center; color:#888;">
                         No items found.
                     </td>
                 </tr>
