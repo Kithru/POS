@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Item Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -34,11 +33,31 @@
         </div>
     @endif
 
-
     <!-- Add Item Form -->
     <div class="form-card">
         <form action="{{ route('item.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <div class="form-group">
+                <label class="form-label">Category</label>
+                <select name="category_id" id="category_select" class="form-input">
+                    <option value="">Select Category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category_id }}">
+                            {{ $category->category_name }}
+                        </option>
+                    @endforeach
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label class="form-label">Sub Category</label>
+                <select name="subcategory_id" id="subcategory_select" class="form-input">
+                    <option value="">Select Sub Category</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label class="form-label">Item Name</label>
@@ -63,7 +82,7 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Price</label>
+                <label class="form-label">Price (Per Unit)</label>
                 <input type="number" step="0.01" name="price" class="form-input" value="{{ old('price') }}">
             </div>
 
@@ -83,7 +102,6 @@
             <!-- New Image Upload Field -->
             <div class="form-group">
                 <label class="form-label">Item Image</label>
-
                 <label class="custom-file-upload">
                     <i class="fa fa-cloud-upload-alt"></i> Choose Image
                     <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
@@ -93,7 +111,6 @@
                     <img id="preview-img" src="#" alt="Preview" style="display:none; width:100px; height:100px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
                 </div>
             </div>
-
             <button type="submit" class="btn-primary">
                 Add Item
             </button>
@@ -152,21 +169,48 @@
             </tbody>
         </table>
     </div>
-
 </div>
-
 </body>
 
 <script>
-function previewImage(event) {
-    const reader = new FileReader();
-    reader.onload = function(){
-        const output = document.getElementById('preview-img');
-        output.src = reader.result;
-        output.style.display = 'block';
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('preview-img');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    document.getElementById('category_select').addEventListener('change', function(){
+        let category_id = this.value;
+        if(category_id == ""){
+            document.getElementById('subcategory_select').innerHTML =
+            '<option value="">Select Sub Category</option>';
+            return;
+        }
+
+        fetch('/get-subcategories/' + category_id)
+        .then(response => response.json())
+        .then(data => {
+
+            let subcategorySelect = document.getElementById('subcategory_select');
+            subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+
+            data.forEach(function(sub){
+
+                subcategorySelect.innerHTML += 
+                `<option value="${sub.id}">
+                    ${sub.subcategory_name}
+                </option>`;
+            });
+        })
+        .catch(error => console.log('Error:', error));
+    });
+
 </script>
+
+
 
 </html>
