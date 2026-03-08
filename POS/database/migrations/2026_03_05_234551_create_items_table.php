@@ -15,6 +15,8 @@ return new class extends Migration
 
             $table->id('item_id');
             $table->string('item_name');
+            $table->string('category_id');
+            $table->string('subcategory_id');
             $table->text('description')->nullable();
             $table->text('item_code')->nullable();
             $table->string('currency');
