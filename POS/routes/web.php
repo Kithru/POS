@@ -39,6 +39,8 @@ Route::get('/subcategory/view', [SubcategoryController::class, 'view'])->name('s
 // Items
 Route::get('/add-item', [ItemController::class, 'create'])->name('item.add');
 Route::post('/save-item', [ItemController::class, 'store'])->name('item.save');
+
+Route::get('/save-item', function() { return redirect()->route('item.add');});
 Route::get('/get-subcategories/{category_id}', [ItemController::class,'getSubcategories']);
 
 
