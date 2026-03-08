@@ -19,18 +19,25 @@
 
     <!-- Success Message -->
     @if(session('success'))
-        <div style="padding:10px; background:#d4edda; color:#155724; border-radius:8px; margin-bottom:20px; margin-top:20px;">
-            {{ session('success') }}
-        </div>
+    <div style="padding:10px; background:#d4edda; color:#155724; border-radius:8px; margin-bottom:20px; margin-top:20px;">
+        {{ session('success') }}
+    </div>
     @endif
 
-    <!-- Error Message -->
+    <!-- Custom Error Message -->
+    @if(session('error'))
+    <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:20px; margin-top:20px;">
+        {{ session('error') }}
+    </div>
+    @endif
+
+    <!-- Validation Errors -->
     @if($errors->any())
-        <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:20px; margin-top:20px;">
-            @foreach($errors->all() as $error)
-                <div>{{ $error }}</div>
-            @endforeach
-        </div>
+    <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:20px; margin-top:20px;">
+        @foreach($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
     @endif
 
     <!-- Add Item Form -->
@@ -185,7 +192,7 @@
 
     document.getElementById('category_select').addEventListener('change', function(){
         let category_id = this.value;
-        if(category_id == ""){
+        if(category_id === ""){
             document.getElementById('subcategory_select').innerHTML =
             '<option value="">Select Sub Category</option>';
             return;
@@ -200,10 +207,11 @@
 
             data.forEach(function(sub){
 
-                subcategorySelect.innerHTML += 
-                `<option value="${sub.id}">
-                    ${sub.subcategory_name}
-                </option>`;
+                subcategorySelect.innerHTML += `
+                    <option value="${sub.subcategory_id}">
+                        ${sub.subcategory_name}
+                    </option>
+                `;
             });
         })
         .catch(error => console.log('Error:', error));
