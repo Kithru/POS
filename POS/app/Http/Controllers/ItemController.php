@@ -56,8 +56,18 @@ class ItemController extends Controller
             $file->move(public_path('images/uploads'), $imageName);
         }
 
+
+        $subcategory = SubCategory::find($request->subcategory_id);
+        if(!$subcategory) {
+            return redirect()->back()->withInput()->with('error', 'Invalid subcategory.');
+        }
+        $lastItem = Item::latest('item_id')->first();
+        $nextId = $lastItem ? $lastItem->item_id + 1 : 1;
+        $itemCode = $subcategory->subcategory_code . '-' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+
         Item::create([
             'item_name'       => $request->item_name,
+            'item_code'       => $itemCode,
             'currency'        => $request->currency,
             'category_id'     => $request->category_id,
             'subcategory_id' => $request->subcategory_id,

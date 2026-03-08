@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label class="form-label">Category</label>
                 <select name="category_id" id="category_select" class="form-input">
-                    <option value="">Select Category</option>
+                    <option value="">- Select Category -</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->category_id }}">
                             {{ $category->category_name }}
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label class="form-label">Sub Category</label>
                 <select name="subcategory_id" id="subcategory_select" class="form-input">
-                    <option value="">Select Sub Category</option>
+                    <option value="">- Select Sub Category -</option>
                 </select>
             </div>
 
@@ -74,6 +74,7 @@
             <div class="form-group">
                 <label class="form-label">Currency Type</label>
                 <select name="currency" class="form-input" id="currency_select" onchange="updateCurrencyIcon()">
+                    <option value="">- Select Currency -</option>
                     @foreach($currencies as $currency)
                         <option value="{{ $currency->currency_code }}" data-icon="{{ $currency->currency_icon }}" 
                             {{ old('currency_type') == $currency->currency_code ? 'selected' : '' }}>
@@ -133,10 +134,12 @@
             <thead>
                 <tr style="background:#f5f5f5; text-align:center;">
                     <th style="padding:12px; border-bottom:2px solid #ddd;">ID</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Item Code</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd; text-align:left;">Item Name</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd;">Currency</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd;">Price</th>
                     <th style="padding:12px; border-bottom:2px solid #ddd;">Quantity</th>
+                    <th style="padding:12px; border-bottom:2px solid #ddd;">Status</th> <!-- NEW -->
                     <th style="padding:12px; border-bottom:2px solid #ddd;">Image</th>
 
                     @if(session('user_level') == 1)
@@ -150,10 +153,18 @@
                 @forelse($items as $item)
                 <tr style="text-align:center; border-bottom:1px solid #eee;">
                     <td style="padding:12px;">{{ $item->item_id }}</td>
+                    <td style="padding:12px;">{{ $item->item_code ?? 'N/A' }}</td>
                     <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
                     <td style="padding:12px;">{{ $item->currency }}</td>
                     <td style="padding:12px;">{{ number_format($item->price,2) }}</td>
                     <td style="padding:12px;">{{ $item->quantity }}</td>
+                    <td style="padding:12px;">
+                        @if($item->status == 1)
+                            <span style="color:green;">Active</span>
+                        @else
+                            <span style="color:red;">Inactive</span>
+                        @endif
+                    </td>
                     <td style="padding:12px;">
                         @if($item->image)
                             <img src="{{ asset('images/uploads/'.$item->image) }}" alt="Item Image" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
@@ -168,7 +179,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" style="padding:20px; text-align:center; color:#888;">
+                    <td colspan="10" style="padding:20px; text-align:center; color:#888;"> <!-- updated colspan -->
                         No items found.
                     </td>
                 </tr>
@@ -194,7 +205,7 @@
         let category_id = this.value;
         if(category_id === ""){
             document.getElementById('subcategory_select').innerHTML =
-            '<option value="">Select Sub Category</option>';
+            '<option value="">- Select Sub Category -</option>';
             return;
         }
 
@@ -203,7 +214,7 @@
         .then(data => {
 
             let subcategorySelect = document.getElementById('subcategory_select');
-            subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+            subcategorySelect.innerHTML = '<option value="">- Select Sub Category -</option>';
 
             data.forEach(function(sub){
 
