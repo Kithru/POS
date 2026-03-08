@@ -188,6 +188,33 @@
                 @endforelse
             </tbody>
         </table>
+
+        @if ($items->hasPages())
+            <div style="display:flex; justify-content:center; margin-top:25px; gap:8px; flex-wrap:wrap;">
+                
+                @if ($items->onFirstPage())
+                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">&laquo; Prev</span>
+                @else
+                    <a href="{{ $items->previousPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">&laquo; Prev</a>
+                @endif
+
+                @foreach ($items->getUrlRange(1, $items->lastPage()) as $page => $url)
+                    @if ($page == $items->currentPage())
+                        <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none;">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($items->hasMorePages())
+                    <a href="{{ $items->nextPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">Next &raquo;</a>
+                @else
+                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888;">Next &raquo;</span>
+                @endif
+
+            </div>
+        @endif
+
     </div>
 </div>
 </body>
