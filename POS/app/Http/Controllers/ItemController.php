@@ -28,7 +28,7 @@ class ItemController extends Controller
             'item_name'        => 'required|max:255',
             'currency'         => 'required',
             'category_id'      => 'required|exists:categories,category_id',
-            'subcategory_id'   => 'required|exists:sub_categories,subcategory_id',
+            'subcategory_id'   => 'required|exists:subcategories,subcategory_id',
             'description'      => 'nullable',
             'price'            => 'required|numeric',
             'quantity'         => 'required|numeric',
