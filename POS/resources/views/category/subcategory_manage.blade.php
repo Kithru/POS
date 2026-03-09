@@ -35,6 +35,40 @@
             </div>
         @endif
 
+        <!-- Filters -->
+        <form method="GET" action="{{ route('subcategory.manage') }}" class="filter-form" style="margin-bottom:20px;">
+            <label>
+                Category:
+                <select name="category_id">
+                    <option value="">All Categories</option>
+
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category_id }}"
+                            {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
+                            {{ $category->category_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
+
+            <label style="margin-left:25px;">
+                Status:
+                <select name="status">
+                    <option value="">All Status</option>
+                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Deactive</option>
+                </select>
+            </label>
+
+            <button type="submit" style="margin-left:25px;">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+
+            <a href="{{ route('subcategory.manage') }}" style="margin-left:25px;">
+                <i class="fas fa-sync-alt"></i> Reset
+            </a>
+        </form>
+
         <table style="width:100%; border-collapse:collapse; font-size:14px;">
             <thead>
                 <tr style="background:#f5f5f5; text-align:center;">

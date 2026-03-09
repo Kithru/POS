@@ -64,13 +64,20 @@ class SubcategoryController extends Controller
         return redirect()->back()->with('success', 'Subcategory added successfully!');
     }
 
-    public function manage(){
-        $subcategories = Subcategory::with('category')
-                            ->orderBy('subcategory_id', 'asc')
-                            ->paginate(10);
+    public function manage(Request $request){
+        $categories = Category::orderBy('category_name','asc')->get();
 
-        return view('category.subcategory_manage', compact('subcategories'));
+        $query = Subcategory::with('category')->orderBy('subcategory_id','asc');
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        $subcategories = $query->paginate(10)->withQueryString();
+        return view('category.subcategory_manage', compact('subcategories','categories'));
     }
+    
     public function deactivate($id){
         $subcategory = Subcategory::findOrFail($id);
         $subcategory->update([

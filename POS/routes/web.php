@@ -15,6 +15,11 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Login submit
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+
+
 // Dashboard route
 Route::get('/dashboard', function () {return view('dashboard'); })->middleware('auth')->name('dashboard');
 
