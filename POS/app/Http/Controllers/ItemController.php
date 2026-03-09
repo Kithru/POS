@@ -93,5 +93,25 @@ class ItemController extends Controller
         return response()->json($subcategories);
     }
     
+    public function manage(Request $request) {
+        $query = Item::with(['category', 'subcategory']);
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('item_name', 'like', '%' . $request->search . '%')
+                ->orWhere('item_code', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $items = $query->orderBy('item_id', 'asc')
+                    ->paginate(10)
+                    ->withQueryString(); // Keep filters in pagination links
+
+        return view('item.manage', compact('items'));
+    }
 
 }

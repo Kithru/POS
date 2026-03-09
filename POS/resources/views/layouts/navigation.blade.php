@@ -69,7 +69,7 @@
             </a>
             <ul class="submenu">
                 <li><a href="{{ route('item.add') }}"><i class="fas fa-plus-circle"></i> Add</a></li>
-                <li><a href="#"><i class="fas fa-pen"></i> Manage</a></li>
+                <li><a href="{{ route('item.manage') }}"><i class="fas fa-pen"></i> Manage</a></li>
                 <li><a href="#"><i class="fas fa-eye"></i> View</a></li>
             </ul>
         </li>
