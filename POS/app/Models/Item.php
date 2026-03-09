@@ -29,5 +29,15 @@ class Item extends Model
         'modified_by'
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'subcategory_id', 'subcategory_id');
+    }
+
     public $timestamps = false; // since you use custom added_date/modified_date
 }
