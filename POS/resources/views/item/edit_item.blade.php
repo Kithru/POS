@@ -10,13 +10,11 @@
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
 
 @include('layouts.navigation')
 
 <div class="page-content">
-
     <h1>Edit Item</h1>
 
     <p class="subtext" style="margin-top:10px; margin-bottom:10px;">
@@ -51,13 +49,7 @@
             <!-- Item Name -->
             <div class="form-group">
                 <label for="item_name" class="form-label">Item Name</label>
-
-                <input type="text"
-                       name="item_name"
-                       id="item_name"
-                       value="{{ old('item_name', $item->item_name) }}"
-                       required
-                       class="form-input">
+                <input type="text" name="item_name" id="item_name" value="{{ old('item_name', $item->item_name) }}" required class="form-input">
             </div>
 
             <!-- Currency -->
@@ -74,10 +66,8 @@
                 </select>
             </div>
 
-            <!-- Category -->
             <div class="form-group">
                 <label for="category_id" class="form-label">Category</label>
-
                 <select name="category_id" id="category_id" class="form-input">
                     @foreach($categories as $category)
                         <option value="{{ $category->category_id }}"
@@ -88,10 +78,8 @@
                 </select>
             </div>
 
-            <!-- Sub Category -->
             <div class="form-group">
                 <label for="subcategory_id" class="form-label">Sub Category</label>
-
                 <select name="subcategory_id" id="subcategory_id" class="form-input">
                     @foreach($subcategories as $subcategory)
                         <option value="{{ $subcategory->subcategory_id }}"
@@ -102,65 +90,48 @@
                 </select>
             </div>
 
-            <!-- Description -->
             <div class="form-group">
                 <label for="description" class="form-label">Description</label>
-
-                <textarea name="description"
-                          id="description"
-                          class="form-input">{{ old('description', $item->description) }}</textarea>
+                <textarea name="description" id="description" class="form-input">{{ old('description', $item->description) }}</textarea>
             </div>
 
-            <!-- Price -->
             <div class="form-group">
                 <label for="price" class="form-label">Price</label>
-
-                <input type="number"
-                       step="0.01"
-                       name="price"
-                       id="price"
-                       value="{{ old('price', $item->price) }}"
-                       class="form-input">
+                <input type="number" step="0.01" name="price" id="price" value="{{ old('price', $item->price) }}" class="form-input">
             </div>
 
-            <!-- Quantity -->
             <div class="form-group">
                 <label for="quantity" class="form-label">Quantity</label>
+                <input type="number"  min="0" step="1" name="quantity" id="quantity" value="{{ old('quantity', $item->quantity) }}" class="form-input">
+            </div>
 
-                <input type="number"
-                       name="quantity"
-                       id="quantity"
-                       value="{{ old('quantity', $item->quantity) }}"
-                       class="form-input">
+            <div class="form-group">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-input">
+                    <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Inactive</option>
+                </select>
             </div>
 
             <!-- Item Image -->
             <div class="form-group">
-
                 <label for="image" class="form-label">Item Image</label>
-
                 <input type="file" name="image" id="image" class="form-input">
-
                 @if($item->image)
                     <div style="margin-top:10px;">
-                        <img src="{{ asset('images/uploads/'.$item->image) }}"
-                             width="90" style="border-radius:6px;">
+                        <img src="{{ asset('images/uploads/'.$item->image) }}" width="90" style="border-radius:6px;">
                     </div>
                 @endif
-
             </div>
 
             <!-- Buttons -->
             <div class="form-group" style="display:flex; justify-content:space-between;">
-
                 <a href="{{ route('item.manage') }}" class="btn-link">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
-
                 <button type="submit" class="btn-primary">
                     <i class="fas fa-save"></i> Update
                 </button>
-
             </div>
         </form>
     </div>
