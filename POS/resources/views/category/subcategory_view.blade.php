@@ -15,10 +15,11 @@
 @include('layouts.navigation')
 
 <div class="page-content">
+    <h1>View Sub Categories</h1>
 
     <div style="padding:25px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:20px;">
 
-        <h2 style="margin-bottom:20px;">View Sub Categories</h2>
+        <!-- <h2 style="margin-bottom:20px;">View Sub Categories</h2> -->
 
         <!-- Filters -->
         <form method="GET" action="{{ route('subcategory.view') }}" class="filter-form">

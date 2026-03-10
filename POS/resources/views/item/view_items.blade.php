@@ -16,9 +16,11 @@
 
 <div class="page-content">
 
+   <h1>View Item Details</h1>
+
     <div style="padding:25px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:20px;">
 
-        <h2 style="margin-bottom:20px;">View Item Details</h2>
+        <!-- <h2 style="margin-bottom:20px;">View Item Details</h2> -->
 
         <!-- Filters -->
         <form method="GET" action="{{ route('item.view') }}" class="filter-form" style="margin-bottom:20px;">
