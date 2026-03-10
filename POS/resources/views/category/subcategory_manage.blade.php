@@ -16,10 +16,10 @@
 @include('layouts.navigation')
 
 <div class="page-content">
-
+    <h1>Manage Sub Categories</h1>
     <div class="form-card">
 
-        <h2 style="margin-bottom:20px;">Manage Sub Categories</h2>
+        <!-- <h2 style="margin-bottom:20px;">Manage Sub Categories</h2> -->
 
         <!-- Success Message -->
         @if(session('success'))

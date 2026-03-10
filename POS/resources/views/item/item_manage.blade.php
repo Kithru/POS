@@ -17,9 +17,11 @@
 
 <div class="page-content">
 
+    <h1>Manage Items</h1>
+
     <div class="form-card">
 
-        <h2 style="margin-bottom:20px;">Manage Items</h2>
+        <!-- <h2 style="margin-bottom:20px;">Manage Items</h2> -->
 
         <!-- Success Message -->
         @if(session('success'))
