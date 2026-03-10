@@ -20,6 +20,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 // Dashboard route
 Route::get('/dashboard', function () {return view('dashboard'); })->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [ItemController::class, 'dashboard'])->name('dashboard');
 
 // Category
 Route::get('/category/add', [CategoryController::class, 'index'])->name('category.add');

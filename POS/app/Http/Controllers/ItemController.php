@@ -13,6 +13,14 @@ use App\Models\SubCategory;
 
 class ItemController extends Controller
 {
+    public function dashboard(){
+        $categoryCount = Category::where('status', 1)->count();         
+        $subcategoryCount = SubCategory::where('status', 1)->count();   
+        $totalItems = Item::count();                                     
+        $activeItems = Item::where('status', 1)->count();               
+        return view('dashboard', compact('categoryCount', 'subcategoryCount', 'totalItems', 'activeItems'));
+    }    
+
     // Show Add Item Page
     public function create() {
         $items = Item::orderBy('item_id', 'asc')->paginate(10);
@@ -24,7 +32,7 @@ class ItemController extends Controller
 
     // Store Item
     public function store(Request $request) {
-        // Basic validation
+
         $request->validate([
             'item_name'        => 'required|max:255',
             'currency'         => 'required',
