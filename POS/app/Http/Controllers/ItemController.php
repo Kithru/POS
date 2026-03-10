@@ -94,24 +94,41 @@ class ItemController extends Controller
     }
     
     public function manage(Request $request) {
-        $query = Item::with(['category', 'subcategory']);
+        $query = Item::with(['category','subcategory']);
 
-        if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('item_name', 'like', '%' . $request->search . '%')
-                ->orWhere('item_code', 'like', '%' . $request->search . '%');
-            });
+        if($request->category_id){
+            $query->where('category_id',$request->category_id);
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
+        if($request->status !== null && $request->status !== ''){
+            $query->where('status',$request->status);
         }
 
-        $items = $query->orderBy('item_id', 'asc')
-                    ->paginate(10)
-                    ->withQueryString(); // Keep filters in pagination links
+        $items = $query->orderBy('item_id','desc')->paginate(10);
+        $categories = Category::where('status',1)->get();
+        return view('item.manage',compact('items','categories'));
+    }
 
-        return view('item.manage', compact('items'));
+
+    public function activate($id) {
+        $item = Item::findOrFail($id);
+
+        $item->status = 1;
+        $item->modified_date = now();
+        $item->save();
+        return redirect()->route('item.manage')
+        ->with('success','Item Activated Successfully');
+    }
+
+
+    public function deactivate($id) {
+        $item = Item::findOrFail($id);
+
+        $item->status = 0;
+        $item->modified_date = now();
+        $item->save();
+        return redirect()->route('item.manage')
+        ->with('success','Item Deactivated Successfully');
     }
 
 }
