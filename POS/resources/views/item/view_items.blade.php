@@ -35,6 +35,18 @@
             </label>
 
             <label style="margin-left:25px;">
+                Subcategory:
+                <select name="subcategory_id">
+                    <option value="">All Subcategories</option>
+                    @foreach($subcategories as $sub)
+                        <option value="{{ $sub->subcategory_id }}" {{ request('subcategory_id') == $sub->subcategory_id ? 'selected' : '' }}>
+                            {{ $sub->subcategory_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
+
+            <label style="margin-left:25px;">
                 Status:
                 <select name="status">
                     <option value="">All Status</option>
