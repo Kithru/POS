@@ -93,8 +93,10 @@
                                 <span style="background:#f8d7da; color:#721c24; padding:5px 12px; border-radius:20px; font-size:12px;">Deactive</span>
                             @endif
                         </td>
-                        <td style="padding:12px;">{{ $item->created_at ?? 'N/A' }}</td>
-                        <td style="padding:12px;">{{ $item->updated_at ?? 'N/A' }}</td>
+                        @if(session('user_level') == 1)
+                        <td style="padding:12px;">{{ $item->added_date ?? 'N/A' }}</td>
+                        <td style="padding:12px;">{{ $item->modified_date ?? 'N/A' }}</td>
+                        @endif
                     </tr>
                 @empty
                     <tr>

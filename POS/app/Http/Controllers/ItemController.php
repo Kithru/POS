@@ -97,17 +97,26 @@ class ItemController extends Controller
     public function manage(Request $request) {
         $query = Item::with(['category','subcategory']);
 
-        if($request->category_id){
-            $query->where('category_id',$request->category_id);
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
         }
-
-        if($request->status !== null && $request->status !== ''){
-            $query->where('status',$request->status);
+        if ($request->subcategory_id) {
+            $query->where('subcategory_id', $request->subcategory_id);
         }
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        $items = $query->orderBy('item_id', 'desc')->paginate(10);
+        $items->appends($request->all()); 
 
-        $items = $query->orderBy('item_id','desc')->paginate(10);
-        $categories = Category::where('status',1)->get();
-        return view('item.item_manage',compact('items','categories'));
+        $categories = Category::where('status', 1)->get();
+        $subcategories = SubCategory::where('status', 1)
+                                    ->when($request->category_id, function($q) use ($request) {
+                                        $q->where('category_id', $request->category_id);
+                                    })
+                                    ->get();
+
+        return view('item.item_manage', compact('items', 'categories', 'subcategories'));
     }
 
 
@@ -203,22 +212,21 @@ class ItemController extends Controller
                         ->with('success','Item Updated Successfully');
     }
 
-    public function view(Request $request) {
 
+    public function viewItems(Request $request) {
+        
         $categories = Category::where('status', 1)->orderBy('category_name')->get();
-        $query = SubCategory::with('category');
 
+        $query = Item::with(['category', 'subcategory']);
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
-        $subcategories = $query->orderBy('subcategory_name')->paginate(10);
-        $subcategories->appends($request->all());
-        return view('subcategory.view_subcategories', compact('categories', 'subcategories'));
+        $items = $query->orderBy('item_name')->paginate(10);
+        $items->appends($request->all());
+        return view('item.view_items', compact('categories', 'items'));
     }
 
 }
