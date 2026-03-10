@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Item;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Item;
 use Illuminate\Support\Str;
 use App\Models\Currency;
 use App\Models\Category;
@@ -152,18 +153,25 @@ class ItemController extends Controller
     }
 
     // Update Item
+
     public function update(Request $request, $id){
+        $item = Item::findOrFail($id);
+
         $request->validate([
-            'item_name'        => 'required|max:255',
-            'currency'         => 'required',
-            'category_id'      => 'required',
-            'subcategory_id'   => 'required',
-            'price'            => 'required|numeric',
-            'quantity'         => 'required|numeric',
-            'image'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+               'item_name' => ['required','max:255',
+                Rule::unique('items')->where(function ($query) use ($request) {
+                    return $query->where('subcategory_id', $request->subcategory_id);
+                })->ignore($item->item_id, 'item_id')
+            ],
+            'currency'       => 'required',
+            'category_id'    => 'required',
+            'subcategory_id' => 'required',
+            'price'          => 'required|numeric',
+            'quantity'       => 'required|numeric|min:0',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status'         => 'required|in:0,1',
         ]);
 
-        $item = Item::findOrFail($id);
         $imageName = $item->image;
 
         if ($request->hasFile('image')) {
@@ -177,7 +185,6 @@ class ItemController extends Controller
         }
 
         $item->update([
-
             'item_name'      => $request->item_name,
             'currency'       => $request->currency,
             'category_id'    => $request->category_id,
@@ -186,12 +193,14 @@ class ItemController extends Controller
             'price'          => $request->price,
             'quantity'       => $request->quantity,
             'countable'      => $request->countable ?? 1,
+            'status'         => $request->status,
             'image'          => $imageName,
             'modified_date'  => now(),
             'modified_by'    => session('user_id')
         ]);
+
         return redirect()->route('item.item_manage')
-        ->with('success','Item Updated Successfully');
+                        ->with('success','Item Updated Successfully');
     }
 
 }
