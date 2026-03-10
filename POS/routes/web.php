@@ -18,8 +18,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Login submit
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-
-
 // Dashboard route
 Route::get('/dashboard', function () {return view('dashboard'); })->middleware('auth')->name('dashboard');
 
@@ -51,5 +49,5 @@ Route::get('/get-subcategories/{category_id}', [ItemController::class,'getSubcat
 Route::get('/items/manage', [ItemController::class, 'manage'])->name('item.manage');
 Route::get('/items/activate/{id}', [ItemController::class, 'activate'])->name('item.activate');
 Route::get('/items/deactivate/{id}', [ItemController::class, 'deactivate'])->name('item.deactivate');
-
+Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
 
