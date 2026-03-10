@@ -214,19 +214,33 @@ class ItemController extends Controller
 
 
     public function viewItems(Request $request) {
-        
+
         $categories = Category::where('status', 1)->orderBy('category_name')->get();
+        $subcategories = SubCategory::where('status', 1)
+            ->when($request->category_id, function($q) use ($request) {
+                $q->where('category_id', $request->category_id);
+            })
+            ->orderBy('subcategory_name')
+            ->get();
 
         $query = Item::with(['category', 'subcategory']);
+
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
+
+        if ($request->filled('subcategory_id')) {
+            $query->where('subcategory_id', $request->subcategory_id);
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
+
         $items = $query->orderBy('item_name')->paginate(10);
         $items->appends($request->all());
-        return view('item.view_items', compact('categories', 'items'));
+
+        return view('item.view_items', compact('categories', 'subcategories', 'items'));
     }
 
 }
