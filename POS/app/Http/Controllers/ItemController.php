@@ -106,7 +106,7 @@ class ItemController extends Controller
 
         $items = $query->orderBy('item_id','desc')->paginate(10);
         $categories = Category::where('status',1)->get();
-        return view('item.manage',compact('items','categories'));
+        return view('item.item_manage',compact('items','categories'));
     }
 
 
@@ -129,6 +129,69 @@ class ItemController extends Controller
         $item->save();
         return redirect()->route('item.manage')
         ->with('success','Item Deactivated Successfully');
+    }
+
+    // Show Edit Page
+    public function edit($id) {
+        $item = Item::findOrFail($id);
+
+        $currencies = Currency::orderBy('currency')->get();
+        $categories = Category::orderBy('category_name')->get();
+
+        $subcategories = SubCategory::where('category_id', $item->category_id)
+            ->where('status',1)
+            ->orderBy('subcategory_name')
+            ->get();
+
+        return view('item.edit_item', compact(
+            'item',
+            'currencies',
+            'categories',
+            'subcategories'
+        ));
+    }
+
+    // Update Item
+    public function update(Request $request, $id){
+        $request->validate([
+            'item_name'        => 'required|max:255',
+            'currency'         => 'required',
+            'category_id'      => 'required',
+            'subcategory_id'   => 'required',
+            'price'            => 'required|numeric',
+            'quantity'         => 'required|numeric',
+            'image'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $item = Item::findOrFail($id);
+        $imageName = $item->image;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+            $extension = $file->getClientOriginalExtension();
+
+            $imageName = $filename.'_'.time().'.'.$extension;
+
+            $file->move(public_path('images/uploads'), $imageName);
+        }
+
+        $item->update([
+
+            'item_name'      => $request->item_name,
+            'currency'       => $request->currency,
+            'category_id'    => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'description'    => $request->description,
+            'price'          => $request->price,
+            'quantity'       => $request->quantity,
+            'countable'      => $request->countable ?? 1,
+            'image'          => $imageName,
+            'modified_date'  => now(),
+            'modified_by'    => session('user_id')
+        ]);
+        return redirect()->route('item.item_manage')
+        ->with('success','Item Updated Successfully');
     }
 
 }

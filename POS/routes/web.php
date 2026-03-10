@@ -51,3 +51,5 @@ Route::get('/items/activate/{id}', [ItemController::class, 'activate'])->name('i
 Route::get('/items/deactivate/{id}', [ItemController::class, 'deactivate'])->name('item.deactivate');
 Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
 
+Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
+Route::post('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
