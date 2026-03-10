@@ -199,8 +199,26 @@ class ItemController extends Controller
             'modified_by'    => session('user_id')
         ]);
 
-        return redirect()->route('item.item_manage')
+        return redirect()->route('item.manage')
                         ->with('success','Item Updated Successfully');
+    }
+
+    public function view(Request $request) {
+
+        $categories = Category::where('status', 1)->orderBy('category_name')->get();
+        $query = SubCategory::with('category');
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $subcategories = $query->orderBy('subcategory_name')->paginate(10);
+        $subcategories->appends($request->all());
+        return view('subcategory.view_subcategories', compact('categories', 'subcategories'));
     }
 
 }

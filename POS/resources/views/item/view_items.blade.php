@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Items</title>
+    <title>View Item Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
@@ -10,33 +10,18 @@
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
 
 @include('layouts.navigation')
 
 <div class="page-content">
 
-    <div class="form-card">
+    <div style="padding:25px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-top:20px;">
 
-        <h2 style="margin-bottom:20px;">Manage Items</h2>
-
-        <!-- Success Message -->
-        @if(session('success'))
-            <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:15px;">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <!-- Error Message -->
-        @if(session('error'))
-            <div style="background:#f8d7da; color:#721c24; padding:10px; border-radius:6px; margin-bottom:15px;">
-                {{ session('error') }}
-            </div>
-        @endif
+        <h2 style="margin-bottom:20px;">View Item Details</h2>
 
         <!-- Filters -->
-        <form method="GET" action="{{ route('item.manage') }}" class="filter-form" style="margin-bottom:20px;">
+        <form method="GET" action="{{ route('item.view') }}" class="filter-form" style="margin-bottom:20px;">
             <label>
                 Category:
                 <select name="category_id">
@@ -62,10 +47,17 @@
                 <i class="fas fa-filter"></i> Filter
             </button>
 
-            <a href="{{ route('item.manage') }}" style="margin-left:25px;">
+            <a href="{{ route('item.view') }}" style="margin-left:25px;">
                 <i class="fas fa-sync-alt"></i> Reset
             </a>
         </form>
+
+        <!-- Success Message -->
+        @if(session('success'))
+            <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:15px;">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- Items Table -->
         <table style="width:100%; border-collapse:collapse; font-size:14px;">
@@ -79,15 +71,14 @@
                     <th style="padding:12px;">Price</th>
                     <th style="padding:12px;">Quantity</th>
                     <th style="padding:12px;">Status</th>
-                    <th style="padding:12px;">Action</th>
-                    <th style="padding:12px;">Edit</th>
+                    <th style="padding:12px;">Added Date</th>
+                    <th style="padding:12px;">Modified Date</th>
                 </tr>
             </thead>
 
             <tbody>
                 @forelse($items as $index => $item)
                     <tr style="border-bottom:1px solid #eee; text-align:center;">
-                       
                         <td style="padding:12px;">{{ $items->firstItem() + $index }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->item_code }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
@@ -102,36 +93,8 @@
                                 <span style="background:#f8d7da; color:#721c24; padding:5px 12px; border-radius:20px; font-size:12px;">Deactive</span>
                             @endif
                         </td>
-
-                        <!-- Activate / Deactivate -->
-                        <td style="padding:12px;">
-                            @if($item->status == 1)
-                                <a href="{{ route('item.deactivate', $item->item_id) }}"
-                                   onclick="return confirm('Are you sure you want to deactivate this item?')"
-                                   class="action-btn delete-btn" style="text-decoration:none;">
-                                   <i class="fas fa-ban"></i> Deactivate
-                                </a>
-                            @else
-                                <a href="{{ route('item.activate', $item->item_id) }}"
-                                   onclick="return confirm('Do you want to activate this item?')"
-                                   class="action-btn edit-btn" style="background:#28a745; text-decoration:none;">
-                                   <i class="fas fa-check"></i> Activate
-                                </a>
-                            @endif
-                        </td>
-
-                        <!-- Edit -->
-                        <td style="padding:12px;">
-                            @if($item->status == 1)
-                                <a href="{{ route('item.edit', $item->item_id) }}" class="action-btn edit-btn" style="text-decoration:none;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                            @else
-                                <span class="action-btn" style="background:#e9ecef; color:#6c757d; font-size:13px;">
-                                    <i class="fas fa-lock"></i> Locked
-                                </span>
-                            @endif
-                        </td>
+                        <td style="padding:12px;">{{ $item->created_at ?? 'N/A' }}</td>
+                        <td style="padding:12px;">{{ $item->updated_at ?? 'N/A' }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -166,6 +129,7 @@
                 @endif
             </div>
         @endif
+
     </div>
 </div>
 

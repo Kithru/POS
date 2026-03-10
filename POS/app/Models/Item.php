@@ -24,6 +24,7 @@ class Item extends Model
         'countable',
         'image',
         'added_date',
+        'status',
         'added_by',
         'modified_date',
         'modified_by'
