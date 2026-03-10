@@ -39,13 +39,10 @@
 
     <div class="form-card">
 
-        <form method="POST"
-              action="{{ route('item.update', $item->item_id) }}"
-              enctype="multipart/form-data">
+        <form method="POST" action="{{ route('item.update', $item->item_id) }}" enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
-
             <!-- Item Name -->
             <div class="form-group">
                 <label for="item_name" class="form-label">Item Name</label>
@@ -109,7 +106,7 @@
                 <label for="status" class="form-label">Status</label>
                 <select name="status" id="status" class="form-input">
                     <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Inactive</option>
+                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Deactive</option>
                 </select>
             </div>
 

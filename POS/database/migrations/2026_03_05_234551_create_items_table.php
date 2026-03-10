@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('price',10,2);
             $table->integer('quantity');
             $table->boolean('countable')->default(1);
-            $table->tinyInteger('status')->default(1)->comment('1 = Active, 0 = Inactive'); 
+            $table->tinyInteger('status')->default(1)->comment('1 = Active, 0 = Deactive'); 
             $table->string('image')->nullable();
             $table->timestamp('added_date');
             $table->integer('added_by');

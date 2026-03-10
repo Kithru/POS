@@ -199,7 +199,7 @@ class ItemController extends Controller
             'modified_by'    => session('user_id')
         ]);
 
-        return redirect()->route('item.item_manage')
+        return redirect()->route('item.manage')
                         ->with('success','Item Updated Successfully');
     }
 

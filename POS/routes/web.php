@@ -53,4 +53,4 @@ Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit
 
 Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
 // Route::post('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
-Route::put('items/update/{id}', [ItemController::class, 'update'])->name('item.update');
+Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
