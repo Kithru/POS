@@ -3,30 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Header with Animated Menu</title>
-<link rel="stylesheet" href="style.css">
+<title>@yield('title', 'Rajarata Sakura')</title>
+
+<!-- Fonts & Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-<!-- Header -->
 <header class="header">
     <div class="logo">Rajarata Sakura</div>
-
     <div class="search-box">
-        <input type="text" placeholder="Search products..." id="searchInput">
-        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search menu..." id="searchInput">
+        <span class="search-icon"><i class="fa fa-search"></i></span>
     </div>
-
     <div class="hamburger" id="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="bar top"></div>
+        <div class="bar middle"></div>
+        <div class="bar bottom"></div>
     </div>
 </header>
 
-<!-- Animated Side Menu -->
-<nav class="menu closed" id="sideMenu">
+<nav class="menu" id="sideMenu">
     <header>Menu <span id="closeMenu">×</span></header>
     <ol>
         <li class="menu-item"><a href="#0">Home</a></li>
@@ -43,61 +47,72 @@
             <a href="#0">Kabobs</a>
             <ol class="sub-menu">
                 <li class="menu-item"><a href="#0">Shishkabobs</a></li>
-                <li class="menu-item"><a href="#0">BBQ kabobs</a></li>
-                <li class="menu-item"><a href="#0">Summer kabobs</a></li>
+                <li class="menu-item"><a href="#0">BBQ Kabobs</a></li>
+                <li class="menu-item"><a href="#0">Summer Kabobs</a></li>
             </ol>
         </li>
         <li class="menu-item"><a href="#0">Contact</a></li>
+        <li class="menu-item"><a href="{{ route('login.post') }}">Login</a></li>
     </ol>
-    <footer><button aria-label="Toggle Menu">Toggle</button></footer>
 </nav>
 
-<script>
+<main>
+    <div class="content">
+        @yield('content')
+    </div>
+</main>
 
-// Hamburger toggle for menu
+<script>
+// Hamburger toggle
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('sideMenu');
 const closeBtn = document.getElementById('closeMenu');
 
 hamburger.addEventListener('click', () => {
     sideMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
 });
+
 closeBtn.addEventListener('click', () => {
     sideMenu.classList.remove('active');
+    hamburger.classList.remove('active');
 });
 
-// Animated menu logic
-var $els = $('#sideMenu a, #sideMenu header');
-var count = $els.length;
-var grouplength = Math.ceil(count/3);
-var groupNumber = 0;
-var i = 1;
-$('#sideMenu').css('--count', count);
-$els.each(function(j){
-    if (i > grouplength) { groupNumber++; i=1; }
-    $(this).attr('data-group', groupNumber);
-    i++;
-});
-
-$('#sideMenu footer button').on('click', function(e){
-    e.preventDefault();
-    $els.each(function(j){
-        $(this).css('--top', $(this)[0].getBoundingClientRect().top + ($(this).attr('data-group') * -15) - 20);
-        $(this).css('--delay-in', j*.1+'s');
-        $(this).css('--delay-out', (count-j)*.1+'s');
+// Submenu toggle
+document.querySelectorAll('#sideMenu > ol > li > a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const parent = this.parentElement;
+        if(parent.querySelector('.sub-menu')) {
+            e.preventDefault();
+            parent.classList.toggle('show-sub');
+        }
     });
-    $('#sideMenu').toggleClass('closed');
-    e.stopPropagation();
 });
 
-// Run animation once for demo
-setTimeout(function(){
-    $('#sideMenu footer button').click();
-    setTimeout(function(){
-        $('#sideMenu footer button').click();
-    }, (count * 100) + 500 );
-}, 1000);
+// Deep search & auto-expand parents
+document.getElementById('searchInput').addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    document.querySelectorAll('#sideMenu li').forEach(li => {
+        const link = li.querySelector('a');
+        if(link.textContent.toLowerCase().includes(query) && query.length>0) {
+            li.classList.add('highlight');
+            let parent = li.parentElement.closest('li');
+            if(parent) parent.classList.add('show-sub');
+            li.scrollIntoView({behavior:'smooth', block:'nearest'});
+        } else {
+            li.classList.remove('highlight');
+        }
+    });
+});
 
+// Close menu clicking outside
+document.addEventListener('click', function(e){
+    if(!sideMenu.contains(e.target) && !hamburger.contains(e.target)){
+        sideMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+    }
+});
 </script>
+
 </body>
 </html>
