@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@yield('title', 'Rajarata Sakura')</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Rajarata Sakura')</title>
 
-<!-- Fonts & Icons -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
 
-<!-- Styles -->
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -32,6 +32,7 @@
 
 <nav class="menu" id="sideMenu">
     <header>Menu <span id="closeMenu">×</span></header>
+
     <ol>
         <li class="menu-item"><a href="#0">Home</a></li>
         <li class="menu-item"><a href="#0">About</a></li>
@@ -63,16 +64,15 @@
 </main>
 
 <script>
-// Hamburger toggle
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('sideMenu');
 const closeBtn = document.getElementById('closeMenu');
 
+// Toggle menu
 hamburger.addEventListener('click', () => {
     sideMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
 });
-
 closeBtn.addEventListener('click', () => {
     sideMenu.classList.remove('active');
     hamburger.classList.remove('active');
@@ -89,7 +89,7 @@ document.querySelectorAll('#sideMenu > ol > li > a').forEach(link => {
     });
 });
 
-// Deep search & auto-expand parents
+// Search & highlight
 document.getElementById('searchInput').addEventListener('input', function() {
     const query = this.value.toLowerCase();
     document.querySelectorAll('#sideMenu li').forEach(li => {
@@ -105,7 +105,7 @@ document.getElementById('searchInput').addEventListener('input', function() {
     });
 });
 
-// Close menu clicking outside
+// Close menu on outside click
 document.addEventListener('click', function(e){
     if(!sideMenu.contains(e.target) && !hamburger.contains(e.target)){
         sideMenu.classList.remove('active');
