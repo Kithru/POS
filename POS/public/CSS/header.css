@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
-    background: #9b2f6f; /* lighter wine purple for readability */
+    background: #9b2f6f; /* lighter wine purple */
     backdrop-filter: blur(10px);
     z-index: 1000;
     box-shadow: 0 2px 12px rgba(0,0,0,0.2);
@@ -31,7 +31,7 @@
     border-radius: 20px;
     border: none;
     outline: none;
-    background: rgba(255,255,255,0.2); /* light background */
+    background: rgba(255,255,255,0.2);
     color: #fff;
     transition: 0.3s ease;
 }
@@ -73,15 +73,12 @@
     transition: 0.4s;
 }
 
-/* Hamburger toggle animation */
 .hamburger.active .top {
     transform: rotate(45deg) translate(5px,5px);
     background: #fff; /* white cross */
 }
 
-.hamburger.active .middle {
-    opacity: 0;
-}
+.hamburger.active .middle { opacity: 0; }
 
 .hamburger.active .bottom {
     transform: rotate(-45deg) translate(6px,-6px);
@@ -112,7 +109,7 @@ nav.menu header {
     display:flex;
     justify-content:space-between;
     margin-bottom:20px;
-    color: #fff; /* header text */
+    color: #fff;
 }
 
 nav.menu header span {
@@ -122,9 +119,7 @@ nav.menu header span {
     transition: color 0.3s ease;
 }
 
-nav.menu header span:hover {
-    color: #f3c1d8; /* optional hover sakura pink */
-}
+nav.menu header span:hover { color: #f3c1d8; } /* optional hover sakura pink */
 
 nav.menu ol { list-style:none; }
 
@@ -143,25 +138,19 @@ nav.menu.active li {
 nav.menu a {
     display:block;
     text-decoration:none;
-    color:#fff; /* links are white */
+    color:#fff;
     padding:10px 16px;
     border-radius:6px;
     transition:0.3s;
 }
 
 nav.menu a:hover {
-    background: #7a0f5c; /* hover slightly darker wine purple */
+    background: #7a0f5c;
     transform: translateX(5px);
 }
 
-nav.menu .sub-menu {
-    display:none;
-    margin-left:15px;
-}
-
-nav.menu li.show-sub > .sub-menu {
-    display:block;
-}
+nav.menu .sub-menu { display:none; margin-left:15px; }
+nav.menu li.show-sub > .sub-menu { display:block; }
 
 nav.menu .sub-menu a {
     font-size:0.9rem;
@@ -172,4 +161,27 @@ nav.menu .sub-menu a {
 nav.menu a.highlight {
     background: rgba(122,12,71,0.25);
     color:#fff;
+}
+
+/* Mobile Responsive */
+/* Mobile: search and hamburger in same row */
+@media (max-width: 480px) {
+    .header {
+        flex-wrap: nowrap;      /* Prevent stacking */
+        padding: 10px;
+    }
+
+    .header .search-box {
+        flex: 1;                /* Search bar takes remaining width */
+        margin: 0 10px 0 0;     /* Right margin to separate hamburger */
+    }
+
+    .hamburger {
+        flex-shrink: 0;         /* Prevent shrinking */
+    }
+
+    .header .search-box input {
+        padding: 6px 35px 6px 10px; /* Adjust inside padding */
+        font-size: 0.9rem;
+    }
 }
