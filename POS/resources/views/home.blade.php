@@ -2,8 +2,8 @@
 
 @section('content')
 
-<!-- Hero Section (Slideshow) -->
-<section class="hero">
+
+<!-- <section class="hero">
     <div class="slideshow-container">
         <div class="slide fade">
             <img src="{{ asset('images/slide1.jpg') }}" alt="Slide 1">
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- Menu Section -->
 <section class="products">

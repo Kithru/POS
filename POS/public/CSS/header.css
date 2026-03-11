@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+
+/* Reset & Base */
+* {
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 100%;
+    line-height: 1.5;
+}
+body {
+    background: #f5f7fb;
+    margin: 0;
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(128, 0, 128, 0.85); /* Purple with transparency */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+.header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+.header .search-box {
+    flex: 1;
+    margin: 0 20px;
+    position: relative;
+}
+.header .search-box input {
+    width: 100%;
+    padding: 8px 40px 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+.header .search-box input:focus {
+    border-color: #9b59b6; /* lighter purple focus */
+    box-shadow: 0 0 6px rgba(155,89,182,0.3);
+}
+.header .search-box .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #fff;
+    pointer-events: none;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+    z-index: 1100;
+}
+.hamburger div {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* Animated Menu */
+nav.menu {
+    --duration: .5s;
+    --easing: ease-in-out;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 220px;
+    height: 100%;
+    background: #4b0082; /* Dark purple background */
+    color: #fff;
+    padding: 60px 20px 20px;
+    transition: left 0.3s ease-in-out;
+    z-index: 999;
+    overflow-y: auto;
+}
+nav.menu ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+nav.menu li {
+    margin: 6px 0;
+}
+nav.menu a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+nav.menu a:hover {
+    background: #7d3c98; /* lighter purple hover */
+}
+nav.menu .sub-menu a {
+    font-size: 0.9em;
+    color: #e0c6f5;
+    border-left: 2em solid transparent;
+    padding-left: 20px;
+}
+nav.menu .sub-menu a:hover {
+    background: #8e44ad66; /* transparent lighter purple */
+}
+nav.menu header {
+    font-weight: 600;
+    display: block;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 1em 1.2em;
+    margin-bottom: 15px;
+}
+nav.menu header span {
+    float: right;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+nav.menu footer button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #7d3c98;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+
+/* Menu Open/Close */
+nav.menu.active {
+    left: 0;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .header .search-box{
+        margin: 0 10px;
+    }
+}
