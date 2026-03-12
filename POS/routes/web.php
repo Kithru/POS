@@ -58,3 +58,6 @@ Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('item.
 Route::get('/items/view', [ItemController::class, 'viewItems'])->name('item.view');
 
 Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
+
+// Item search for Home
+Route::get('/search-items', [ItemController::class, 'mainSearch'])->name('item.search');

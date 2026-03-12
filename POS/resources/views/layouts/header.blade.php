@@ -15,8 +15,10 @@
 
         <!-- Search -->
         <div class="search-center">
-            <input type="text" placeholder="Search Item..." id="searchInput">
+            <form action="{{ route('item.search') }}" method="GET" style="display:flex; width:100%;">
+                <input type="text" name="query" placeholder="Search Item..." value="{{ request('query') }}">
             <span class="clear-btn" onclick="document.getElementById('searchInput').value=''">✕</span>
+        </form>
         </div>
 
         <!-- Cart -->

@@ -1,31 +1,27 @@
-</main>
-
 <footer class="footer">
 
     <div class="footer-container">
 
         <div class="footer-col">
             <h3>Info</h3>
-            <p>Contact us</p>
-            <p>About Us</p>
-            <p>Site Map</p>
+            <p><a href="#" class="footer-link">Contact Us</a></p>
+            <p><a href="#" class="footer-link">About Us</a></p>
+            <p><a href="#" class="footer-link">Site Map</a></p>
         </div>
 
         <div class="footer-col">
             <h3>Quick Links</h3>
-            <p>Restaurant</p>
-            <p>Grocery</p>
+            <p><a href="#" class="footer-link">Restaurant</a></p>
+            <p><a href="#" class="footer-link">Grocery</a></p>
         </div>
 
         <div class="footer-col">
             <h3>Keep in touch</h3>
-
-            <div class="social">
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-youtube"></i>
-                <i class="fab fa-instagram"></i>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
-
         </div>
 
     </div>
@@ -35,6 +31,3 @@
     </div>
 
 </footer>
-
-</body>
-</html>
