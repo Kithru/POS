@@ -2,36 +2,6 @@
 
 @section('content')
 
-
-<!-- <section class="hero">
-    <div class="slideshow-container">
-        <div class="slide fade">
-            <img src="{{ asset('images/slide1.jpg') }}" alt="Slide 1">
-            <div class="hero-content">
-                <h2>Welcome to Rajarata Sakura Restaurant</h2>
-                <p>Experience authentic flavors and delicious meals</p>
-                <a href="#">Reserve a Table</a>
-            </div>
-        </div>
-        <div class="slide fade">
-            <img src="{{ asset('images/slide2.jpg') }}" alt="Slide 2">
-            <div class="hero-content">
-                <h2>Fresh & Delicious</h2>
-                <p>Discover our chef's special dishes</p>
-                <a href="#">View Menu</a>
-            </div>
-        </div>
-        <div class="slide fade">
-            <img src="{{ asset('images/slide3.jpg') }}" alt="Slide 3">
-            <div class="hero-content">
-                <h2>Authentic Japanese Cuisine</h2>
-                <p>Enjoy the true taste of Japan</p>
-                <a href="#">Book Now</a>
-            </div>
-        </div>
-    </div>
-</section> -->
-
 <!-- Menu Section -->
 <section class="products">
     <!-- Dish 1 -->
@@ -78,71 +48,7 @@
         </div>
     </div>
 
-    <!-- Dish 5 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish5.jpg') }}" alt="Tempura">
-        <div class="product-info">
-            <h3>Tempura</h3>
-            <p>Crispy fried shrimp and vegetables</p>
-            <span>$13.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
-
-    <!-- Dish 6 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish6.jpg') }}" alt="Ramen">
-        <div class="product-info">
-            <h3>Ramen</h3>
-            <p>Rich pork broth ramen with noodles and eggs</p>
-            <span>$11.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
-
-    <!-- Dish 7 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish7.jpg') }}" alt="Teriyaki Chicken">
-        <div class="product-info">
-            <h3>Teriyaki Chicken</h3>
-            <p>Grilled chicken with teriyaki sauce</p>
-            <span>$14.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
-
-    <!-- Dish 8 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish8.jpg') }}" alt="Miso Soup">
-        <div class="product-info">
-            <h3>Miso Soup</h3>
-            <p>Traditional Japanese miso soup</p>
-            <span>$5.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
-
-    <!-- Dish 9 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish9.webp') }}" alt="Chocolate Dessert">
-        <div class="product-info">
-            <h3>Chocolate Dessert</h3>
-            <p>Rich chocolate dessert with cream</p>
-            <span>$6.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
-
-    <!-- Dish 10 -->
-    <div class="product-card">
-        <img src="{{ asset('images/restuarant/dish10.webp') }}" alt="Matcha Ice Cream">
-        <div class="product-info">
-            <h3>Matcha Ice Cream</h3>
-            <p>Creamy Japanese green tea ice cream</p>
-            <span>$4.99</span><br><br>
-            <button>Order Now</button>
-        </div>
-    </div>
+   
 
     <!-- Dish 11 -->
     <div class="product-card">
