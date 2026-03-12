@@ -16,7 +16,7 @@
         <!-- Search -->
         <div class="search-center">
             <form action="{{ route('item.search') }}" method="GET" style="display:flex; width:100%;">
-                <input type="text" name="query" placeholder="Search Item..." value="{{ request('query') }}">
+                <input type="text" name="query" placeholder="Search Items ..." value="{{ request('query') }}">
             <span class="clear-btn" onclick="document.getElementById('searchInput').value=''">✕</span>
         </form>
         </div>
@@ -37,6 +37,7 @@
         <li><a href="#">Grocery</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
+        <li><a href="{{ route('login.post') }}">Login</a></li>
     </ul>
 </nav>
 
