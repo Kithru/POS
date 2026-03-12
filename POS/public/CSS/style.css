@@ -20,7 +20,8 @@ body{
     background:white; /* header background */
     padding:12px 20px;
     border-bottom:1px solid #ddd;
-    position:relative;
+    position:sticky; /* sticky header */
+    top:0;
     z-index:100;
 }
 
@@ -178,7 +179,7 @@ body{
 .products{
     padding:30px 20px;
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(4,1fr); /* 4 items per row on web */
     gap:25px;
 }
 
@@ -189,6 +190,9 @@ body{
     text-align:center;
     background:white;
     transition:0.3s;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 .product-card:hover{
@@ -197,8 +201,8 @@ body{
 }
 
 .product-card img{
-    width:100%;
-    height:140px;
+    width:100%; /* full width */
+    height:auto; /* scale proportionally */
     object-fit:cover;
     margin-bottom:10px;
     border-radius:5px;
@@ -277,6 +281,12 @@ body{
 /* ===============================
    RESPONSIVE
 ================================ */
+@media(max-width:1024px){
+    .products{
+        grid-template-columns:repeat(3,1fr); /* 3 items per row on medium screens */
+    }
+}
+
 @media(max-width:768px){
 
     .logo{
@@ -289,12 +299,12 @@ body{
     }
 
     .products{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:repeat(2,1fr); /* 2 items per row on mobile */
         gap:18px;
     }
 
     .product-card img{
-        height:120px;
+        height:auto; /* scale images */
     }
 
     .footer-container{
@@ -340,10 +350,15 @@ body{
     .cart-icon{
         order:4;
     }
+
+    .products{
+        grid-template-columns:1fr; /* 1 per row on small screens */
+    }
 }
 
+/* Ensure logo is purple */
 .logo,
 .logo .logo-full,
 .logo .logo-short {
-    color: #7a0f5c; /* purple */
+    color:#7a0f5c;
 }

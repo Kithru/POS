@@ -13,9 +13,8 @@
             <span class="logo-short">RS</span>
         </h1>
 
-        <!-- Centered Search -->
+        <!-- Search -->
         <div class="search-center">
-            <!-- <span class="search-icon">🔍</span> -->
             <input type="text" placeholder="Search Item..." id="searchInput">
             <span class="clear-btn" onclick="document.getElementById('searchInput').value=''">✕</span>
         </div>
