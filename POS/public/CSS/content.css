@@ -60,7 +60,7 @@
     background: #5e0c47;
 }
 
-/* /////////////////////////////////////////////////////////////////////// */
+/* Action Buttons */
 
 .action-btn {
     padding: 6px 12px;
@@ -71,13 +71,25 @@
     transition: 0.3s;
     margin-right: 5px;
 }
+
 .edit-btn { background: #007bff; color: #fff; }
 .edit-btn:hover { background: #0056b3; }
+
 .delete-btn { background: #dc3545; color: #fff; }
 .delete-btn:hover { background: #a71d2a; }
-table td, table th { padding: 12px; }
 
-/* Filter form styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td, table th {
+    padding: 12px;
+    text-align: left;
+}
+
+/* Filter form */
+
 .filter-form {
     display: flex;
     gap: 12px;
@@ -85,6 +97,7 @@ table td, table th { padding: 12px; }
     align-items: center;
     margin-bottom: 20px;
 }
+
 .filter-form select,
 .filter-form button,
 .filter-form a {
@@ -94,15 +107,18 @@ table td, table th { padding: 12px; }
     border: 1px solid #ccc;
     padding: 0 10px;
 }
+
 .filter-form button {
     background-color: #4b0f3a;
     color: #fff;
     border: none;
     cursor: pointer;
 }
+
 .filter-form button:hover {
     background-color: #370a26;
 }
+
 .filter-form a {
     text-decoration: none;
     background-color: #6c757d;
@@ -112,14 +128,16 @@ table td, table th { padding: 12px; }
     justify-content: center;
     padding: 0 12px;
 }
+
 .filter-form a:hover {
     background-color: #5a6268;
 }
+
 .filter-form label {
     font-weight: 500;
 }
 
-/* /////////////////////////////////////////// */
+/* Custom File Upload */
 
 .custom-file-upload {
     display: inline-block;
@@ -148,3 +166,61 @@ table td, table th { padding: 12px; }
     display: none;
 }
 
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1024px){
+
+    .page-content{
+        margin-left:0;
+        padding:25px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .page-content{
+        padding:20px;
+    }
+
+    .form-card{
+        padding:20px;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    .filter-form{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .filter-form select,
+    .filter-form button,
+    .filter-form a{
+        width:100%;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .page-content{
+        padding:15px;
+    }
+
+    .btn-primary{
+        width:100%;
+    }
+
+    .action-btn{
+        margin-bottom:5px;
+    }
+
+}
