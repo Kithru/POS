@@ -299,7 +299,7 @@ body{
     }
 
     .products{
-        grid-template-columns:repeat(2,1fr); /* 2 items per row on mobile */
+        grid-template-columns:repeat(2,1fr); /* 2 items per row on tablets/mobile */
         gap:18px;
     }
 
@@ -352,7 +352,7 @@ body{
     }
 
     .products{
-        grid-template-columns:1fr; /* 1 per row on small screens */
+        grid-template-columns:1fr; /* 1 per row on very small screens */
     }
 }
 

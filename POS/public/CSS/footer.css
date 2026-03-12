@@ -1,21 +1,76 @@
-footer {
+.footer {
     background-color: #2e1a26; /* Dark plum */
     color: #fff;
     padding: 40px 50px;
     text-align: center;
 }
 
-footer .social-icons {
-    margin-top: 15px;
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-footer .social-icons a {
+.footer-col {
+    flex: 1 1 200px;
+    min-width: 180px;
+}
+
+.footer-col h3 {
+    color: #f3c1d8; /* Sakura pink for headings */
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.footer-col p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.footer-col a.footer-link {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-col a.footer-link:hover {
+    color: #f3c1d8;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
     color: #f3c1d8; /* Sakura pink */
     margin: 0 10px;
     font-size: 20px;
     transition: 0.3s;
 }
 
-footer .social-icons a:hover {
-    color: #7a0f5c; /* Wine purple */
+.social-icons a:hover {
+    color: #7a0f5c; /* Wine purple on hover */
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 15px;
+    color: #ccc;
+}
+
+/* Responsive Footer */
+@media(max-width:768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    .footer-col {
+        min-width: auto;
+    }
 }
