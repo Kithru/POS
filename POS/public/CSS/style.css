@@ -17,7 +17,7 @@ body{
    HEADER
 ================================ */
 .header{
-    background:white; /* modern header background */
+    background:white; /* header background */
     padding:12px 20px;
     border-bottom:1px solid #ddd;
     position:relative;
@@ -39,15 +39,40 @@ body{
 .logo{
     font-size:22px;
     font-weight:bold;
-    color:#7a0f5c; 
+    color:#7a0f5c; /* purple */
     cursor:pointer;
     flex-shrink:0;
+}
+
+/* Full vs Short logo spans */
+.logo .logo-full {
+    display:inline;
+}
+
+.logo .logo-short {
+    display:none;
 }
 
 /* Shift logo slightly to right on web */
 @media(min-width:769px){
     .header .logo{
         margin-left:50px;
+    }
+    .logo .logo-full {
+        display:inline;
+    }
+    .logo .logo-short {
+        display:none;
+    }
+}
+
+/* Mobile view logo */
+@media(max-width:768px){
+    .logo .logo-full {
+        display:none;
+    }
+    .logo .logo-short {
+        display:inline;
     }
 }
 
@@ -65,7 +90,7 @@ body{
 .hamburger span{
     display:block;
     height:3px;
-    background:#7a0f5c;
+    background:#7a0f5c; /* purple bars */
     border-radius:2px;
 }
 
@@ -75,7 +100,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    border:2px solid #7a0f5c;
+    border:2px solid #7a0f5c; /* purple border */
     border-radius:25px;
     padding:5px 10px;
     background:#fff;
@@ -315,4 +340,10 @@ body{
     .cart-icon{
         order:4;
     }
+}
+
+.logo,
+.logo .logo-full,
+.logo .logo-short {
+    color: #7a0f5c; /* purple */
 }
