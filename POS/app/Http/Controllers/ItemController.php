@@ -251,4 +251,11 @@ class ItemController extends Controller
         return view('item.view_items', compact('categories', 'subcategories', 'items'));
     }
 
+    public function getItemsForHome (){
+        $items = \App\Models\Item::where('status', 1)->get();
+
+        // Return to home view
+        return view('home', compact('items'));
+    }
+
 }
