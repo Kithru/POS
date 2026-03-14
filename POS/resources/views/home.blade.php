@@ -26,6 +26,7 @@
 
 @endsection
 
+
 @section('scripts')
 <script>
 const searchInput = document.getElementById('searchInput');
