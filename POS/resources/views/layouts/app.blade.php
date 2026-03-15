@@ -21,6 +21,6 @@
     @include('layouts.footer')
 
     <!-- Include Hero Slideshow JS -->
-    <script src="{{ asset('js/hero-slideshow.js') }}"></script>
+    <script src="{{ asset('js/home.js') }}"></script>
 </body>
 </html>

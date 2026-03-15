@@ -22,7 +22,11 @@
         </div>
 
         <!-- Cart -->
-        <div class="cart-icon">🛒</div>
+        <div class="cart-icon">
+            <a href="{{ route('cart.index') }}"> 🛒
+                <span class="cart-count"> {{ session('cart') ? count(session('cart')) : 0 }}</span>
+            </a>
+        </div>
     </div>
 </header>
 
@@ -61,4 +65,41 @@ closeMenu.onclick = () => {
 const clearBtn = document.querySelector(".clear-btn");
 const searchInput = document.getElementById("searchInput");
 clearBtn.onclick = () => searchInput.value = "";
+
+
+document.querySelector(".addCartBtn").addEventListener("click", function(){
+    let id = document.querySelector(".orderBtn.active").dataset.id;
+    let name = popupName.textContent;
+    let price = document.querySelector(".orderBtn.active").dataset.price;
+    let image = popupImage.src;
+    let qty = qtyInput.value;
+
+    fetch("{{ route('cart.add') }}", {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "X-CSRF-TOKEN":"{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            id:id,
+            name:name,
+            price:price,
+            image:image,
+            quantity:qty
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            document.querySelector(".cart-count").innerText = data.count;
+            alert("Item added to cart");
+            modal.style.display = "none";
+
+        }
+
+    });
+
+});
+
+
 </script>
