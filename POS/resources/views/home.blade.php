@@ -1,48 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-
-<!-- Menu Section -->
+<!-- Products Section -->
 <section class="products" id="productsContainer">
-    @forelse($items as $item)
-
-        <div class="product-card">
-            @if($item->image)
-                <img src="{{ asset('images/uploads/' . $item->image) }}">
-            @else
-                <img src="{{ asset('images/no-image.jpg') }}">
-            @endif
-
-            <div class="product-info">
-                <h3 class="item-name">{{ $item->item_name }}</h3>
-                <p>{{ $item->description ?? 'No description available' }}</p>
-                <span>
-                    {{ $item->currency }} {{ number_format($item->price,2) }}
-                </span>
-                <br><br>
-
-                <button class="orderBtn"
-                    data-id="{{ $item->id }}"
-                    data-name="{{ $item->item_name }}"
-                    data-price="{{ $item->price }}"
-                    data-desc="{{ $item->description }}"
-                    data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}">
-                    Order Now
-                </button>
-
-            </div>
-
-        </div>
-
-    @empty
-        <p>No items available.</p>
-    @endforelse
-
+@forelse($items as $item)
+<div class="product-card">
+    <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}">
+    <div class="product-info">
+        <h3 class="item-name">{{ $item->item_name }}</h3>
+        <p>{{ $item->description ?? 'No description available' }}</p>
+        <span>{{ $item->currency }} {{ number_format($item->price,2) }}</span>
+        <br><br>
+        <button class="orderBtn"
+            data-id="{{ $item->id }}"
+            data-name="{{ $item->item_name }}"
+            data-price="{{ $item->price }}"
+            data-desc="{{ $item->description }}"
+            data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}">
+            Order Now
+        </button>
+    </div>
+</div>
+@empty
+<p>No items available.</p>
+@endforelse
 </section>
 
 <!-- ORDER POPUP -->
 <div id="orderModal" class="modal">
-
     <div class="modal-content">
         <span class="close">&times;</span>
         <img id="popupImage">
@@ -57,122 +42,15 @@
             <button id="plus">+</button>
         </div>
         <br>
-        <button class="addCartBtn">
-            Add To Cart
-        </button>
-
+        <button class="addCartBtn">Add To Cart</button>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
-
 <script>
-
-const modal = document.getElementById("orderModal");
-const orderBtns = document.querySelectorAll(".orderBtn");
-const closeBtn = document.querySelector(".close");
-
-const popupName  = document.getElementById("popupName");
-const popupDesc  = document.getElementById("popupDesc");
-const popupPrice = document.getElementById("popupPrice");
-const popupImage = document.getElementById("popupImage");
-const qtyInput = document.getElementById("qty");
-let currentItem = {};
-
-
-// OPEN POPUP
-orderBtns.forEach(btn => {
-    btn.addEventListener("click", function(){
-        currentItem = {
-            id: this.dataset.id,
-            name: this.dataset.name,
-            price: this.dataset.price,
-            image: this.dataset.image
-        };
-
-        popupName.textContent  = this.dataset.name;
-        popupDesc.textContent  = this.dataset.desc;
-        popupPrice.textContent = "Price : " + this.dataset.price;
-        popupImage.src         = this.dataset.image;
-        qtyInput.value = 1;
-        modal.style.display = "flex";
-    });
-});
-
-// CLOSE POPUP
-closeBtn.onclick = () => {
-    modal.style.display = "none";
-};
-
-window.onclick = (e) => {
-    if(e.target === modal){
-        modal.style.display = "none";
-    }
-};
-
-// QUANTITY BUTTONS
-document.getElementById("plus").onclick = () => {
-    qtyInput.value = parseInt(qtyInput.value) + 1;
-};
-
-document.getElementById("minus").onclick = () => {
-    if(qtyInput.value > 1){
-        qtyInput.value = parseInt(qtyInput.value) - 1;
-    }
-};
-
-
-// ADD TO CART
-document.querySelector(".addCartBtn").addEventListener("click", function(){
-    fetch("{{ route('cart.add') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-
-        body: JSON.stringify({
-            id: currentItem.id,
-            name: currentItem.name,
-            price: currentItem.price,
-            image: currentItem.image,
-            quantity: qtyInput.value
-        })
-
-    })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success){
-            document.querySelector(".cart-count").innerText = data.count;
-            modal.style.display = "none";
-            alert("Item added to cart");
-
-        }
-
-    });
-
-});
-
-
-orderBtns.forEach(btn => {
-
-    btn.addEventListener("click", function(){
-        document.querySelectorAll(".orderBtn").forEach(b => b.classList.remove("active"));
-        this.classList.add("active");
-        popupName.textContent = this.dataset.name;
-        popupDesc.textContent = this.dataset.desc;
-        popupPrice.textContent = "Price : " + this.dataset.price;
-        popupImage.src = this.dataset.image;
-
-        modal.style.display = "flex";
-
-    });
-
-});
-
-
+const CART_ADD_URL = "{{ route('cart.add') }}";
 </script>
 
+<script src="{{ asset('js/home.js') }}"></script>
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CartController;
 
 // Default home page
 Route::get('/', function () {return view('home');})->name('home');
@@ -12,7 +13,7 @@ Route::get('/', function () {return view('home');})->name('home');
 // Login page
 Route::get('/login', function () { return view('welcome'); })->name('login');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Login submit
@@ -63,6 +64,6 @@ Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
 Route::get('/search-items', [ItemController::class, 'mainSearch'])->name('item.search');
 
 // Cart
-Route::post('/add-to-cart', [CartController::class,'add'])->name('cart.add');
-Route::get('/cart', [CartController::class,'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
