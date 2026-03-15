@@ -1,60 +1,157 @@
+/* Modal Background */
+
 .modal{
     display:none;
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.5);
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
     justify-content:center;
     align-items:center;
     z-index:999;
+    animation: fadeIn 0.3s ease;
 }
 
+/* Popup Box */
+
 .modal-content{
-    background:white;
-    padding:30px;
-    width:400px;
-    border-radius:10px;
+    background:#ffffff;
+    width:420px;
+    max-width:90%;
+    border-radius:16px;
+    padding:28px;
+    position:relative;
+    box-shadow:0 15px 40px rgba(0,0,0,0.25);
     text-align:center;
+    animation: popup 0.35s ease;
 }
+
+/* Image */
 
 .modal-content img{
     width:100%;
-    height:200px;
+    height:220px;
     object-fit:cover;
-    border-radius:10px;
+    border-radius:12px;
+    margin-bottom:15px;
 }
 
-.close{
-    float:right;
+/* Title */
+
+#popupName{
     font-size:22px;
-    cursor:pointer;
+    font-weight:600;
+    margin-bottom:6px;
+    color:#2e1a26;
 }
+
+/* Description */
+
+#popupDesc{
+    font-size:14px;
+    color:#777;
+    margin-bottom:12px;
+}
+
+/* Price */
+
+#popupPrice{
+    font-size:20px;
+    font-weight:700;
+    color:#9b2f6f;
+    margin-bottom:20px;
+}
+
+/* Close Button */
+
+.close{
+    position:absolute;
+    top:12px;
+    right:15px;
+    font-size:22px;
+    color:#999;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.close:hover{
+    color:#9b2f6f;
+}
+
+/* Quantity Box */
 
 .qty-box{
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:10px;
+    gap:12px;
+    margin-bottom:20px;
 }
+
+/* Quantity Buttons */
 
 .qty-box button{
-    width:35px;
-    height:35px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:8px;
+    background:#f4f4f4;
     font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.2s;
 }
 
-.qty-box input{
-    width:40px;
-    text-align:center;
-}
-
-.addCartBtn{
+.qty-box button:hover{
     background:#9b2f6f;
     color:white;
+}
+
+/* Quantity Input */
+
+.qty-box input{
+    width:45px;
+    height:38px;
+    text-align:center;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-weight:600;
+}
+
+/* Add To Cart Button */
+
+.addCartBtn{
+    width:100%;
+    padding:12px;
     border:none;
-    padding:10px 20px;
-    border-radius:5px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#9b2f6f,#c0488f);
+    color:white;
+    font-size:15px;
+    font-weight:600;
     cursor:pointer;
+    transition:0.25s;
+}
+
+.addCartBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(155,47,111,0.35);
+}
+
+/* Animations */
+
+@keyframes popup{
+    from{
+        transform:scale(0.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
 }
