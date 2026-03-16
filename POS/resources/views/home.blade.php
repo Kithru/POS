@@ -6,20 +6,27 @@
 <section class="products" id="productsContainer">
 @forelse($items as $item)
     <div class="product-card">
+        <!-- Product Image -->
         <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}" alt="{{ $item->item_name }}">
+        
         <div class="product-info">
             <h3 class="item-name">{{ $item->item_name }}</h3>
             <p>{{ $item->description ?? 'No description available' }}</p>
-            <!-- Display currency icon before price -->
-            <span>{{ $item->currency_icon ?? '' }} {{ number_format($item->price, 2) }}</span>
+            
+            <!-- Product Price with Currency Icon -->
+            <span class="product-price">
+                {!! $item->currency_icon ?? '' !!} {{ number_format($item->price, 2) }}
+            </span>
             <br><br>
+            
+            <!-- Order Button -->
             <button class="orderBtn"
                 data-id="{{ $item->item_id }}"
                 data-name="{{ $item->item_name }}"
                 data-price="{{ $item->price }}"
                 data-desc="{{ $item->description ?? '' }}"
                 data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}"
-                data-currency-icon="{{ $item->currency_icon ?? '' }}">
+                data-currency-icon='{!! $item->currency_icon ?? "" !!}'>
                 Order Now
             </button>
         </div>
