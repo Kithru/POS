@@ -64,6 +64,9 @@ Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
 Route::get('/search-items', [ItemController::class, 'mainSearch'])->name('item.search');
 
 // Cart
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class,'add'])->name('cart.add');
+Route::get('/cart', [CartController::class,'index'])->name('cart.index');
+Route::post('/cart/update', [CartController::class,'update']);
+Route::post('/cart/remove', [CartController::class,'remove']);
+Route::get('/cart/clear', [CartController::class,'clear']);
 

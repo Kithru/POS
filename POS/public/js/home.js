@@ -79,9 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             if (data.success) {
                 const cartCountEl = document.querySelector(".cart-count");
-                if (cartCountEl) cartCountEl.innerText = data.count;
+                if (cartCountEl) {
+                    cartCountEl.innerText = data.count;
+                }
                 modal.style.display = "none";
-                alert("Item added to cart");
             } else {
                 alert("Could not add item to cart.");
             }
