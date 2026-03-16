@@ -12,13 +12,14 @@
         <span>{{ $item->currency }} {{ number_format($item->price,2) }}</span>
         <br><br>
         <button class="orderBtn"
-            data-id="{{ $item->id }}"
+            data-id="{{ $item->item_id }}"
             data-name="{{ $item->item_name }}"
             data-price="{{ $item->price }}"
             data-desc="{{ $item->description }}"
             data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}">
             Order Now
         </button>
+        
     </div>
 </div>
 @empty
