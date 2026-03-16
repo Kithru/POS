@@ -260,7 +260,10 @@ class ItemController extends Controller
 
     public function mainSearch(Request $request){
         $query = $request->input('query');
-        $items = \App\Models\Item::where('item_name', 'like', "%{$query}%")->get();
+        $items = \App\Models\Item::where('item_name', 'like', "%{$query}%")
+                    ->where('status', 1)
+                    ->get();
+
         return view('home', compact('items'));
     }
 
