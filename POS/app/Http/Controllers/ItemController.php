@@ -252,10 +252,15 @@ class ItemController extends Controller
         return view('item.view_items', compact('categories', 'subcategories', 'items'));
     }
 
-    public function getItemsForHome (){
-        $items = \App\Models\Item::where('status', 1)->get();
+    public function getItemsForHome() {
+        $items = \App\Models\Item::select(
+                    'items.*',
+                    'currency.currency_icon'
+                )
+                ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+                ->where('items.status', 1)
+                ->get();
 
-        // Return to home view
         return view('home', compact('items'));
     }
 
@@ -271,7 +276,7 @@ class ItemController extends Controller
                     ->where('items.status', 1)
                     ->get();
 
-        return view('home', compact('items','currency'));
+        return view('home', compact('items'));
     }
 
 }
