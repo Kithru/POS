@@ -12,7 +12,6 @@
         <div class="product-info">
             <h3 class="item-name">{{ $item->item_name }}</h3>
             <p>{{ $item->description ?? 'No description available' }}</p>
-            
             <!-- Product Price with Currency Icon -->
             <span class="product-price">
                 {!! $item->currency_icon ?? '' !!} {{ number_format($item->price, 2) }}

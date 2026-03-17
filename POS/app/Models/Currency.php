@@ -15,5 +15,6 @@ class Currency extends Model
         'currency',
         'currency_code',
         'currency_rate',
+        'currency_icon',
     ];
 }

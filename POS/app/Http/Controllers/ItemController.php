@@ -265,7 +265,7 @@ class ItemController extends Controller
                         'currency.currency',
                         'currency.currency_icon'
                     )
-                    ->join('currency', 'items.currency', '=', 'currency.id')
+                    ->join('currency', 'items.currency', '=', 'currency.currency')
                     ->where('items.item_name', 'like', "%{$query}%")
                     ->where('items.status', 1)
                     ->get();
