@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById("orderModal");
     const orderBtns = document.querySelectorAll(".orderBtn");
     const closeBtn = document.querySelector(".close");
-
     const popupName  = document.getElementById("popupName");
     const popupDesc  = document.getElementById("popupDesc");
     const popupPrice = document.getElementById("popupPrice");
@@ -13,31 +12,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const plusBtn    = document.getElementById("plus");
     const minusBtn   = document.getElementById("minus");
     const addCartBtn = document.querySelector(".addCartBtn");
+    const cartCountEl = document.getElementById("cartCount"); // header badge
 
     let currentItemId = null;
 
-    if (!modal || !closeBtn || !popupName || !popupDesc || !popupPrice || !popupImage || !qtyInput || !plusBtn || !minusBtn || !addCartBtn) {
+    if (!modal || !closeBtn || !popupName || !popupDesc || !popupPrice || !popupImage || !qtyInput || !plusBtn || !minusBtn || !addCartBtn || !cartCountEl) {
         console.warn('Popup elements missing. JS skipped.');
         return;
     }
 
+    // ----- HELPER: Update Cart Count -----
+    function updateCartCount(count) {
+        cartCountEl.textContent = count;
+        cartCountEl.classList.add("updated");
+        setTimeout(() => cartCountEl.classList.remove("updated"), 300); // simple pop animation
+    }
+    window.updateCartCount = updateCartCount;
+
     // ----- OPEN POPUP -----
     orderBtns.forEach(btn => {
         btn.addEventListener("click", function() {
-
-            currentItemId = parseInt(this.dataset.id, 10); 
+            currentItemId = parseInt(this.dataset.id, 10);
             const currentItem = {
                 id: currentItemId,
                 name: this.dataset.name,
                 price: parseFloat(this.dataset.price),
                 image: this.dataset.image,
                 desc: this.dataset.desc,
-                currency_icon: this.dataset.currencyIcon || ''  // HTML safe
+                currency_icon: this.dataset.currencyIcon || ''
             };
 
-            popupName.textContent  = currentItem.name;
-            popupDesc.textContent  = currentItem.desc || 'No description';
-            // Use innerHTML to allow HTML icons
+            popupName.textContent = currentItem.name;
+            popupDesc.textContent = currentItem.desc || 'No description';
             popupPrice.innerHTML = currentItem.currency_icon + " " + currentItem.price.toFixed(2);
             popupImage.src = currentItem.image;
             qtyInput.value = 1;
@@ -51,17 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
         qtyInput.value = 1;
         currentItemId = null;
     };
-
     closeBtn.addEventListener("click", closeModal);
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-    });
+    window.addEventListener("click", e => { if (e.target === modal) closeModal(); });
 
     // ----- QUANTITY BUTTONS -----
-    plusBtn.addEventListener("click", () => {
-        qtyInput.value = parseInt(qtyInput.value, 10) + 1;
-    });
-
+    plusBtn.addEventListener("click", () => qtyInput.value = parseInt(qtyInput.value, 10) + 1);
     minusBtn.addEventListener("click", () => {
         let qty = parseInt(qtyInput.value, 10);
         if (qty > 1) qtyInput.value = qty - 1;
@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ----- ADD TO CART -----
     addCartBtn.addEventListener("click", function() {
-
         if (!currentItemId) {
             alert("Please select an item.");
             return;
@@ -85,20 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 "Accept": "application/json",
                 "X-CSRF-TOKEN": token
             },
-            body: JSON.stringify({
-                item_id: currentItemId,
-                quantity: quantity
-            })
+            body: JSON.stringify({ item_id: currentItemId, quantity })
         })
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                // Update cart count in header if exists
-                const cartCountEl = document.querySelector(".cart-count");
-                if (cartCountEl) cartCountEl.innerText = data.count;
-
-                // Close popup
+                updateCartCount(data.count);   // refresh cart badge immediately
                 closeModal();
+
+                // Optional: if you have a mini cart list, refresh it
+                if (window.refreshCartDropdown) window.refreshCartDropdown();
             } else {
                 alert(data.message || "Could not add item to cart.");
             }
@@ -107,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error("Cart error:", err);
             alert("Error adding item to cart.");
         });
-
     });
 
 });
