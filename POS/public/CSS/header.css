@@ -185,3 +185,37 @@ nav.menu a.highlight {
         font-size: 0.9rem;
     }
 }
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-count-badge {
+    position: absolute;
+    top: -6px;      /* adjust vertical position */
+    right: -8px;    /* adjust horizontal position */
+    background: red;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.cart-icon a,
+.cart-icon a:visited,
+.cart-icon a:hover,
+.cart-icon a:active {
+    text-decoration: none;  /* remove underline */
+    color: inherit;         /* keep current color */
+}
+
+/* Optional: keep cursor pointer */
+.cart-icon a {
+    cursor: pointer;
+}

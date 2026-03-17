@@ -24,9 +24,9 @@
 
         <!-- Cart -->
         <div class="cart-icon">
-            <a href="{{ route('cart.index') }}">
+            <a href="{{ route('cart.index') }}" class="cart-link">
                 🛒
-                <span class="cart-count">
+                <span class="cart-count-badge" id="cartCount">
                     {{ session('cart') ? count(session('cart')) : 0 }}
                 </span>
             </a>
@@ -51,37 +51,45 @@
 </nav>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
 
-document.addEventListener("DOMContentLoaded", function(){
-
-    // Sidebar
+    // ----- SIDEBAR MENU -----
     const menuBtn = document.getElementById("menuBtn");
     const sideMenu = document.getElementById("sideMenu");
     const closeMenu = document.getElementById("closeMenu");
 
-    if(menuBtn){
-        menuBtn.onclick = () => {
-            sideMenu.style.left = "0";
-        };
+    if (menuBtn && sideMenu) {
+        menuBtn.addEventListener("click", () => {
+            sideMenu.style.left = "0"; // open menu
+        });
     }
 
-    if(closeMenu){
-        closeMenu.onclick = () => {
-            sideMenu.style.left = "-260px";
-        };
+    if (closeMenu && sideMenu) {
+        closeMenu.addEventListener("click", () => {
+            sideMenu.style.left = "-260px"; // close menu
+        });
     }
 
-    // Clear search
+    // ----- CLEAR SEARCH -----
     const clearBtn = document.getElementById("clearSearch");
     const searchInput = document.getElementById("searchInput");
 
-    if(clearBtn){
-        clearBtn.onclick = () => {
+    if (clearBtn && searchInput) {
+        clearBtn.addEventListener("click", () => {
             searchInput.value = "";
             searchInput.focus();
-        };
+        });
     }
 
-});
+    // ----- CART COUNT -----
+    const cartCountEl = document.getElementById("cartCount");
+    function updateCartCount(count) {
+        if (cartCountEl) {
+            cartCountEl.textContent = count;
+        }
+    }
 
+    window.updateCartCount = updateCartCount;
+
+});
 </script>
