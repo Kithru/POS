@@ -55,9 +55,9 @@
 
                 <select name="currency" id="currency" class="form-input">
                     @foreach($currencies as $currency)
-                        <option value="{{ $currency->currency }}"
-                            {{ $item->currency == $currency->currency ? 'selected' : '' }}>
-                            {{ $currency->currency }}
+                        <option value="{{ $currency->id }}"
+                            {{ $item->currency == $currency->id ? 'selected' : '' }}>
+                            {{ $currency->currency }} ({{ $currency->currency_icon }})
                         </option>
                     @endforeach
                 </select>

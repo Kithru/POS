@@ -76,8 +76,8 @@
                 <select name="currency" class="form-input" id="currency_select" onchange="updateCurrencyIcon()">
                     <option value="">- Select Currency -</option>
                     @foreach($currencies as $currency)
-                        <option value="{{ $currency->currency_code }}" data-icon="{{ $currency->currency_icon }}" 
-                            {{ old('currency_type') == $currency->currency_code ? 'selected' : '' }}>
+                        <option value="{{ $currency->id }}" data-icon="{{ $currency->id }}" 
+                            {{ old('currency_type') == $currency->id ? 'selected' : '' }}>
                             {{ $currency->currency }} ({{ $currency->currency_icon }})
                         </option>
                     @endforeach
