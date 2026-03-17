@@ -32,12 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 price: parseFloat(this.dataset.price),
                 image: this.dataset.image,
                 desc: this.dataset.desc,
-                currency_icon: this.dataset.currencyIcon || ''  // dataset.camelCase works
+                currency_icon: this.dataset.currencyIcon || ''  // HTML safe
             };
+
             popupName.textContent  = currentItem.name;
             popupDesc.textContent  = currentItem.desc || 'No description';
-            popupPrice.textContent = currentItem.currency_icon + " " + currentItem.price.toFixed(2);
-            popupImage.src         = currentItem.image;
+            // Use innerHTML to allow HTML icons
+            popupPrice.innerHTML = currentItem.currency_icon + " " + currentItem.price.toFixed(2);
+            popupImage.src = currentItem.image;
             qtyInput.value = 1;
             modal.style.display = "flex";
         });
