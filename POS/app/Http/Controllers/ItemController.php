@@ -103,7 +103,7 @@ class ItemController extends Controller
     }
     
     public function manage(Request $request) {
-        $query = Item::with(['category','subcategory']);
+        $query = Item::with(['category','subcategory','currencyRel']);
 
         if ($request->category_id) {
             $query->where('category_id', $request->category_id);
@@ -114,15 +114,16 @@ class ItemController extends Controller
         if ($request->status !== null && $request->status !== '') {
             $query->where('status', $request->status);
         }
+
         $items = $query->orderBy('item_id', 'desc')->paginate(10);
         $items->appends($request->all()); 
 
         $categories = Category::where('status', 1)->get();
         $subcategories = SubCategory::where('status', 1)
-                                    ->when($request->category_id, function($q) use ($request) {
-                                        $q->where('category_id', $request->category_id);
-                                    })
-                                    ->get();
+            ->when($request->category_id, function($q) use ($request) {
+                $q->where('category_id', $request->category_id);
+            })
+            ->get();
 
         return view('item.item_manage', compact('items', 'categories', 'subcategories'));
     }
