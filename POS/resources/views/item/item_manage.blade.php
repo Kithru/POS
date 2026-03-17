@@ -107,7 +107,7 @@
                         <td style="padding:12px; text-align:left;">{{ $item->item_name }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->category->category_name ?? '-' }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->subcategory->subcategory_name ?? '-' }}</td>
-                        <td style="padding:12px;">{{ number_format($item->price,2) }}</td>
+                        <td style="padding:12px;"> {!! $item->currencyRel->currency_icon ?? '' !!} {{ number_format($item->price, 2) }} </td>
                         <td style="padding:12px;">{{ $item->quantity }}</td>
                         <td style="padding:12px;">
                             @if($item->status == 1)

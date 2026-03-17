@@ -38,5 +38,9 @@ class Item extends Model
         return $this->belongsTo(SubCategory::class,'subcategory_id','subcategory_id');
     }
 
+    public function currencyRel() {
+        return $this->belongsTo(\App\Models\Currency::class, 'currency', 'id');
+    }
+
     public $timestamps = false; // since you use custom added_date/modified_date
 }
