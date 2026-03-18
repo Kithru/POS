@@ -2,241 +2,187 @@
 
 @section('content')
 
+<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+
 <div class="cart-container">
 
-<h2 class="cart-title">🛒 Your Cart</h2>
+    <h2 class="cart-title">🛒 Your Cart</h2>
 
-@if($cart && count($cart) > 0)
+    @if($cart && count($cart) > 0)
 
-<div class="cart-items">
+    <div class="cart-items">
 
-@foreach($cart as $id => $item)
+        @foreach($cart as $id => $item)
 
-<div class="cart-card">
+        <div class="cart-card">
 
-<img src="{{ $item['image'] }}" class="cart-img" alt="{{ $item['name'] }}">
+            <!-- Product Image -->
+            <img src="{{ $item['image'] }}" class="cart-img" alt="{{ $item['name'] }}">
 
-<div class="cart-info">
+            <!-- Product Info -->
+            <div class="cart-info">
 
-<h3>{{ $item['name'] }}</h3>
+                <h3>{{ $item['name'] }}</h3>
 
-<p class="desc">
-{{ $item['description'] ?? 'No description available' }}
-</p>
+                <p class="desc">
+                    {{ $item['description'] ?? 'No description available' }}
+                </p>
 
-<p class="price">
-{{ $item['currency'] }} {{ number_format($item['price'],2) }}
-</p>
+                <!-- Price -->
+                <p class="price">
+                    <span class="currency-icon">
+                        {{ $item['currency_icon'] ?? '' }}
+                    </span>
+                    {{ number_format($item['price'], 2) }}
+                </p>
 
-<div class="qty-box">
+                <!-- Quantity -->
+                <div class="qty-box">
+                    <button class="qty-btn minus" data-id="{{ $id }}">−</button>
 
-<button class="qty-btn minus" data-id="{{ $id }}">−</button>
+                    <input
+                        type="text"
+                        value="{{ $item['quantity'] }}"
+                        class="qty-input"
+                        data-id="{{ $id }}"
+                        readonly
+                    >
 
-<input
-type="text"
-value="{{ $item['quantity'] }}"
-class="qty-input"
-data-id="{{ $id }}"
-readonly
+                    <button class="qty-btn plus" data-id="{{ $id }}">+</button>
+                </div>
 
->
+                <!-- Item Total -->
+                <p class="item-total">
+                    Total:
+                    <span class="currency-icon">
+                        {{ $item['currency_icon'] ?? '' }}
+                    </span>
+                    <span id="total-{{ $id }}">
+                        {{ number_format($item['price'] * $item['quantity'], 2) }}
+                    </span>
+                </p>
 
-<button class="qty-btn plus" data-id="{{ $id }}">+</button>
+                <!-- Remove -->
+                <button class="remove-btn" data-id="{{ $id }}">
+                    Remove
+                </button>
 
-</div>
+            </div>
 
-<p class="item-total">
+        </div>
 
-Total:
+        @endforeach
 
-{{ $item['currency'] }}
+    </div>
 
-<span id="total-{{ $id }}">
+    <!-- Cart Summary -->
+    <div class="cart-summary">
 
-{{ number_format($item['price'] * $item['quantity'],2) }}
+        <h3>Cart Total</h3>
 
-</span>
+        <p>
+            <span class="currency-icon">
+                {{ collect($cart)->first()['currency_icon'] ?? '' }}
+            </span>
 
-</p>
+            <span id="cartTotal">
+                {{ number_format(collect($cart)->sum(function($item){
+                    return $item['price'] * $item['quantity'];
+                }), 2) }}
+            </span>
+        </p>
 
-<button class="remove-btn" data-id="{{ $id }}">
-Remove
-</button>
+        <button class="checkout-btn">
+            Proceed to Checkout
+        </button>
 
-</div>
+    </div>
 
-</div>
+    @else
 
-@endforeach
+    <p class="empty-cart">Your cart is empty</p>
 
-</div>
-
-<div class="cart-summary">
-
-<h3>Cart Total</h3>
-
-<p>
-
-{{ collect($cart)->first()['currency'] ?? 'Rs' }}
-
-<span id="cartTotal">
-
-{{ number_format(collect($cart)->sum(function($item){
-return $item['price'] * $item['quantity'];
-}),2) }}
-
-</span>
-
-</p>
-
-<button class="checkout-btn">
-Proceed to Checkout
-</button>
-
-</div>
-
-@else
-
-<p class="empty-cart">Your cart is empty</p>
-
-@endif
+    @endif
 
 </div>
 
 @endsection
 
+
 @section('scripts')
 
 <script>
-
 const UPDATE_CART_URL = "{{ url('/cart/update') }}";
 const REMOVE_CART_URL = "{{ url('/cart/remove') }}";
 
 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-
-/* --------------------
-QUANTITY INCREASE
--------------------- */
-
+/* -------- INCREASE -------- */
 document.querySelectorAll(".plus").forEach(btn => {
-
-btn.addEventListener("click", function(){
-
-let id = this.dataset.id;
-
-let input = document.querySelector(`.qty-input[data-id='${id}']`);
-
-let qty = parseInt(input.value) + 1;
-
-updateCart(id, qty);
-
+    btn.addEventListener("click", function(){
+        let id = this.dataset.id;
+        let input = document.querySelector(`.qty-input[data-id='${id}']`);
+        let qty = parseInt(input.value) + 1;
+        updateCart(id, qty);
+    });
 });
 
-});
-
-
-/* --------------------
-QUANTITY DECREASE
--------------------- */
-
+/* -------- DECREASE -------- */
 document.querySelectorAll(".minus").forEach(btn => {
+    btn.addEventListener("click", function(){
+        let id = this.dataset.id;
+        let input = document.querySelector(`.qty-input[data-id='${id}']`);
+        let qty = parseInt(input.value);
 
-btn.addEventListener("click", function(){
-
-let id = this.dataset.id;
-
-let input = document.querySelector(`.qty-input[data-id='${id}']`);
-
-let qty = parseInt(input.value);
-
-if(qty > 1){
-
-qty--;
-
-updateCart(id, qty);
-
-}
-
+        if(qty > 1){
+            qty--;
+            updateCart(id, qty);
+        }
+    });
 });
 
-});
-
-
-/* --------------------
-UPDATE CART
--------------------- */
-
+/* -------- UPDATE CART -------- */
 function updateCart(id, qty){
-
-fetch(UPDATE_CART_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-"X-CSRF-TOKEN":token
-},
-
-body:JSON.stringify({
-id:id,
-quantity:qty
-})
-
-})
-.then(res => res.json())
-.then(data => {
-
-if(data.success){
-
-location.reload();
-
+    fetch(UPDATE_CART_URL,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "X-CSRF-TOKEN":token
+        },
+        body:JSON.stringify({
+            id:id,
+            quantity:qty
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            location.reload();
+        }
+    });
 }
 
-});
-
-}
-
-
-/* --------------------
-REMOVE ITEM
--------------------- */
-
+/* -------- REMOVE ITEM -------- */
 document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+        let id = this.dataset.id;
 
-btn.addEventListener("click", function(){
-
-let id = this.dataset.id;
-
-fetch(REMOVE_CART_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-"X-CSRF-TOKEN":token
-},
-
-body:JSON.stringify({
-id:id
-})
-
-})
-.then(res => res.json())
-.then(data => {
-
-if(data.success){
-
-location.reload();
-
-}
-
+        fetch(REMOVE_CART_URL,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "X-CSRF-TOKEN":token
+            },
+            body:JSON.stringify({ id:id })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success){
+                location.reload();
+            }
+        });
+    });
 });
-
-});
-
-});
-
 </script>
 
 @endsection
