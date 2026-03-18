@@ -39,34 +39,21 @@
                 <!-- Quantity -->
                 <div class="qty-box">
                     <button class="qty-btn minus" data-id="{{ $id }}">−</button>
-
-                    <input
-                        type="text"
-                        value="{{ $item['quantity'] }}"
-                        class="qty-input"
-                        data-id="{{ $id }}"
-                        readonly
-                    >
-
+                    <input type="text" value="{{ $item['quantity'] }}" class="qty-input" data-id="{{ $id }}" readonly >
                     <button class="qty-btn plus" data-id="{{ $id }}">+</button>
                 </div>
 
                 <!-- Item Total -->
                 <p class="item-total">
                     Total:
-                    <span class="currency-icon">
-                        {{ $item['currency_icon'] ?? '' }}
-                    </span>
-                    <span id="total-{{ $id }}">
-                        {{ number_format($item['price'] * $item['quantity'], 2) }}
-                    </span>
+                    <span class="currency-icon"> {{ $item['currency_icon'] ?? '' }} </span>
+                    <span id="total-{{ $id }}"> {{ number_format($item['price'] * $item['quantity'], 2) }} </span>
                 </p>
 
                 <!-- Remove -->
                 <button class="remove-btn" data-id="{{ $id }}">
                     Remove
                 </button>
-
             </div>
 
         </div>
