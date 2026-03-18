@@ -13,22 +13,33 @@ class CartController extends Controller {
             'quantity' => 'required|integer|min:1'
         ]);
 
-        $item = Item::where('item_id', $request->item_id)->first();
+        $item = Item::select(
+                    'items.*',
+                    'currency.currency',
+                    'currency.currency_icon'
+                )
+                ->join('currency', 'items.currency', '=', 'currency.id')
+                ->where('items.item_id', $request->item_id)
+                ->first();
+
         if (!$item) {
             return response()->json([
                 'success' => false,
                 'message' => 'Item not found'
             ]);
         }
+
         $cart = session()->get('cart', []);
         $id = $item->item_id;
+
         if (isset($cart[$id])) {
             $cart[$id]['quantity'] += $request->quantity;
         } else {
             $cart[$id] = [
                 "name" => $item->item_name,
                 "price" => $item->price,
-                "currency" => $item->currency ?? 'Rs',
+                "currency" => $item->currency ?? '',
+                "currency_icon" => $item->currency_icon ?? '',
                 "description" => $item->description,
                 "image" => $item->image
                     ? asset('images/uploads/' . $item->image)
@@ -38,6 +49,7 @@ class CartController extends Controller {
         }
 
         session()->put('cart', $cart);
+
         return response()->json([
             'success' => true,
             'count' => count($cart)
