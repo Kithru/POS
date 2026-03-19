@@ -13,38 +13,40 @@ class OrderController extends Controller
         $cart = session()->get('cart');
 
         if (!$cart || count($cart) == 0) {
-            return redirect()->back()->with('error', 'Cart is empty');
+            return back()->with('error', 'Cart is empty');
         }
 
-        // Calculate total
         $total = 0;
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
 
-        // Save Order
         $order = Order::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'city' => $request->city,
-            'notes' => $request->notes,
-            'total' => $total,
+            'customer_name'     => $request->customer_name,
+            'customer_email'    => $request->customer_email,
+            'customer_phone'    => $request->customer_phone,
+            'customer_address'  => $request->customer_address,
+
+            'receiver_name'     => $request->receiver_name,
+            'receiver_email'    => $request->receiver_email,
+            'receiver_phone'    => $request->receiver_phone,
+            'receiver_address'  => $request->receiver_address,
+
+            'notes'             => $request->notes,
+            'status'            => '0',
+            'total_amount'      => $total
         ]);
 
-        // Save Order Items
-        foreach ($cart as $item) {
+        foreach ($cart as $id => $item) {
             OrderItem::create([
-                'order_id' => $order->id,
-                'product_name' => $item['name'],
-                'price' => $item['price'],
+                'order_id' => $order->order_id, // IMPORTANT (custom PK)
+                'item_id'  => $id,
+                'price'    => $item['price'],
                 'quantity' => $item['quantity'],
-                'subtotal' => $item['price'] * $item['quantity'],
+                'subtotal' => $item['price'] * $item['quantity']
             ]);
         }
 
-        // Clear Cart
         session()->forget('cart');
 
         return redirect()->route('checkout')->with('success', 'Order placed successfully!');
