@@ -13,7 +13,6 @@
     <div class="cart-items">
 
         @foreach($cart as $id => $item)
-
         <div class="cart-card">
 
             <!-- Product Image -->
@@ -30,34 +29,29 @@
 
                 <!-- Price -->
                 <p class="price">
-                    <span class="currency-icon">
-                        {{ $item['currency_icon'] ?? '' }}
-                    </span>
+                    <span class="currency-icon">{{ $item['currency_icon'] ?? '' }}</span>
                     {{ number_format($item['price'], 2) }}
                 </p>
 
                 <!-- Quantity -->
                 <div class="qty-box">
                     <button class="qty-btn minus" data-id="{{ $id }}">−</button>
-                    <input type="text" value="{{ $item['quantity'] }}" class="qty-input" data-id="{{ $id }}" readonly >
+                    <input type="text" value="{{ $item['quantity'] }}" class="qty-input" data-id="{{ $id }}" readonly>
                     <button class="qty-btn plus" data-id="{{ $id }}">+</button>
                 </div>
 
                 <!-- Item Total -->
                 <p class="item-total">
                     Total:
-                    <span class="currency-icon"> {{ $item['currency_icon'] ?? '' }} </span>
-                    <span id="total-{{ $id }}"> {{ number_format($item['price'] * $item['quantity'], 2) }} </span>
+                    <span class="currency-icon">{{ $item['currency_icon'] ?? '' }}</span>
+                    <span id="total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
                 </p>
 
                 <!-- Remove -->
-                <button class="remove-btn" data-id="{{ $id }}">
-                    Remove
-                </button>
+                <button class="remove-btn" data-id="{{ $id }}">Remove</button>
             </div>
 
         </div>
-
         @endforeach
 
     </div>
@@ -67,32 +61,27 @@
 
         <h3>Cart Total</h3>
 
-        <p>
-            <span class="currency-icon">
-                {{ collect($cart)->first()['currency_icon'] ?? '' }}
-            </span>
+        @php $cartTotal = collect($cart)->sum(function($item){ return $item['price'] * $item['quantity']; }); @endphp
 
-            <span id="cartTotal">
-                {{ number_format(collect($cart)->sum(function($item){
-                    return $item['price'] * $item['quantity'];
-                }), 2) }}
-            </span>
+        <p>
+            <span class="currency-icon">{{ collect($cart)->first()['currency_icon'] ?? '' }}</span>
+            <span id="cartTotal">{{ number_format($cartTotal, 2) }}</span>
         </p>
 
-        <button class="checkout-btn">
+        <!-- Proceed to Checkout -->
+        <a href="{{ route('checkout') }}" class="checkout-btn">
             Proceed to Checkout
-        </button>
+        </a>
 
     </div>
 
     @else
-    <p class="empty-cart">Your cart is empty</p>
+        <p class="empty-cart">Your cart is empty</p>
     @endif
 
 </div>
 
 @endsection
-
 
 @section('scripts')
 
@@ -118,7 +107,6 @@ document.querySelectorAll(".minus").forEach(btn => {
         let id = this.dataset.id;
         let input = document.querySelector(`.qty-input[data-id='${id}']`);
         let qty = parseInt(input.value);
-
         if(qty > 1){
             qty--;
             updateCart(id, qty);
@@ -132,12 +120,9 @@ function updateCart(id, qty){
         method:"POST",
         headers:{
             "Content-Type":"application/json",
-            "X-CSRF-TOKEN":token
+            "X-CSRF-TOKEN": token
         },
-        body:JSON.stringify({
-            id:id,
-            quantity:qty
-        })
+        body: JSON.stringify({id:id, quantity:qty})
     })
     .then(res => res.json())
     .then(data => {
@@ -151,14 +136,13 @@ function updateCart(id, qty){
 document.querySelectorAll(".remove-btn").forEach(btn => {
     btn.addEventListener("click", function(){
         let id = this.dataset.id;
-
         fetch(REMOVE_CART_URL,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
-                "X-CSRF-TOKEN":token
+                "X-CSRF-TOKEN": token
             },
-            body:JSON.stringify({ id:id })
+            body: JSON.stringify({id:id})
         })
         .then(res => res.json())
         .then(data => {

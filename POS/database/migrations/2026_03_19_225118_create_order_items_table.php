@@ -13,15 +13,21 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            // FIXED foreign key
+            $table->unsignedBigInteger('order_id');
 
             $table->string('item_id');
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->decimal('subtotal', 10, 2);
 
-            // Custom timestamp
             $table->timestamp('added_date')->useCurrent();
+
+            // Correct reference
+            $table->foreign('order_id')
+                ->references('order_id')
+                ->on('orders')
+                ->onDelete('cascade');
         });
     }
 
