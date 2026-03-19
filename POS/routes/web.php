@@ -74,3 +74,5 @@ Route::get('/cart/clear', [CartController::class,'clear']);
 // orders
 Route::get('/checkout', function () {return view('checkout');})->name('checkout');
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');

@@ -2,6 +2,7 @@
 
 @section('content')
 
+<link rel="stylesheet" href="{{ asset('css/order.css') }}">
 <div class="checkout-container">
 
     <h2>🧾 Checkout</h2>

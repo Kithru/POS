@@ -51,4 +51,9 @@ class OrderController extends Controller
 
         return redirect()->route('checkout')->with('success', 'Order placed successfully!');
     }
+
+    public function index() {
+        $cart = session('cart', []);
+        return view('checkout', compact('cart'));
+    }
 }
