@@ -86,9 +86,7 @@
     </div>
 
     @else
-
     <p class="empty-cart">Your cart is empty</p>
-
     @endif
 
 </div>
