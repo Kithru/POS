@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 // Default home page
 Route::get('/', function () {return view('home');})->name('home');
@@ -70,3 +71,6 @@ Route::post('/cart/update', [CartController::class,'update']);
 Route::post('/cart/remove', [CartController::class,'remove']);
 Route::get('/cart/clear', [CartController::class,'clear']);
 
+// orders
+Route::get('/checkout', function () {return view('checkout');})->name('checkout');
+Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
