@@ -2,8 +2,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
-
 <div class="checkout-container">
 
     <h2>🧾 Checkout</h2>
@@ -17,18 +15,22 @@
             <div class="checkout-box">
                 <h3>Customer Details</h3>
 
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="text" name="phone" placeholder="Phone Number" required>
+                <input type="text" name="customer_name" placeholder="Full Name" required>
+                <input type="email" name="customer_email" placeholder="Email" required>
+                <input type="text" name="customer_phone" placeholder="Phone" required>
+                <input type="text" name="customer_address" placeholder="Address" required>
             </div>
 
-            <!-- Delivery Details -->
+            <!-- Receiver / Delivery -->
             <div class="checkout-box">
                 <h3>Delivery Details</h3>
 
-                <input type="text" name="address" placeholder="Address" required>
-                <input type="text" name="city" placeholder="City" required>
-                <textarea name="notes" placeholder="Order Notes (Optional)"></textarea>
+                <input type="text" name="receiver_name" placeholder="Receiver Name" required>
+                <input type="email" name="receiver_email" placeholder="Receiver Email" required>
+                <input type="text" name="receiver_phone" placeholder="Receiver Phone" required>
+                <input type="text" name="receiver_address" placeholder="Receiver Address" required>
+
+                <textarea name="notes" placeholder="Notes (Optional)"></textarea>
             </div>
 
         </div>
@@ -37,9 +39,7 @@
         <div class="checkout-summary">
             <h3>Order Summary</h3>
 
-            @php
-                $total = 0;
-            @endphp
+            @php $total = 0; @endphp
 
             @foreach(session('cart') as $item)
                 @php
@@ -49,11 +49,11 @@
 
                 <p>
                     {{ $item['name'] }} (x{{ $item['quantity'] }}) 
-                    - {{ number_format($subtotal,2) }}
+                    - {{ number_format($subtotal, 2) }}
                 </p>
             @endforeach
 
-            <h4>Total: {{ number_format($total,2) }}</h4>
+            <h4>Total: {{ number_format($total, 2) }}</h4>
         </div>
 
         <button type="submit" class="checkout-btn">
