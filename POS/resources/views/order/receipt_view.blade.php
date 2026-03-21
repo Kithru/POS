@@ -91,12 +91,12 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
-    window.location.href = "{{ route('order.pdf', $order->order_id) }}";
+    window.location.href = "{{ route('order.pdf', Crypt::encryptString($order->order_id))}}";
 });
 
 function printAndDownload() {
     setTimeout(function() {
-        window.location.href = "{{ route('order.pdf', $order->order_id) }}";
+        window.location.href = "{{ route('order.pdf', Crypt::encryptString($order->order_id))}}";
     }, 500);
     
 }

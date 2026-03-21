@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use PDF;
+use Illuminate\Support\Facades\Crypt;
 
 class OrderController extends Controller
 {
@@ -59,13 +60,9 @@ class OrderController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('order.receipt', $order->order_id)
-                         ->with('success', "Order placed successfully! Your order code is $orderCode");
-    }
-
-    public function receipt($order_id) {
-        $order = Order::with('items.item')->findOrFail($order_id); 
-        return view('order.receipt_view', compact('order'));
+        $encryptedId = Crypt::encryptString($order->order_id);
+        return redirect()->route('order.receipt', ['order_id' => $encryptedId])
+                        ->with('success', "Order placed successfully! Your order code is $orderCode");
     }
 
     public function index() {
@@ -73,13 +70,29 @@ class OrderController extends Controller
         return view('order.checkout', compact('cart'));
     }
 
-    public function downloadPdf($order_id) {
-        $order = Order::with('items.item')->findOrFail($order_id);
+    public function receipt($order_id){
+        try {
+            $id = Crypt::decryptString($order_id); 
+            $order = Order::with('items.item')->findOrFail($id);
 
-        $pdf = Pdf::loadView('order.receipt_pdf', compact('order'))
-                ->setPaper('A4', 'portrait');
-
-        return $pdf->download("Order_{$order->order_code}.pdf");
+            return view('order.receipt_view', compact('order'));
+        } catch (\Exception $e) {
+            abort(404, 'Invalid order ID.');
+        }
     }
+
+    public function downloadPdf($order_id){
+        try {
+            $id = Crypt::decryptString($order_id);
+            $order = Order::with('items.item')->findOrFail($id);
+            $pdf = PDF::loadView('order.receipt_pdf', compact('order'))
+                    ->setPaper('A4', 'portrait');
+
+            return $pdf->download("Order_{$order->order_code}.pdf");
+        } catch (\Exception $e) {
+            abort(404, 'Invalid order ID.');
+        }
+    }
+    
 
 }
