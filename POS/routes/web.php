@@ -78,4 +78,3 @@ Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
 
 Route::get('/order/receipt/{order_id}', [OrderController::class, 'receipt'])->name('order.receipt');
 Route::get('/order/pdf/{order}', [OrderController::class, 'downloadPdf'])->name('order.pdf');
-
