@@ -28,8 +28,10 @@ class OrderController extends Controller
         }
 
         // Generate order code
-        $orderCode = now()->format('YmdHi') . rand(100, 999); 
-        // now()->format('YmdHi') => 202603211300, rand(100,999) => 738, full code: 202603211300738
+        $dateTimePart = now()->format('dmyH'); // d=day, m=month, y=last 2 digits of year, H=hour (24h)
+        // Generate 4 random digits
+        $randomPart = rand(1000, 9999);
+        $orderCode = $dateTimePart . $randomPart;
 
         $order = Order::create([
             'order_code'        => $orderCode,
@@ -137,12 +139,6 @@ class OrderController extends Controller
             $order = Order::where('order_code', $orderCode)->first();
         }
         return view('order.track', compact('order', 'orderCode'));
-    }
-
-    public function itemsByCategory($id){
-        $category = Category::findOrFail($id);
-        $items = $category->items()->where('status', 1)->get();
-        return view('items.by_category', compact('category', 'items'));
     }
 
 }

@@ -14,6 +14,11 @@ use App\Models\SubCategory;
 class ItemController extends Controller
 {
     public function dashboard(){
+        
+        if (!session()->has('user_id')) {
+            return redirect('/'); 
+        }
+
         $categoryCount = Category::where('status', 1)->count();         
         $subcategoryCount = SubCategory::where('status', 1)->count();   
         $totalItems = Item::count();                                     
