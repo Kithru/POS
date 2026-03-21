@@ -13,6 +13,7 @@ class Order extends Model
     const UPDATED_AT = 'modified_date';
 
     protected $fillable = [
+        'order_code',
         'customer_name',
         'customer_email',
         'customer_phone',

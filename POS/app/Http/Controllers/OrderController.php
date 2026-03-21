@@ -8,20 +8,25 @@ use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $cart = session()->get('cart');
 
         if (!$cart || count($cart) == 0) {
             return back()->with('error', 'Cart is empty');
         }
 
+        // Calculate total
         $total = 0;
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
 
+        // Generate order code
+        $orderCode = now()->format('YmdHi') . rand(100, 999); 
+        // now()->format('YmdHi') => 202603211300, rand(100,999) => 738, full code: 202603211300738
+
         $order = Order::create([
+            'order_code'        => $orderCode,
             'customer_name'     => $request->customer_name,
             'customer_email'    => $request->customer_email,
             'customer_phone'    => $request->customer_phone,
@@ -39,7 +44,7 @@ class OrderController extends Controller
 
         foreach ($cart as $id => $item) {
             OrderItem::create([
-                'order_id' => $order->order_id, // IMPORTANT (custom PK)
+                'order_id' => $order->order_id, // custom PK
                 'item_id'  => $id,
                 'price'    => $item['price'],
                 'quantity' => $item['quantity'],
@@ -49,7 +54,7 @@ class OrderController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('checkout')->with('success', 'Order placed successfully!');
+        return redirect()->route('checkout')->with('success', "Order placed successfully! Your order code is $orderCode");
     }
 
     public function index() {
