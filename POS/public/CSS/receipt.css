@@ -92,25 +92,64 @@ body {
     border-color: #ffe58f;
 }
 
-/* PRINT BUTTON */
+/* BUTTON CONTAINER (MULTI BUTTON ROW) */
 .print-btn-container {
     text-align: center;
     margin-top: 25px;
 }
 
-.print-btn {
-    background-color: #6c5ce7;
-    color: white;
+.print-btn-container.multi-btn {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* COMMON BUTTON STYLE */
+.print-btn,
+.home-btn,
+.tracking-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    text-decoration: none;
     border: none;
-    padding: 10px 25px;
-    font-size: 16px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
+    display: inline-block;
+    transition: all 0.25s ease;
+}
+
+/* DOWNLOAD BUTTON (Purple) */
+.print-btn {
+    background: linear-gradient(135deg, #7b61ff, #5a4ddf);
+    color: #fff;
 }
 
 .print-btn:hover {
-    background-color: #5a4ddf;
+    background: linear-gradient(135deg, #6a55e0, #483fc7);
+    transform: translateY(-2px);
+}
+
+/* HOME BUTTON (Blue) */
+.home-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #fff;
+}
+
+.home-btn:hover {
+    background: linear-gradient(135deg, #2f89c5, #216a9a);
+    transform: translateY(-2px);
+}
+
+/* TRACK ORDER BUTTON (Green) */
+.tracking-btn {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: #fff;
+}
+
+.tracking-btn:hover {
+    background: linear-gradient(135deg, #28b765, #219150);
+    transform: translateY(-2px);
 }
 
 /* RESPONSIVE */
@@ -126,25 +165,55 @@ body {
         padding: 6px 8px;
     }
 
-    .print-btn {
+    .print-btn,
+    .home-btn,
+    .tracking-btn {
         width: 100%;
+        text-align: center;
     }
 }
 
 /* PRINT STYLES */
 @media print {
+
+    /* Reduce browser margin space */
+    @page {
+        margin: 0;
+    }
+
     body {
         background: white;
+        margin: 0;
     }
 
-    .print-btn-container {
-        display: none; /* Hide button when printing */
+    /* Show only receipt content */
+    body * {
+        visibility: hidden;
     }
 
+    #receipt-content,
+    #receipt-content * {
+        visibility: visible;
+    }
+
+    #receipt-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Clean print layout */
     .receipt-container {
         box-shadow: none;
         border: none;
         margin: 0;
         padding: 0;
+    }
+
+    /* Hide buttons when printing */
+    .print-btn-container {
+        display: none;
     }
 }
