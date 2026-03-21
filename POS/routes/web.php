@@ -84,3 +84,6 @@ Route::get('/order/track', [OrderController::class, 'trackOrderPage'])->name('or
 
 // Search for item_code or order_code
 Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name('order.track.search');
+
+// Navigation for categories
+Route::get('/category/{id}', [OrderController::class, 'itemsByCategory'])->name('items.byCategory');

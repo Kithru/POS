@@ -42,10 +42,24 @@
     </div>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="#">Restaurant</a></li>
-        <li><a href="#">Grocery</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        @if(isset($categories) && $categories->count() > 0)
+            <li class="has-submenu">
+                <!-- <a href="#">Categories ▾</a> -->
+                <ul class="submenu">
+                    @foreach($categories as $category)
+                        @if($category->id) {{-- Safety check --}}
+                            <li>
+                                <a href="{{ route('items.byCategory', $category->id) }}">
+                                    {{ $category->category_name }}
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </li>
+        @endif
+        <!-- <li><a href="#">About</a></li> -->
+        <!-- <li><a href="#">Contact</a></li> -->
         <li><a href="{{ route('order.track') }}">Track My Order</a></li> 
         <li><a href="{{ route('login.post') }}">Login</a></li>
     </ul>
