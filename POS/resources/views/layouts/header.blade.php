@@ -43,19 +43,15 @@
     <ul>
         <li><a href="/">Home</a></li>
         @if(isset($categories) && $categories->count() > 0)
-            <li class="has-submenu">
-                <ul class="submenu">
-                    @foreach($categories as $category)
-                        @if($category->category_id) {{-- Safety check --}}
-                            <li>
-                                <a href="{{ route('items.byCategory', $category->category_id) }}">
-                                    {{ $category->category_name }}
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-            </li>
+            @foreach($categories as $category)
+                @if($category->category_id) {{-- Safety check --}}
+                    <li>
+                        <a href="{{ route('items.byCategory', $category->category_id) }}">
+                            {{ $category->category_name }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
         @endif
         <!-- <li><a href="#">About</a></li> -->
         <!-- <li><a href="#">Contact</a></li> -->
