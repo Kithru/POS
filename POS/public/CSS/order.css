@@ -15,6 +15,11 @@
     color: #333;
 }
 
+/* Top "Continue Shopping" link */
+.continue-top {
+    margin-bottom: 15px;
+}
+
 /* Grid layout for forms */
 .checkout-grid {
     display: flex;
@@ -99,6 +104,15 @@
     color: #555;
 }
 
+/* Bold item name and subtotal */
+.checkout-summary p span:first-child {
+    font-weight: 500;
+}
+
+.checkout-summary p span:last-child {
+    font-weight: 500;
+}
+
 /* Total */
 .checkout-summary h4 {
     margin-top: 15px;
@@ -108,10 +122,23 @@
     color: #222;
 }
 
-/* Checkout button */
-.checkout-btn {
-    width: 100%;
+/* Action buttons container */
+.checkout-actions {
+    display: flex;
+    flex-direction: column; /* stack buttons vertically */
+    gap: 12px;
     margin-top: 25px;
+}
+
+/* Make both buttons full width */
+.checkout-btn,
+.add-more-btn {
+    width: 100%;
+    text-align: center;
+}
+
+/* Primary button (Place Order) */
+.checkout-btn {
     padding: 15px;
     font-size: 16px;
     font-weight: 600;
@@ -125,9 +152,27 @@
 
 .checkout-btn:hover {
     background-color: #732d91;
+    transform: translateY(-1px);
 }
 
-/* Responsive */
+/* Secondary button (Continue Shopping / Add More Items) */
+.add-more-btn {
+    display: inline-block;
+    padding: 14px;
+    background: #9ca3af; /* ash color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.add-more-btn:hover {
+    background: #a855f7; /* purple hover */
+    transform: translateY(-2px);
+}
+
+/* Responsive layout */
 @media (max-width: 768px) {
     .checkout-grid {
         flex-direction: column;
