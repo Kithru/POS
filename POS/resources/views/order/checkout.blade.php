@@ -3,9 +3,17 @@
 @section('content')
 
 <link rel="stylesheet" href="{{ asset('css/order.css') }}">
+
 <div class="checkout-container">
 
     <h2>🧾 Checkout</h2>
+
+    <!-- Continue Shopping (TOP for better UX) -->
+    <div class="continue-top">
+        <a href="{{ url('/') }}" class="add-more-btn">
+            ← Continue Shopping
+        </a>
+    </div>
 
     <form action="{{ route('checkout.store') }}" method="POST">
         @csrf
@@ -22,7 +30,7 @@
                 <input type="text" name="customer_address" placeholder="Address" required>
             </div>
 
-            <!-- Receiver / Delivery -->
+            <!-- Delivery Details -->
             <div class="checkout-box">
                 <h3>Delivery Details</h3>
 
@@ -49,17 +57,26 @@
                 @endphp
 
                 <p>
-                    {{ $item['name'] }} (x{{ $item['quantity'] }}) 
-                    - {{ number_format($subtotal, 2) }}
+                    <span>{{ $item['name'] }} (x{{ $item['quantity'] }})</span>
+                    <span>{{ number_format($subtotal, 2) }}</span>
                 </p>
             @endforeach
 
             <h4>Total: {{ number_format($total, 2) }}</h4>
         </div>
 
-        <button type="submit" class="checkout-btn">
-            Place Order
-        </button>
+        <!-- ACTION BUTTONS -->
+        <div class="checkout-actions">
+
+            <button type="submit" class="checkout-btn">
+                ✅ Place Order
+            </button>
+
+            <a href="{{ url('/') }}" class="add-more-btn">
+                🛒 Continue Shopping
+            </a>
+
+        </div>
 
     </form>
 

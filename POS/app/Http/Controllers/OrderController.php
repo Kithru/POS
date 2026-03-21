@@ -54,6 +54,6 @@ class OrderController extends Controller
 
     public function index() {
         $cart = session('cart', []);
-        return view('checkout', compact('cart'));
+        return view('order.checkout', compact('cart'));
     }
 }
