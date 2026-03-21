@@ -72,7 +72,10 @@ Route::post('/cart/remove', [CartController::class,'remove']);
 Route::get('/cart/clear', [CartController::class,'clear']);
 
 // orders
-Route::get('/checkout', function () {return view('checkout');})->name('checkout');
+// Route::get('/checkout', function () {return view('checkout');})->name('checkout');
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
-
 Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
+
+Route::get('/order/receipt/{order_id}', [OrderController::class, 'receipt'])->name('order.receipt');
+Route::get('/order/pdf/{order}', [OrderController::class, 'downloadPdf'])->name('order.pdf');
+

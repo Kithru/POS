@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use PDF;
 
 class OrderController extends Controller
 {
     public function store(Request $request) {
         $cart = session()->get('cart');
+
+        if (empty($cart)) {
+            return back()->with('error', 'Cart is empty');
+        }
 
         if (!$cart || count($cart) == 0) {
             return back()->with('error', 'Cart is empty');
@@ -54,11 +59,27 @@ class OrderController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('checkout')->with('success', "Order placed successfully! Your order code is $orderCode");
+        return redirect()->route('order.receipt', $order->order_id)
+                         ->with('success', "Order placed successfully! Your order code is $orderCode");
+    }
+
+    public function receipt($order_id) {
+        $order = Order::with('items.item')->findOrFail($order_id); 
+        return view('order.receipt_view', compact('order'));
     }
 
     public function index() {
         $cart = session('cart', []);
         return view('order.checkout', compact('cart'));
     }
+
+    public function downloadPdf($order_id) {
+        $order = Order::with('items.item')->findOrFail($order_id);
+
+        $pdf = Pdf::loadView('order.receipt_pdf', compact('order'))
+                ->setPaper('A4', 'portrait');
+
+        return $pdf->download("Order_{$order->order_code}.pdf");
+    }
+
 }

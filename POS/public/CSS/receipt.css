@@ -1,0 +1,150 @@
+/* receipt.css */
+
+/* GENERAL PAGE STYLING */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.receipt-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.receipt-header h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.receipt-header p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* SECTIONS */
+.section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* PARAGRAPHS */
+.section p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+/* ITEMS TABLE */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.items-table th,
+.items-table td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.items-table th {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.items-table .total-row td {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+/* NOTES */
+.section.notes {
+    font-style: italic;
+    color: #555;
+    background-color: #fffbe6;
+    border-color: #ffe58f;
+}
+
+/* PRINT BUTTON */
+.print-btn-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.print-btn {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.print-btn:hover {
+    background-color: #5a4ddf;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .receipt-container {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    .items-table th, 
+    .items-table td {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .print-btn {
+        width: 100%;
+    }
+}
+
+/* PRINT STYLES */
+@media print {
+    body {
+        background: white;
+    }
+
+    .print-btn-container {
+        display: none; /* Hide button when printing */
+    }
+
+    .receipt-container {
+        box-shadow: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+}
