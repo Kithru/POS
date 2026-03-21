@@ -78,3 +78,9 @@ Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
 
 Route::get('/order/receipt/{order_id}', [OrderController::class, 'receipt'])->name('order.receipt');
 Route::get('/order/pdf/{order}', [OrderController::class, 'downloadPdf'])->name('order.pdf');
+
+// Show track order page (with optional order_code search)
+Route::get('/order/track', [OrderController::class, 'trackOrderPage'])->name('order.track');
+
+// Search for item_code or order_code
+Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name('order.track.search');

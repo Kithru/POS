@@ -232,3 +232,254 @@ input:checked + .slider::before {
     font-size: 14px;
     color: #555;
 }
+
+/* /////////////// order traking //////////////////////// */
+
+/* -------------------- Track Order Container -------------------- */
+.track-order-container {
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.track-order-container h1,
+.track-order-container h2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: #2a2a72;
+    margin-bottom: 30px;
+}
+
+.track-order-container p {
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+/* -------------------- Search Form -------------------- */
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.search-form input[type="text"] {
+    padding: 14px 16px;
+    font-size: 15px;
+    border: 2px solid #8e44ad;
+    border-radius: 12px;
+    outline: none;
+    width: 280px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #732d91;
+    box-shadow: 0 0 8px rgba(142, 68, 173, 0.3);
+}
+
+.search-form button {
+    padding: 14px 22px;
+    font-size: 15px;
+    background-color: #8e44ad;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.search-form button:hover {
+    background-color: #732d91;
+    transform: translateY(-2px);
+}
+
+/* -------------------- Order Detail Cards -------------------- */
+.section.card {
+    background-color: #f9f9f9;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.section.card:hover {
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.section.card h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* -------------------- Items Table -------------------- */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.items-table th,
+.items-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+}
+
+.items-table th {
+    background-color: #f3f3f3;
+    font-weight: 600;
+}
+
+.items-table tr:hover {
+    background-color: #f7f7f7;
+}
+
+.total-row td {
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #f5f5f5;
+}
+
+/* -------------------- Action Buttons -------------------- */
+.print-btn-container.multi-btn {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.print-btn-container a,
+.print-btn-container button {
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #8e44ad;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.print-btn-container a:hover,
+.print-btn-container button:hover {
+    background-color: #732d91;
+    transform: translateY(-2px);
+}
+
+/* -------------------- Order Status Tracker -------------------- */
+.order-status-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    position: relative;
+}
+
+.status-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+.status-step .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    z-index: 1;
+    transition: 0.3s;
+}
+
+.status-step.completed .circle {
+    background-color: #8e44ad;
+}
+
+.status-step .label {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+    width: 80px;
+}
+
+.status-step .line {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    width: 100%;
+    height: 5px;
+    background-color: #ccc;
+    z-index: 0;
+    transform: translateX(50%);
+    transition: 0.3s;
+}
+
+.status-step .active-line {
+    background-color: #8e44ad;
+}
+
+.status-step:last-child .line {
+    display: none;
+}
+
+/* -------------------- Responsive -------------------- */
+@media (max-width: 768px) {
+    .track-order-container {
+        padding: 20px;
+    }
+
+    .items-table th,
+    .items-table td {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+
+    .print-btn-container.multi-btn {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .order-status-tracker {
+        flex-direction: column;
+    }
+
+    .status-step {
+        margin-bottom: 25px;
+    }
+
+    .status-step .line {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 4px;
+        height: 40px;
+        transform: none;
+    }
+}

@@ -2,6 +2,11 @@
 
 @section('content')
 
+@php
+use Illuminate\Support\Facades\Crypt;
+$encryptedOrderId = Crypt::encryptString($order->order_id);
+@endphp
+
 <link rel="stylesheet" href="{{ asset('css/receipt.css') }}">
 
 <div class="receipt-container" id="receipt-content">
@@ -82,19 +87,9 @@
 
     <!-- Print Button -->
     <div class="print-btn-container multi-btn">
-
-        <button onclick="printAndDownload()" class="print-btn">
-            🖨 Download Receipt
-        </button>
-
-        <a href="{{ url('/') }}" class="home-btn">
-            🏠 Home
-        </a>
-
-        <a href="#" class="tracking-btn">
-            📦 Track Order
-        </a>
-
+        <button onclick="printAndDownload()" class="print-btn"> 🖨 Download Receipt </button>
+        <a href="{{ url('/') }}" class="home-btn"> 🏠 Home </a>
+        <a href="{{ route('order.track', ['order_code' => $order->order_code]) }}" class="tracking-btn">📦 Track Order</a>
     </div>
 
 </div>

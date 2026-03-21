@@ -93,6 +93,41 @@ class OrderController extends Controller
             abort(404, 'Invalid order ID.');
         }
     }
-    
+
+    public function trackOrderPage(Request $request){
+        $orderCode = $request->input('order_code');
+        $order = null;
+        if ($orderCode) {
+            $order = Order::with('items.item')->where('order_code', $orderCode)->first();
+        }
+        return view('order.track_order', compact('order', 'orderCode'));
+    }
+
+    // Search within order by item_code
+    public function searchOrder(Request $request) {
+        $orderCode = $request->input('order_code');
+        $itemCode = $request->input('item_code');
+
+        $ordersQuery = Order::with(['items.item']);
+        if ($orderCode) {
+            $ordersQuery->where('order_code', $orderCode);
+        }
+
+        $orders = $ordersQuery->get();
+        if ($itemCode) {
+            foreach ($orders as $order) {
+                $order->items = $order->items->filter(function($orderItem) use ($itemCode) {
+                    return $orderItem->item && $orderItem->item->item_code === $itemCode;
+                });
+            }
+        }
+
+        return view('order.track_order', [
+            'orders' => $orders,
+            'orderCode' => $orderCode,
+            'itemCode' => $itemCode,
+        ]);
+    }
+
 
 }
