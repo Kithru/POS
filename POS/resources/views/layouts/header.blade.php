@@ -46,6 +46,7 @@
         <li><a href="#">Grocery</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
+        <li><a href="{{ route('order.track') }}">Track My Order</a></li> 
         <li><a href="{{ route('login.post') }}">Login</a></li>
     </ul>
 </nav>
@@ -83,13 +84,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ----- CART COUNT -----
     const cartCountEl = document.getElementById("cartCount");
+    const cartLink = document.querySelector(".cart-link");
+
     function updateCartCount(count) {
         if (cartCountEl) {
             cartCountEl.textContent = count;
         }
     }
-
     window.updateCartCount = updateCartCount;
+
+    // ----- CART CLICK BEHAVIOR -----
+    if (cartLink && cartCountEl) {
+        cartLink.addEventListener("click", function(e) {
+            const count = parseInt(cartCountEl.textContent) || 0;
+            if (count === 0) {
+                e.preventDefault(); // stop going to cart page
+                window.location.href = "/"; // redirect to home page
+            }
+        });
+    }
 
 });
 </script>
