@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\order;
 
 class OrderItem extends Model
 {
@@ -18,6 +19,11 @@ class OrderItem extends Model
     ];
 
     // Relationship with Order
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
