@@ -11,17 +11,16 @@
 
         <div class="footer-col">
             <h3>Quick Links</h3>
-
             @if(isset($categories) && $categories->count() > 0)
-                <ul class="footer-category-list">
+                <div class="footer-category-list">
                     @foreach($categories as $category)
-                        @if($category->category_id) {{-- Safety check --}}
-                                <a class="footer-link" style="margin-bottom: 5px;" href="{{ route('items.byCategory', $category->category_id) }}">
-                                    {{ $category->category_name }}
-                                </a>
+                        @if($category->category_id)
+                            <a class="footer-link" href="{{ route('items.byCategory', $category->category_id) }}" style="display: block; margin-bottom: 5px;">
+                                {{ $category->category_name }}
+                            </a>
                         @endif
                     @endforeach
-                </ul>
+                </div>
             @endif
         </div>
 
