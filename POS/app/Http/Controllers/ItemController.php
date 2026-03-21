@@ -280,10 +280,14 @@ class ItemController extends Controller
     }
 
     public function itemsByCategory($category_id) {
-        $items = Item::where('status', 1)
-                    ->where('category_id', $category_id)
+        $items = Item::select(
+                        'items.*',
+                        'currency.currency_icon as currency_icon'
+                    )
+                    ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+                    ->where('items.status', 1)
+                    ->where('items.category_id', $category_id)
                     ->get();
-
         $categories = Category::whereHas('items', function($q){
             $q->where('status', 1);
         })->get();
