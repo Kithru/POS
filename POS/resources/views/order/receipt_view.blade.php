@@ -58,7 +58,7 @@
             <tbody>
                 @foreach($order->items as $item)
                     <tr>
-                        <td>{{ $item->item->name ?? 'N/A' }}</td>
+                        <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ number_format($item->price, 2) }}</td>
                         <td>{{ number_format($item->subtotal, 2) }}</td>
@@ -81,8 +81,20 @@
     @endif
 
     <!-- Print Button -->
-    <div class="print-btn-container">
-        <button onclick="printAndDownload()" class="print-btn">🖨 Download Receipt</button>
+    <div class="print-btn-container multi-btn">
+
+        <button onclick="printAndDownload()" class="print-btn">
+            🖨 Download Receipt
+        </button>
+
+        <a href="{{ url('/') }}" class="home-btn">
+            🏠 Home
+        </a>
+
+        <a href="#" class="tracking-btn">
+            📦 Track Order
+        </a>
+
     </div>
 
 </div>
