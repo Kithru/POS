@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 
 @section('content')
 
@@ -46,6 +46,12 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
         <p><strong>Email:</strong> {{ $order->receiver_email }}</p>
         <p><strong>Phone:</strong> {{ $order->receiver_phone }}</p>
         <p><strong>Address:</strong> {{ $order->receiver_address }}</p>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="section card">
+        <h2>Payment Details</h2>
+        <p><strong>Payment method:</strong> Cash On Delivery </p>
     </div>
 
     <!-- Items Table -->

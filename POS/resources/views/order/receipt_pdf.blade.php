@@ -114,6 +114,12 @@
             <p><strong>Address:</strong> {{ $order->receiver_address }}</p>
         </div>
 
+        <!-- Payment Details -->
+        <div class="section card">
+            <h2>Payment Details</h2>
+            <p><strong>Payment method:</strong> Cash On Delivery </p>
+        </div>
+
         <!-- Order Items -->
         <div class="section">
             <h2>Order Items</h2>

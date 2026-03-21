@@ -129,5 +129,14 @@ class OrderController extends Controller
         ]);
     }
 
+    public function track(Request $request){
+        $orderCode = $request->input('order_code', null); // optional
+        $order = null;
+
+        if ($orderCode) {
+            $order = Order::where('order_code', $orderCode)->first();
+        }
+        return view('order.track', compact('order', 'orderCode'));
+    }
 
 }
