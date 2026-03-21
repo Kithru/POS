@@ -279,4 +279,16 @@ class ItemController extends Controller
         return view('home', compact('items'));
     }
 
+    public function itemsByCategory($category_id) {
+        $items = Item::where('status', 1)
+                    ->where('category_id', $category_id)
+                    ->get();
+
+        $categories = Category::whereHas('items', function($q){
+            $q->where('status', 1);
+        })->get();
+
+        return view('home', compact('items', 'categories'));
+    }
+
 }

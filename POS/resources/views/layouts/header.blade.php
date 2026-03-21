@@ -44,12 +44,11 @@
         <li><a href="/">Home</a></li>
         @if(isset($categories) && $categories->count() > 0)
             <li class="has-submenu">
-                <!-- <a href="#">Categories ▾</a> -->
                 <ul class="submenu">
                     @foreach($categories as $category)
-                        @if($category->id) {{-- Safety check --}}
+                        @if($category->category_id) {{-- Safety check --}}
                             <li>
-                                <a href="{{ route('items.byCategory', $category->id) }}">
+                                <a href="{{ route('items.byCategory', $category->category_id) }}">
                                     {{ $category->category_name }}
                                 </a>
                             </li>
