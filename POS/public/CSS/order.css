@@ -235,38 +235,37 @@ input:checked + .slider::before {
 
 /* /////////////// order traking //////////////////////// */
 
-/* -------------------- Track Order Container -------------------- */
 .track-order-container {
-    max-width: 900px; /* limit width for readability */
-    margin: 50px auto; /* center vertically with top spacing */
-    padding: 30px 25px;
+    max-width: 1200px; /* 🔥 increased width */
+    width: 95%; /* responsive stretch */
+    margin: 50px auto;
+    padding: 40px 35px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #ffffff;
     border-radius: 25px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     transition: all 0.3s ease-in-out;
+
     display: flex;
     flex-direction: column;
-    align-items: center; /* center content */
+    align-items: center;
+    text-align: center;
 }
 
 /* -------------------- Titles -------------------- */
 .track-order-container h1,
 .track-order-container h2 {
-    text-align: center;
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 700;
     color: #2a2a72;
     margin-bottom: 25px;
-    width: 100%;
 }
 
-/* Subtext or info */
+/* Subtext */
 .track-order-container p {
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #444;
-    text-align: center;
 }
 
 /* -------------------- Search Form -------------------- */
@@ -275,30 +274,29 @@ input:checked + .slider::before {
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     width: 100%;
 }
 
-/* Search input */
+/* Input */
 .search-form input[type="text"] {
     padding: 14px 16px;
     font-size: 15px;
     border: 2px solid #8e44ad;
     border-radius: 12px;
     outline: none;
-    width: 280px;
+    width: 320px;
     transition: all 0.3s ease;
 }
 
-/* Input focus */
 .search-form input[type="text"]:focus {
     border-color: #732d91;
     box-shadow: 0 0 10px rgba(142, 68, 173, 0.4);
 }
 
-/* Search button */
+/* Button */
 .search-form button {
-    padding: 14px 22px;
+    padding: 14px 25px;
     font-size: 15px;
     background: linear-gradient(135deg, #8e44ad, #a855f7);
     color: #fff;
@@ -314,16 +312,18 @@ input:checked + .slider::before {
     transform: translateY(-2px);
 }
 
-/* -------------------- Order Detail Cards -------------------- */
+/* -------------------- Cards -------------------- */
 .section.card {
     background-color: #f9f9f9;
-    padding: 25px 20px;
-    margin-bottom: 30px;
+    padding: 30px;
+    margin: 0 auto 30px auto; /* ✅ center horizontally */
     border-radius: 18px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.06);
     transition: all 0.3s ease;
+
     width: 100%;
-    max-width: 850px; /* limit card width */
+    max-width: 1000px;
+    text-align: center;
 }
 
 .section.card:hover {
@@ -331,18 +331,17 @@ input:checked + .slider::before {
 }
 
 .section.card h2 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     color: #333;
     margin-bottom: 20px;
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 10px;
-    text-align: center; /* center card titles */
 }
 
-/* -------------------- Items Table -------------------- */
+/* -------------------- Table -------------------- */
 .items-table {
-    width: 100%;
+    width: 100%; /* 🔥 full width */
     border-collapse: collapse;
     margin-top: 15px;
     font-size: 14px;
@@ -353,7 +352,7 @@ input:checked + .slider::before {
     padding: 14px 12px;
     border-bottom: 1px solid #ddd;
     color: #555;
-    text-align: left;
+    text-align: center;
 }
 
 .items-table th {
@@ -371,11 +370,11 @@ input:checked + .slider::before {
     background-color: #f5f5f5;
 }
 
-/* -------------------- Action Buttons -------------------- */
+/* -------------------- Buttons -------------------- */
 .print-btn-container.multi-btn {
     display: flex;
     justify-content: center;
-    gap: 18px;
+    gap: 20px;
     margin-top: 25px;
     flex-wrap: wrap;
     width: 100%;
@@ -383,7 +382,7 @@ input:checked + .slider::before {
 
 .print-btn-container a,
 .print-btn-container button {
-    padding: 14px 22px;
+    padding: 14px 26px;
     border-radius: 12px;
     font-weight: 600;
     font-size: 15px;
@@ -401,30 +400,31 @@ input:checked + .slider::before {
     transform: translateY(-2px);
 }
 
-/* -------------------- Animated Order Status Tracker -------------------- */
+/* -------------------- Status Tracker -------------------- */
 .order-status-tracker {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
-    position: relative;
-    padding: 0 10px;
+    margin-top: 40px;
+
     width: 100%;
-    max-width: 850px; /* limit width of tracker */
+    max-width: 1000px; /* 🔥 wider tracker */
+    position: relative;
 }
 
+/* Step */
 .status-step {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     flex: 1;
-    text-align: center;
 }
 
+/* Circle */
 .status-step .circle {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background-color: #ccc;
     color: white;
@@ -437,6 +437,7 @@ input:checked + .slider::before {
     transition: all 0.4s ease-in-out;
 }
 
+/* Completed */
 .status-step.completed .circle {
     background: linear-gradient(135deg, #8e44ad, #a855f7);
     animation: pop 0.5s ease forwards;
@@ -444,11 +445,10 @@ input:checked + .slider::before {
 
 .status-step.completed .circle::after {
     content: '✓';
-    color: #fff;
     font-size: 22px;
-    position: absolute;
 }
 
+/* Current */
 .status-step.current .circle {
     border: 3px solid #8e44ad;
     background-color: #fff;
@@ -456,26 +456,25 @@ input:checked + .slider::before {
     animation: pulse 1.2s infinite;
 }
 
+/* Label */
 .status-step .label {
     margin-top: 10px;
     font-size: 14px;
     color: #555;
     font-weight: 600;
-    width: 100px;
 }
 
-/* Connecting lines */
+/* Line */
 .status-step::before {
     content: '';
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: -50%;
     width: 100%;
     height: 6px;
     background-color: #ccc;
     z-index: 0;
     border-radius: 3px;
-    transition: all 0.4s ease;
 }
 
 .status-step.completed::before {
@@ -483,10 +482,6 @@ input:checked + .slider::before {
 }
 
 .status-step:first-child::before {
-    display: none;
-}
-
-.status-step:last-child::after {
     display: none;
 }
 
@@ -506,37 +501,34 @@ input:checked + .slider::before {
 /* -------------------- Responsive -------------------- */
 @media (max-width: 768px) {
     .track-order-container {
+        width: 95%;
         padding: 25px;
+    }
+
+    .section.card {
+        max-width: 100%;
     }
 
     .items-table th,
     .items-table td {
+        padding: 10px 6px;
         font-size: 13px;
-        padding: 10px 8px;
     }
 
     .print-btn-container.multi-btn {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
     }
 
     .order-status-tracker {
         flex-direction: column;
     }
+
     .status-step {
         margin-bottom: 25px;
     }
-    .status-step::before {
-        position: relative;
-        top: auto;
-        left: auto;
-        width: 5px;
-        height: 40px;
-        transform: none;
-        border-radius: 3px;
-    }
 
-    .status-step:last-child::after {
+    .status-step::before {
         display: none;
     }
 }
