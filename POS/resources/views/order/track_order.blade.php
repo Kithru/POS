@@ -44,6 +44,7 @@ use Illuminate\Support\Facades\Crypt;
                     @if(!$loop->last)
                         <div class="line {{ $order->status > $key ? 'active-line' : '' }}"></div>
                     @endif
+                    
                 </div>
             @endforeach
         </div>
