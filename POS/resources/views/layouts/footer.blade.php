@@ -11,8 +11,18 @@
 
         <div class="footer-col">
             <h3>Quick Links</h3>
-            <p><a href="#" class="footer-link">Restaurant</a></p>
-            <p><a href="#" class="footer-link">Grocery</a></p>
+
+            @if(isset($categories) && $categories->count() > 0)
+                <ul class="footer-category-list">
+                    @foreach($categories as $category)
+                        @if($category->category_id) {{-- Safety check --}}
+                                <a class="footer-link" style="margin-bottom: 5px;" href="{{ route('items.byCategory', $category->category_id) }}">
+                                    {{ $category->category_name }}
+                                </a>
+                        @endif
+                    @endforeach
+                </ul>
+            @endif
         </div>
 
         <div class="footer-col">
