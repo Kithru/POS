@@ -87,3 +87,6 @@ Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name
 
 // Navigation for categories
 Route::get('/category/{id}', [OrderController::class, 'itemsByCategory'])->name('items.byCategory');
+
+// Route for category filtering
+Route::get('/category/{id}', [ItemController::class, 'itemsByCategory'])->name('items.byCategory');
