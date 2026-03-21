@@ -139,4 +139,10 @@ class OrderController extends Controller
         return view('order.track', compact('order', 'orderCode'));
     }
 
+    public function itemsByCategory($id){
+        $category = Category::findOrFail($id);
+        $items = $category->items()->where('status', 1)->get();
+        return view('items.by_category', compact('category', 'items'));
+    }
+
 }

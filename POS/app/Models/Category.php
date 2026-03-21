@@ -24,4 +24,8 @@ class Category extends Model
         'modified_date',
         'modified_by'
     ];
+
+    public function items() {
+        return $this->hasMany(Item::class, 'category_id'); 
+    }
 }
