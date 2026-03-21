@@ -129,7 +129,7 @@
                 <tbody>
                     @foreach($order->items as $item)
                     <tr>
-                        <td>{{ $item->item->name ?? 'N/A' }}</td>
+                        <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ number_format($item->price, 2) }}</td>
                         <td>{{ number_format($item->subtotal, 2) }}</td>
