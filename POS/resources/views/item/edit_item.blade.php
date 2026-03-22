@@ -113,7 +113,7 @@
             <!-- Item Image -->
             <div class="form-group">
                 <label for="image" class="form-label">Item Image</label>
-                <input type="file" name="image" id="image" class="form-input">
+                <input type="file" name="image" id="image" class="form-input" required>
                 @if($item->image)
                     <div style="margin-top:10px;">
                         <img src="{{ asset('images/uploads/'.$item->image) }}" width="90" style="border-radius:6px;">

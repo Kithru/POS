@@ -112,7 +112,7 @@
                 <label class="form-label">Item Image</label>
                 <label class="custom-file-upload">
                     <i class="fa fa-cloud-upload-alt"></i> Choose Image
-                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)" required>
                 </label>
 
                 <div id="image-preview" style="margin-top:10px;">
