@@ -29,33 +29,78 @@ use Illuminate\Support\Facades\Crypt;
         <div class="section card">
             <h2 style="text-align:center;">Order Status</h2>
 
-            <div class="order-status-tracker">
-                @php
-                    $statuses = [
-                        0 => 'Pending',
-                        1 => 'Confirmed',
-                        2 => 'Preparing',
-                        3 => 'Handed Over'
-                    ];
-                @endphp
+            @if($order->status == 4)
+                <div style="text-align:center; padding:20px; color:red; font-weight:bold;">
+                    ❌ Order has been cancelled
+                </div>
 
-                @foreach($statuses as $key => $label)
-                    <div class="status-step {{ $order->status > $key ? 'completed' : ($order->status == $key ? 'current' : '') }}">
-                        <div class="circle">
-                            @if($order->status > $key)
-                                &#10003;
-                            @else
-                                {{ $key + 1 }}
+                <div style="text-align:center; margin-top:10px;">
+                    <strong>Reason:</strong> {{ $order->cancelled_reason }}
+                </div>
+            @else
+
+                <div class="order-status-tracker">
+                    @php
+                        $statuses = [
+                            0 => 'Pending',
+                            1 => 'Confirmed',
+                            2 => 'Preparing',
+                            3 => 'Handed Over'
+                        ];
+                    @endphp
+
+                    @foreach($statuses as $key => $label)
+                        <div class="status-step {{ $order->status > $key ? 'completed' : ($order->status == $key ? 'current' : '') }}">
+                            <div class="circle">
+                                @if($order->status > $key)
+                                    &#10003;
+                                @else
+                                    {{ $key + 1 }}
+                                @endif
+                            </div>
+                            <div class="label">{{ $label }}</div>
+                            @if(!$loop->last)
+                                <div class="line {{ $order->status > $key ? 'active-line' : '' }}"></div>
                             @endif
                         </div>
-                        <div class="label">{{ $label }}</div>
-                        @if(!$loop->last)
-                            <div class="line {{ $order->status > $key ? 'active-line' : '' }}"></div>
-                        @endif
+                    @endforeach
+                </div>
+
+                @if($order->status == 0)
+                    <div style="text-align:center; margin-top:20px;">
+                        <button onclick="openCancelModal()" class="cancel-btn">
+                            Cancel The Order
+                        </button>
                     </div>
-                @endforeach
-            </div>
+                @endif
+
+            @endif
         </div>
+
+        @if($order && $order->status == 0)
+            <div id="cancelModal" class="modal">
+                <div class="modal-content">
+                    <h3 style="margin-bottom:5px;">Cancel Order</h3>
+                    <p style="font-size:14px; color:#555;">Are you sure you want to cancel this order?</p>
+
+                    <form method="POST" action="{{ route('order.cancel', $order->order_code) }}">
+                        @csrf
+
+                        <textarea style="width:90%; " name="cancel_reason" placeholder="Please enter the reason for cancellation..." required></textarea>
+
+                        <div class="warning-text">
+                            ⚠ This action cannot be undone
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="submit" class="confirm-btn">Yes, Cancel</button>
+                            <button type="button" onclick="closeCancelModal()" class="close-btn">Keep Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endif
+
 
         @php
             $encryptedOrderId = Crypt::encryptString($order->order_id);
@@ -134,7 +179,9 @@ use Illuminate\Support\Facades\Crypt;
         <!-- Buttons -->
         <div class="print-btn-container multi-btn" style="justify-content:center; display:flex; gap:20px; margin-bottom:50px;">
             <a href="{{ url('/') }}" class="home-btn" style="background-color:#6c5ce7; padding:10px 20px; border-radius:8px; color:#fff;">Back to Home</a>
+            @if($order->status != 4)
             <a href="{{ route('order.receipt', ['order_id' => $encryptedOrderId]) }}" class="receipt-btn" style="background-color:#00b894; padding:10px 20px; border-radius:8px; color:#fff;">View Receipt</a>
+            @endif
         </div>
 
     @elseif($orderCode)
@@ -142,5 +189,15 @@ use Illuminate\Support\Facades\Crypt;
     @endif
 
 </div>
+
+<script>
+    function openCancelModal() {
+        document.getElementById('cancelModal').style.display = 'flex';
+    }
+
+    function closeCancelModal() {
+        document.getElementById('cancelModal').style.display = 'none';
+    }
+</script>
 
 @endsection

@@ -25,7 +25,11 @@ class Order extends Model
         'receiver_address',
         'status',
         'notes',
-        'total_amount'
+        'total_amount',
+        'modified_by',
+        'cancelled_date',
+        'cancelled_by',
+        'cancelled_reason'
     ];
 
     public function items() {

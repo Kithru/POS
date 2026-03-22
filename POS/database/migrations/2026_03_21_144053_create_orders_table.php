@@ -30,6 +30,10 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2);
             $table->timestamp('added_date')->useCurrent();
             $table->timestamp('modified_date')->useCurrent()->useCurrentOnUpdate();
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->timestamp('cancelled_date')->nullable();
+            $table->unsignedBigInteger('cancelled_by')->nullable();
+            $table->text('cancelled_reason')->nullable();
         });
     }
 
