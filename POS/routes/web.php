@@ -9,7 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
 // Default home page
-Route::get('/', function () {return view('home');})->name('home');
+// Route::get('/', function () {return view('home');})->name('home');
 
 // Login page
 Route::get('/login', function () { return view('welcome'); })->name('login');

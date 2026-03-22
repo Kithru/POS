@@ -30,12 +30,23 @@
 
     <button class="banner-arrow left" onclick="prevSlide()">
     <i class="fas fa-chevron-left"></i>
-</button>
+    </button>
 
-<button class="banner-arrow right" onclick="nextSlide()">
-    <i class="fas fa-chevron-right"></i>
-</button>
+    <button class="banner-arrow right" onclick="nextSlide()">
+        <i class="fas fa-chevron-right"></i>
+    </button>
 </div>
+
+<!-- Category Buttons -->
+<div class="category-buttons">
+    <button class="category-btn active" data-category="all">All</button>
+    @foreach($categories as $category)
+        <button class="category-btn" data-category="{{ $category->category_id }}">
+            {{ $category->category_name }}
+        </button>
+    @endforeach
+</div>
+
 
 <!-- Products Section -->
 <section class="products" id="productsContainer">
@@ -131,6 +142,28 @@ function prevSlide() {
     }
     showSlide(currentSlide);
 }
+
+// Category filtering
+const categoryButtons = document.querySelectorAll('.category-btn');
+const productCards = document.querySelectorAll('.product-card');
+
+categoryButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const category = btn.getAttribute('data-category');
+
+        productCards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
 
 </script>
 <script src="{{ asset('js/home.js') }}"></script>
