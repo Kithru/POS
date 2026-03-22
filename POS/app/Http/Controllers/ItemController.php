@@ -273,16 +273,31 @@ class ItemController extends Controller
         return view('item.view_items', compact('categories', 'subcategories', 'items'));
     }
 
+    // public function getItemsForHome() {
+    //     $items = \App\Models\Item::select(
+    //                 'items.*',
+    //                 'currency.currency_icon'
+    //             )
+    //             ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+    //             ->where('items.status', 1)
+    //             ->get();
+
+    //     return view('home', compact('items'));
+    // }
+
     public function getItemsForHome() {
         $items = \App\Models\Item::select(
                     'items.*',
-                    'currency.currency_icon'
+                    'currency.currency_icon as currency_icon'
                 )
                 ->leftJoin('currency', 'items.currency', '=', 'currency.id')
                 ->where('items.status', 1)
                 ->get();
+        $categories = \App\Models\Category::whereHas('items', function($q) {
+            $q->where('status', 1);
+        })->get();
 
-        return view('home', compact('items'));
+        return view('home', compact('items', 'categories'));
     }
 
     public function mainSearch(Request $request){
