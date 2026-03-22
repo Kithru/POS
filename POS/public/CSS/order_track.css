@@ -106,7 +106,7 @@
 
 /* -------------------- Table -------------------- */
 .items-table {
-    width: 100%; /* 🔥 full width */
+    width: 100%; 
     border-collapse: collapse;
     margin-top: 15px;
     font-size: 14px;
@@ -173,7 +173,7 @@
     margin-top: 40px;
 
     width: 100%;
-    max-width: 1000px; /* 🔥 wider tracker */
+    max-width: 1000px; 
     position: relative;
 }
 
@@ -313,7 +313,7 @@
 
 /* ///////////////////////////////////////////////////////////////////////// */
 
-/* 🔴 Cancel Button (Improved & Wider) */
+/* Cancel Button (Improved & Wider) */
 .cancel-btn {
     background: linear-gradient(135deg, #ff4d4d, #e74c3c);
     color: #fff;
@@ -323,7 +323,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    width: 260px; /* 👈 wider button */
+    width: 260px; /* wider button */
     transition: all 0.3s ease;
     box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
 }
@@ -346,7 +346,7 @@
     z-index: 999;
 }
 
-/* 📦 Modal Box */
+/* Modal Box */
 .modal-content {
     background: #fff;
     padding: 25px;
@@ -368,7 +368,7 @@
     }
 }
 
-/* 📝 Textarea */
+/* Textarea */
 .modal textarea {
     width: 100%;
     height: 110px;
@@ -394,14 +394,14 @@
     margin-top: 8px;
 }
 
-/* 🔘 Buttons Layout */
+/* Buttons Layout */
 .modal-actions {
     margin-top: 20px;
     display: flex;
     gap: 10px;
 }
 
-/* ❌ Confirm Cancel */
+/* Confirm Cancel */
 .confirm-btn {
     flex: 1;
     background: #e74c3c;
@@ -418,7 +418,7 @@
     background: #c0392b;
 }
 
-/* 🔘 Close Button */
+/* Close Button */
 .close-btn {
     flex: 1;
     background: #bdc3c7;
@@ -434,3 +434,7 @@
 .close-btn:hover {
     background: #95a5a6;
 }
+
+
+
+/* Concept Designed and Developed by KV */

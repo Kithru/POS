@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use PDF;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -150,7 +151,6 @@ class OrderController extends Controller
         if ($order->status != 0) {
             return back()->with('error', 'Order cannot be cancelled.');
         }
-
         $order->status = 4;
         $order->cancelled_date = now();
         $order->cancelled_by = auth()->id(); // or null if guest
@@ -159,5 +159,97 @@ class OrderController extends Controller
 
         return back()->with('success', 'Order cancelled successfully.');
     }
+
+    public function manage(Request $request) {
+        $query = Order::query();
+        if ($request->filled('order_code')) {
+            $query->where('order_code', 'LIKE', '%' . $request->order_code . '%');
+        }
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('date_from')) {
+            $query->whereDate('added_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('added_date', '<=', $request->date_to);
+        }
+        $orders = $query->orderBy('added_date', 'desc')->paginate(10);
+        $orders->appends($request->all());
+        return view('order.order_manage', compact('orders'));
+    }
+
+    public function viewOrders(Request $request) {
+        $query = Order::query();
+        if ($request->filled('order_code')) {
+            $query->where('order_code', 'LIKE', '%' . $request->order_code . '%');
+        }
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('date_from')) {
+            $query->whereDate('added_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('added_date', '<=', $request->date_to);
+        }
+        $orders = $query->orderBy('added_date', 'desc')->paginate(10);
+        $orders->appends($request->all());
+        return view('order.view_orders', compact('orders'));
+    }
+
+    public function updateStatus(Request $request, $id){
+        $order = Order::findOrFail($id);
+        $status = $request->status;
+        $order->status = $status;
+        if ($status == 1) {
+            $order->confirmed_date = Carbon::now();
+        } elseif ($status == 2) {
+            $order->prepared_date = Carbon::now();
+        } elseif ($status == 3) {
+            $order->hand_over_date = Carbon::now();
+        } elseif ($status == 4) {
+            $order->cancelled_date = Carbon::now();
+            $order->cancelled_reason = $request->cancel_reason;
+        }
+
+        $order->save();
+        if ($status == 4) {
+            return redirect()->back()->with('success', 'Order has been cancelled!');
+        }
+
+        return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
+
+    public function getItems($orderId) {
+        $order = \DB::table('orders')->where('order_id', $orderId)->first();
+        $items = \DB::table('order_items')
+            ->join('items', 'order_items.item_id', '=', 'items.item_id')
+            ->where('order_items.order_id', $orderId)
+            ->select('items.item_name', 'order_items.quantity', 'order_items.price')
+            ->get();
+
+        $status_times = [
+            0 => $order->added_date,
+            1 => $order->confirmed_date,
+            2 => $order->prepared_date,
+            3 => $order->hand_over_date,
+            4 => $order->cancelled_date
+        ];
+
+        return response()->json([
+            'order' => [
+                'order_code'   => $order->order_code,
+                'status'       => $order->status,
+                'created_at'   => $order->added_date,
+                'customer_name'=> $order->customer_name, // <-- added customer name
+                'status_times' => $status_times
+            ],
+            'items' => $items
+        ]);
+    }
+
 
 }

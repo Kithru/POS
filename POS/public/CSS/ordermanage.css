@@ -1,0 +1,253 @@
+/* ------------------ Action Buttons ------------------ */
+.action-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin: 3px;
+    font-size: 14px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.edit-btn {
+    background: #4b0f3a;
+    color: #fff;
+}
+.edit-btn:hover {
+    background: #6a1b5a;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: #fff;
+}
+.delete-btn:hover {
+    background: #e0555c;
+}
+
+/* ------------------ Modal Overlay ------------------ */
+.modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+/* ------------------ Modal Box ------------------ */
+.modal-content {
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 15px;
+    width: 750px;
+    max-width: 95%;
+    max-height: 85%;
+    overflow-y: auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ------------------ Order Info Layout ------------------ */
+#orderInfo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.order-field {
+    flex: 1 1 45%;
+    background: #f5f5f5;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.order-field strong {
+    display: block;
+    color: #4b0f3a;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.order-field span {
+    font-weight: 500;
+    color: #333;
+}
+
+/* ------------------ Status Timeline ------------------ */
+#statusTimeline {
+    font-size: 13px;
+    background: #fafafa;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#statusHistory {
+    margin: 5px 0 0 18px;
+    list-style-type: disc;
+}
+
+/* ------------------ Table Inside Modal ------------------ */
+.modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.modal-content th {
+    background: #f0f0f0;
+    font-weight: 600;
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.modal-content td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-content tr:last-child td {
+    border-bottom: none;
+}
+
+.modal-content tr.total-row td {
+    font-weight: bold;
+    text-align: right;
+    border-top: 2px solid #4b0f3a;
+}
+
+/* ------------------ Headings ------------------ */
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #4b0f3a;
+    text-align: center;
+}
+
+/* ------------------ Buttons inside Modal ------------------ */
+.modal-content button {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* ================== CANCEL MODAL IMPROVEMENTS ================== */
+
+/* Smaller width for cancel modal */
+.cancel-modal {
+    max-width: 500px;
+    width: 100%;
+    padding: 25px 25px 20px;
+}
+
+/* Close icon (top-right X) */
+.close-icon {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #999;
+    transition: 0.2s;
+}
+.close-icon:hover {
+    color: #000;
+}
+
+/* Warning message */
+.cancel-warning {
+    background: #fff3cd;
+    color: #856404;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* Label */
+.cancel-modal label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Textarea */
+.cancel-modal textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: none;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.cancel-modal textarea:focus {
+    border-color: #4b0f3a;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(75,15,58,0.1);
+}
+
+/* Buttons layout (side by side) */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.modal-actions .action-btn {
+    width: auto;
+    padding: 8px 16px;
+}
+
+/* ------------------ Animations ------------------ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================== MOBILE RESPONSIVE ================== */
+@media (max-width: 768px) {
+
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .order-field {
+        flex: 1 1 100%;
+    }
+
+    .cancel-modal {
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions .action-btn {
+        width: 100%;
+    }
+
+    .cancel-modal textarea {
+        min-height: 80px;
+    }
+}

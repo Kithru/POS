@@ -26,12 +26,12 @@
         </li>
 
         @if(session('user_level') == 1)   
-        <li>
+        <!-- <li>
             <a href="#" class="{{ request()->is('users*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span class="link-text">Users</span>
             </a>
-        </li>
+        </li> -->
         @endif
 
         <!-- CATEGORY -->
@@ -84,32 +84,38 @@
 
         <li class="has-submenu">
             <a href="#">
-                <i class="fas fa-folder"></i>
+                <i class="fas fa-shopping-cart"></i>
                 <span class="link-text">Orders</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
             <ul class="submenu">
                 @if(session('user_level') == 1) 
-                <li><a href="{{ route('category.add') }}"><i class="fas fa-plus"></i>Manage Orders</a></li>
+                <li><a href="{{ route('order.manage') }}"><i class="fas fa-edit"></i>Manage Orders</a></li>
                 @endif
-                <li><a href="{{ route('category.manage') }}"><i class="fas fa-edit"></i>View Orders</a></li>
+                <li><a href="{{ route('order.view') }}"><i class="fas fa-eye"></i>View Orders</a></li>
                 <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
             </ul>
         </li>
 
-        <li>
+        <li class="has-submenu">
             <a href="#">
-                <i class="fas fa-file-alt"></i>
+                <i class="fas fa-folder"></i>
                 <span class="link-text">Reports</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
+            <ul class="submenu"> 
+                <li><a href="{{ route('item.view') }}"><i class="fas fa-eye"></i>View Items</a></li>
+                <li><a href="{{ route('order.view') }}"><i class="fas fa-eye"></i>View Orders</a></li>
+                <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
+            </ul>
         </li>
 
-        <li>
+        <!-- <li>
             <a href="#">
                 <i class="fas fa-cog"></i>
                 <span class="link-text">Settings</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 
     <!-- LOGOUT -->
