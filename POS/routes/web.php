@@ -94,3 +94,4 @@ Route::post('/order/cancel/{order_code}', [OrderController::class, 'cancel'])->n
 Route::get('/orders/manage', [OrderController::class, 'manage'])->name('order.manage');
 Route::post('/orders/update-status/{order}', [OrderController::class, 'updateStatus'])->name('order.update.status');
 Route::get('/orders/items/{orderId}', [OrderController::class, 'getItems'])->name('order.items');
+

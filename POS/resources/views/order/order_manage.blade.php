@@ -8,88 +8,11 @@
     <!-- CSS -->
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/ordermanage.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-@push('styles')
-    <style>
-    .action-btn {
-        padding: 6px 12px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        margin: 2px;
-        font-size: 13px;
-    }
-    .edit-btn { background:#4b0f3a; color:#fff; }
-    .delete-btn { background:#dc3545; color:#fff; }
-    .modal { 
-        position: fixed;
-        z-index: 9999;
-        left:0; top:0;
-        width: 100%; height:100%;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-content {
-        background:#fff; 
-        padding:20px; 
-        border-radius:12px; 
-        width:500px; 
-        max-width:95%;
-        max-height:80%;
-        overflow-y:auto;
-        box-shadow:0 4px 20px rgba(0,0,0,0.2);
-    }
-    </style>
-@endpush
 </head>
 
 <body>
-@push('scripts')
-    <script>
-        function viewItems(orderId) {
-            // Generate base URL without ID
-            let url = "{{ url('/orders/items') }}/" + orderId;
-
-            fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                let html = '';
-                let total = 0;
-                data.forEach(item => {
-                    let subtotal = item.quantity * item.price;
-                    total += subtotal;
-                    html += `
-                        <tr>
-                            <td style="padding:8px; border-bottom:1px solid #eee;">${item.item_name}</td>
-                            <td style="padding:8px; border-bottom:1px solid #eee;">${item.quantity}</td>
-                            <td style="padding:8px; border-bottom:1px solid #eee;">${item.price.toFixed(2)}</td>
-                            <td style="padding:8px; border-bottom:1px solid #eee;">${subtotal.toFixed(2)}</td>
-                        </tr>
-                    `;
-                });
-                html += `
-                    <tr style="font-weight:bold;">
-                        <td colspan="3" style="padding:8px; text-align:right;">Total:</td>
-                        <td style="padding:8px;">${total.toFixed(2)}</td>
-                    </tr>
-                `;
-                document.getElementById('itemsContent').innerHTML = html;
-                document.getElementById('itemsModal').style.display = 'flex';
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Failed to fetch order items.');
-            });
-        }
-
-        function closeModal() {
-            document.getElementById('itemsModal').style.display = 'none';
-        }
-    </script>
-@endpush
 
 @include('layouts.navigation')
 
@@ -160,6 +83,10 @@
                             <input type="hidden" name="status" value="1">
                             <button class="action-btn edit-btn">Confirm</button>
                         </form>
+                        <button onclick="openCancelModal('{{ route('order.update.status', $order->order_id) }}')" 
+                                class="action-btn delete-btn">
+                            Cancel
+                        </button>
                         @endif
 
                         @if($order->status == 1)
@@ -177,12 +104,6 @@
                             <button class="action-btn edit-btn">Hand Over</button>
                         </form>
                         @endif
-
-                        @if($order->status == 0)
-                        <button onclick="openCancelModal({{ $order->order_id }})" class="action-btn delete-btn">
-                            Cancel
-                        </button>
-                        @endif
                     </td>
                 </tr>
                 @empty
@@ -193,75 +114,198 @@
             </tbody>
         </table>
 
+        <!-- Pagination -->
         @if ($orders->hasPages())
-            <div style="display:flex; justify-content:center; margin-top:20px; gap:8px; flex-wrap:wrap;">
+        <div style="display:flex; justify-content:center; margin-top:20px; gap:8px; flex-wrap:wrap;">
+            @if ($orders->onFirstPage())
+                <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">&laquo; Prev</span>
+            @else
+                <a href="{{ $orders->previousPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">&laquo; Prev</a>
+            @endif
 
-                {{-- Previous Page --}}
-                @if ($orders->onFirstPage())
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">&laquo; Prev</span>
+            @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
+                @if ($page == $orders->currentPage())
+                    <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">{{ $page }}</span>
                 @else
-                    <a href="{{ $orders->previousPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none; transition:0.2s;">&laquo; Prev</a>
+                    <a href="{{ $url }}" style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none;">{{ $page }}</a>
                 @endif
+            @endforeach
 
-                {{-- Page Numbers --}}
-                @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
-                    @if ($page == $orders->currentPage())
-                        <span style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; font-weight:bold;">{{ $page }}</span>
-                    @else
-                        <a href="{{ $url }}" style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#4b0f3a; text-decoration:none; transition:0.2s;">{{ $page }}</a>
-                    @endif
-                @endforeach
-
-                {{-- Next Page --}}
-                @if ($orders->hasMorePages())
-                    <a href="{{ $orders->nextPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none; transition:0.2s;">Next &raquo;</a>
-                @else
-                    <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">Next &raquo;</span>
-                @endif
-
-            </div>
+            @if ($orders->hasMorePages())
+                <a href="{{ $orders->nextPageUrl() }}" style="padding:8px 12px; border-radius:6px; background:#4b0f3a; color:#fff; text-decoration:none;">Next &raquo;</a>
+            @else
+                <span style="padding:8px 12px; border-radius:6px; background:#f0f0f0; color:#888; cursor:not-allowed;">Next &raquo;</span>
+            @endif
+        </div>
         @endif
 
     </div>
 </div>
 
 <!-- Modal: View Items -->
-<div id="itemsModal" style="display:none;" class="modal">
+<div id="itemsModal" class="modal">
     <div class="modal-content">
-        <h3>Order Items</h3>
-        <table id="itemsTable" style="width:100%; border-collapse:collapse;">
+        <h3>Order Details</h3>
+            <div id="orderInfo">
+                <div class="order-field">
+                    <strong>Order Code</strong>
+                    <span id="orderCode">--</span>
+                </div>
+                <div class="order-field">
+                    <strong>Current Status</strong>
+                    <span id="currentStatus">--</span>
+                </div>
+                <div class="order-field">
+                    <strong>Order Added</strong>
+                    <span id="orderAdded">--</span>
+                </div>
+                <div class="order-field">
+                    <strong>Customer</strong>
+                    <span id="customerName">--</span>
+                </div>
+            </div>
+        <div id="statusTimeline" style="margin-bottom:15px; font-size:13px; background:#f9f9f9; padding:10px; border-radius:6px;">
+            <strong>Status History:</strong>
+            <ul id="statusHistory" style="margin:5px 0 0 0; padding-left:18px; list-style-type:disc;"></ul>
+        </div>
+        <table>
             <thead>
-                <tr style="background:#f5f5f5; text-align:left;">
-                    <th style="padding:8px; border-bottom:1px solid #ccc;">Item Name</th>
-                    <th style="padding:8px; border-bottom:1px solid #ccc;">Quantity</th>
-                    <th style="padding:8px; border-bottom:1px solid #ccc;">Price (Rs)</th>
-                    <th style="padding:8px; border-bottom:1px solid #ccc;">Subtotal (Rs)</th>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price (Rs)</th>
+                    <th>Subtotal (Rs)</th>
                 </tr>
             </thead>
-            <tbody id="itemsContent">
-                <!-- Item rows will be appended here -->
-            </tbody>
+            <tbody id="itemsContent"></tbody>
         </table>
+
         <br>
-        <button onclick="closeModal()">Close</button>
+        <button onclick="closeModal()" class="action-btn edit-btn">Close</button>
     </div>
 </div>
 
 <!-- Modal: Cancel Order -->
-<div id="cancelModal" style="display:none;" class="modal">
-    <div class="modal-content">
-        <h3>Cancel Order</h3>
+<div id="cancelModal" class="modal">
+    <div class="modal-content cancel-modal">
+        <span class="close-icon" onclick="closeCancelModal()">&times;</span>
+        <h3><i class="fas fa-exclamation-triangle"></i> Cancel Order</h3>
+        <p class="cancel-warning">Are you sure you want to cancel this order? This action cannot be undone.</p>
+
         <form method="POST" id="cancelForm">
             @csrf
             <input type="hidden" name="status" value="4">
-            <textarea name="cancel_reason" placeholder="Enter cancellation reason..." required></textarea>
-            <br><br>
-            <button type="submit" class="delete-btn">Submit</button>
-            <button type="button" onclick="closeCancelModal()">Close</button>
+            <label for="cancel_reason">Reason for Cancellation</label>
+            <textarea name="cancel_reason" id="cancel_reason" placeholder="Enter cancellation reason..." required> </textarea>
+
+            <div class="modal-actions">
+                <button type="button" onclick="closeCancelModal()" class="action-btn edit-btn">
+                    Close
+                </button> 
+                <button type="submit" class="action-btn delete-btn">
+                    Confirm Cancel
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
+<script>
+    function viewItems(orderId){
+        fetch("{{ url('/orders/items') }}/" + orderId)
+        .then(res => res.json())
+        .then(data => {
+            const order = data.order;
+            const items = data.items;
+
+            // --- Order Info ---
+            document.getElementById('orderCode').textContent = order.order_code;
+            document.getElementById('orderAdded').textContent = new Date(order.created_at).toLocaleString();
+            document.getElementById('currentStatus').textContent = getStatusText(order.status);
+            document.getElementById('customerName').textContent = order.customer_name || 'N/A';
+
+            const statusHistoryEl = document.getElementById('statusHistory');
+            statusHistoryEl.innerHTML = '';
+
+            const statuses = {
+                0: 'Pending',
+                1: 'Confirmed',
+                2: 'Preparing',
+                3: 'Handed Over',
+                4: 'Cancelled'
+            };
+
+            for (const [key, val] of Object.entries(order.status_times)) {
+                let displayVal = val ? new Date(val).toLocaleString() : 'N/A';
+                
+                // Show Cancelled date only if order.status == 4
+                if (parseInt(key) === 4 && order.status != 4) continue;
+
+                const li = document.createElement('li');
+                li.textContent = `${statuses[key]}: ${displayVal}`;
+                statusHistoryEl.appendChild(li);
+            }
+
+            // --- Items Table ---
+            let html = '';
+            let total = 0;
+            items.forEach(item => {
+                let price = parseFloat(item.price);
+                let subtotal = item.quantity * price;
+                total += subtotal;
+
+                html += `<tr>
+                    <td>${item.item_name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${price.toFixed(2)}</td>
+                    <td>${subtotal.toFixed(2)}</td>
+                </tr>`;
+            });
+            html += `<tr class="total-row">
+                <td colspan="3">Total:</td>
+                <td>${total.toFixed(2)}</td>
+            </tr>`;
+            document.getElementById('itemsContent').innerHTML = html;
+
+            // Show modal
+            document.getElementById('itemsModal').style.display = 'flex';
+        })
+        .catch(err => { 
+            console.error(err); 
+            alert('Failed to fetch order items.'); 
+        });
+    }
+
+    function getStatusText(status){
+        switch(parseInt(status)){
+            case 0: return 'Pending';
+            case 1: return 'Confirmed';
+            case 2: return 'Preparing';
+            case 3: return 'Handed Over';
+            case 4: return 'Cancelled';
+            default: return 'Unknown';
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('itemsModal').style.display = 'none';
+    }
+
+    function closeCancelModal() {
+        document.getElementById('cancelModal').style.display = 'none';
+    }
+
+    function openCancelModal(actionUrl) {
+        const form = document.getElementById('cancelForm');
+        form.action = actionUrl; 
+        document.getElementById('cancelModal').style.display = 'flex';
+    }
+
+    document.getElementById('cancelForm').addEventListener('submit', function(){
+        this.querySelector('button[type="submit"]').disabled = true;
+    });
+
+</script>
+
 </body>
 </html>
-
