@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Crypt;
         <button type="submit" class="search-btn" style="padding:12px 20px; background-color:#8e44ad; color:#fff; border-radius:8px; margin-left:10px;">Search</button>
     </form>
 
+    <div class="print-btn-container multi-btn" style="justify-content:center; display:flex; gap:20px; margin-bottom:50px;">
+        <a href="{{ url('/') }}" class="home-btn" style="background-color:#6c5ce7; padding:10px 20px; border-radius:8px; color:#fff;">Back to Home</a>
+    </div>
+
     @if($order)
         <!-- Order Status -->
         <div class="section card">
@@ -129,8 +133,8 @@ use Illuminate\Support\Facades\Crypt;
 
         <!-- Buttons -->
         <div class="print-btn-container multi-btn" style="justify-content:center; display:flex; gap:20px; margin-bottom:50px;">
-            <a href="{{ url('/') }}" class="home-btn" style="background-color:#6c5ce7; padding:10px 20px; border-radius:8px; color:#fff;">🏠 Home</a>
-            <a href="{{ route('order.receipt', ['order_id' => $encryptedOrderId]) }}" class="receipt-btn" style="background-color:#00b894; padding:10px 20px; border-radius:8px; color:#fff;">🧾 View Receipt</a>
+            <a href="{{ url('/') }}" class="home-btn" style="background-color:#6c5ce7; padding:10px 20px; border-radius:8px; color:#fff;">Back to Home</a>
+            <a href="{{ route('order.receipt', ['order_id' => $encryptedOrderId]) }}" class="receipt-btn" style="background-color:#00b894; padding:10px 20px; border-radius:8px; color:#fff;">View Receipt</a>
         </div>
 
     @elseif($orderCode)
