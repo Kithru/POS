@@ -5,26 +5,41 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Item;
 use Illuminate\Support\Str;
-use App\Models\Currency;
+use App\Models\Order;
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function dashboard(){
-        
+    public function dashboard() {
         if (!session()->has('user_id')) {
             return redirect('/'); 
         }
 
-        $categoryCount = Category::where('status', 1)->count();         
-        $subcategoryCount = SubCategory::where('status', 1)->count();   
-        $totalItems = Item::count();                                     
-        $activeItems = Item::where('status', 1)->count();               
-        return view('dashboard', compact('categoryCount', 'subcategoryCount', 'totalItems', 'activeItems'));
-    }    
+        // Categories
+        $categoryCount = Category::where('status', 1)->count();
+        $subcategoryCount = SubCategory::where('status', 1)->count();
+
+        $totalItems = Item::count();
+        $activeItems = Item::where('status', 1)->count();
+
+        $pendingOrders = Order::where('status', 0)->count(); // Pending
+        $ongoingOrders = Order::whereIn('status', [1,2])->count(); // Confirmed + Preparing
+        $completedOrders = Order::where('status', 3)->count(); // Handed Over
+
+        return view('dashboard', compact(
+            'categoryCount',
+            'subcategoryCount',
+            'totalItems',
+            'activeItems',
+            'pendingOrders',
+            'ongoingOrders',
+            'completedOrders'
+        )); 
+    }
+    
 
     // Show Add Item Page
     public function create() {

@@ -26,12 +26,12 @@
         </li>
 
         @if(session('user_level') == 1)   
-        <li>
+        <!-- <li>
             <a href="#" class="{{ request()->is('users*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span class="link-text">Users</span>
             </a>
-        </li>
+        </li> -->
         @endif
 
         <!-- CATEGORY -->
@@ -84,7 +84,7 @@
 
         <li class="has-submenu">
             <a href="#">
-                <i class="fas fa-folder"></i>
+                <i class="fas fa-shopping-cart"></i>
                 <span class="link-text">Orders</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
@@ -110,12 +110,12 @@
             </ul>
         </li>
 
-        <li>
+        <!-- <li>
             <a href="#">
                 <i class="fas fa-cog"></i>
                 <span class="link-text">Settings</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 
     <!-- LOGOUT -->

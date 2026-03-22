@@ -92,7 +92,6 @@
                     <th style="padding:12px; text-align:left;">Customer</th>
                     <th style="padding:12px;">View Items</th>
                     <th style="padding:12px;">Status</th>
-                    <th style="padding:12px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
