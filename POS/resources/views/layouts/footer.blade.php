@@ -4,9 +4,8 @@
 
         <div class="footer-col">
             <h3>Info</h3>
-            <p><a href="#" class="footer-link">Contact Us</a></p>
-            <p><a href="#" class="footer-link">About Us</a></p>
-            <p><a href="#" class="footer-link">Site Map</a></p>
+            <!-- <p><a href="#" class="footer-link">Contact Us</a></p> -->
+            <p><a href="{{ route('about') }}" class="footer-link" style="font-size: 16px;">About Us</a></p>
         </div>
 
         <div class="footer-col">
@@ -31,6 +30,8 @@
                 <a href="#"><i class="fab fa-youtube"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
+            <p style="margin-top:10px; font-size:14px; color:#fff;">Hot Line: +8180-1756-2569</p>
+            <p style="margin-top:10px; font-size:14px; color:#fff;">TEL : 0296 48 6606</p>
         </div>
 
     </div>

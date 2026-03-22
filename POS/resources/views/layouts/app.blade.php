@@ -12,18 +12,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
-<body>
+<body class="page-wrapper">
 
     @include('layouts.header')
 
-    <main>
+    <main class="content-wrapper">
         @yield('content')
     </main>
 
     @include('layouts.footer')
-
-    {{-- Page specific scripts --}}
     @yield('scripts')
 
 </body>
+
+
 </html>
+
+
