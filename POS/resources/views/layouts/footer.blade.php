@@ -37,7 +37,7 @@
     </div>
 
     <div class="footer-bottom">
-        © 2026 Rajarata Sakura. All rights reserved | Concept Designed and Developed by KV
+        © 2026 Rajarata Sakura Restaurant. All rights reserved | Concept Designed and Developed by KV
     </div>
 
 </footer>

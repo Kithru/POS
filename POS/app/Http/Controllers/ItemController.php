@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Item;
+use App\Models\Currency;
 
 class ItemController extends Controller
 {

@@ -92,9 +92,11 @@
         <div class="section">
             <h2>Restaurant Info</h2>
             <p><strong>Name:</strong> Rajarata Sakura Restaurant</p>
-            <p><strong>Phone:</strong> +94 123 456 789</p>
-            <p><strong>Address:</strong> 123 Main Street, Colombo</p>
+            <p><strong>Phone:</strong> +81 80-1756-2569 / 0296 48 6606</p>
+            <p><strong>Address:</strong> 110-65, FUNYU, CHIKUSEI SHI, IBARAKI KEN, JAPAN</p>
         </div>
+
+        
 
         <!-- Customer Details -->
         <div class="section">

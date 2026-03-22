@@ -2,6 +2,41 @@
 
 @section('content')
 
+<div class="ad-slider">
+    <div class="ad-track">
+        <div class="ad-slide">🔥 20% OFF on All Items Today!</div>
+        <div class="ad-slide">🍣 Fresh Sushi Available Now!</div>
+        <div class="ad-slide">🚚 Free Delivery for Orders Over 5000</div>
+        <div class="ad-slide">🎉 Special Combo Offers This Week</div>
+        <!-- ...................................................................... -->
+        <div class="ad-slide">🔥 20% OFF on All Items Today!</div>
+        <div class="ad-slide">🍣 Fresh Sushi Available Now!</div>
+        <div class="ad-slide">🚚 Free Delivery for Orders Over 5000</div>
+        <div class="ad-slide">🎉 Special Combo Offers This Week</div>
+    </div>
+</div>
+
+<!-- Image Banner Slider -->
+<div class="banner-slider">
+    <div class="banner-slide active">
+        <img src="{{ asset('images/banners/add01.jpg') }}" alt="Banner 1">
+    </div>
+    <div class="banner-slide">
+        <img src="{{ asset('images/banners/add02.jpg') }}" alt="Banner 2">
+    </div>
+    <div class="banner-slide">
+        <img src="{{ asset('images/banners/add03.jpg') }}" alt="Banner 3">
+    </div>
+
+    <button class="banner-arrow left" onclick="prevSlide()">
+    <i class="fas fa-chevron-left"></i>
+</button>
+
+<button class="banner-arrow right" onclick="nextSlide()">
+    <i class="fas fa-chevron-right"></i>
+</button>
+</div>
+
 <!-- Products Section -->
 <section class="products" id="productsContainer">
 @forelse($items as $item)
@@ -60,6 +95,43 @@
 @section('scripts')
 <script>
 const CART_ADD_URL = "{{ route('cart.add') }}";
+
+// Banner Auto Slide (3 seconds)
+let slides = document.querySelectorAll('.banner-slide');
+let currentSlide = 0;
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+    });
+    slides[index].classList.add('active');
+}
+
+// Auto change every 5 seconds
+setInterval(() => {
+    currentSlide++;
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    }
+    showSlide(currentSlide);
+}, 5000);
+
+function nextSlide() {
+    currentSlide++;
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    }
+    showSlide(currentSlide);
+}
+
+function prevSlide() {
+    currentSlide--;
+    if (currentSlide < 0) {
+        currentSlide = slides.length - 1;
+    }
+    showSlide(currentSlide);
+}
+
 </script>
 <script src="{{ asset('js/home.js') }}"></script>
 @endsection
