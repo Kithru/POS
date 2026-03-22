@@ -141,4 +141,23 @@ class OrderController extends Controller
         return view('order.track', compact('order', 'orderCode'));
     }
 
+    public function cancel(Request $request, $order_code){
+        $request->validate([
+            'cancel_reason' => 'required|string|max:500'
+        ]);
+
+        $order = Order::where('order_code', $order_code)->firstOrFail();
+        if ($order->status != 0) {
+            return back()->with('error', 'Order cannot be cancelled.');
+        }
+
+        $order->status = 4;
+        $order->cancelled_date = now();
+        $order->cancelled_by = auth()->id(); // or null if guest
+        $order->cancelled_reason = $request->cancel_reason;
+        $order->save();
+
+        return back()->with('success', 'Order cancelled successfully.');
+    }
+
 }

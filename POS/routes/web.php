@@ -87,3 +87,5 @@ Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name
 
 // Route for category filtering
 Route::get('/category/{id}', [ItemController::class, 'itemsByCategory'])->name('items.byCategory');
+
+Route::post('/order/cancel/{order_code}', [OrderController::class, 'cancel'])->name('order.cancel');
