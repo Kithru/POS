@@ -160,9 +160,44 @@ class OrderController extends Controller
         return back()->with('success', 'Order cancelled successfully.');
     }
 
-    public function manage(){
-        $orders = Order::orderBy('order_id', 'desc')->paginate(10);
+    public function manage(Request $request) {
+        $query = Order::query();
+        if ($request->filled('order_code')) {
+            $query->where('order_code', 'LIKE', '%' . $request->order_code . '%');
+        }
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('date_from')) {
+            $query->whereDate('added_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('added_date', '<=', $request->date_to);
+        }
+        $orders = $query->orderBy('added_date', 'desc')->paginate(10);
+        $orders->appends($request->all());
         return view('order.order_manage', compact('orders'));
+    }
+
+    public function viewOrders(Request $request) {
+        $query = Order::query();
+        if ($request->filled('order_code')) {
+            $query->where('order_code', 'LIKE', '%' . $request->order_code . '%');
+        }
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('date_from')) {
+            $query->whereDate('added_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('added_date', '<=', $request->date_to);
+        }
+        $orders = $query->orderBy('added_date', 'desc')->paginate(10);
+        $orders->appends($request->all());
+        return view('order.view_orders', compact('orders'));
     }
 
     public function updateStatus(Request $request, $id){

@@ -18,11 +18,11 @@
 
 <div class="page-content">
 
-    <h1>Manage Orders</h1>
+    <h1>View Orders</h1>
 
     <div class="form-card">
 
-        <form method="GET" action="{{ route('order.manage') }}" style="margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <form method="GET" action="{{ route('order.view') }}" style="margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
 
             <!-- Order Code -->
             <input type="text" name="order_code" placeholder="Search Order Code"
@@ -66,14 +66,11 @@
             <!-- Buttons -->
             <button type="submit" class="action-btn edit-btn">Filter</button>
 
-            <a href="{{ route('order.manage') }}" class="action-btn delete-btn"
+            <a href="{{ route('order.view') }}" class="action-btn delete-btn"
             style="text-decoration:none; display:flex; align-items:center;">
                 Reset
             </a>
         </form>
-
-
-
         <!-- Success / Error Messages -->
         @if(session('success'))
             <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:15px;">
@@ -111,7 +108,6 @@
                             <i class="fas fa-eye"></i> View
                         </button>
                     </td>
-
                     <!-- Current Status -->
                     <td style="padding:12px; font-weight:bold;">
                         @if($order->status == 0)
@@ -124,37 +120,6 @@
                             <span style="color:#4caf50;">Handed Over</span>
                         @else
                             <span style="color:#f44336;">Cancelled</span>
-                        @endif
-                    </td>
-
-                    <!-- Actions Buttons -->
-                    <td style="padding:12px;">
-                        @if($order->status == 0)
-                        <form method="POST" action="{{ route('order.update.status', $order->order_id) }}" style="display:inline;">
-                            @csrf
-                            <input type="hidden" name="status" value="1">
-                            <button class="action-btn edit-btn">Confirm</button>
-                        </form>
-                        <button onclick="openCancelModal('{{ route('order.update.status', $order->order_id) }}')" 
-                                class="action-btn delete-btn">
-                            Cancel
-                        </button>
-                        @endif
-
-                        @if($order->status == 1)
-                        <form method="POST" action="{{ route('order.update.status', $order->order_id) }}" style="display:inline;">
-                            @csrf
-                            <input type="hidden" name="status" value="2">
-                            <button class="action-btn edit-btn">Prepare</button>
-                        </form>
-                        @endif
-
-                        @if($order->status == 2)
-                        <form method="POST" action="{{ route('order.update.status', $order->order_id) }}" style="display:inline;">
-                            @csrf
-                            <input type="hidden" name="status" value="3">
-                            <button class="action-btn edit-btn">Hand Over</button>
-                        </form>
                         @endif
                     </td>
                 </tr>
@@ -237,30 +202,6 @@
     </div>
 </div>
 
-<!-- Modal: Cancel Order -->
-<div id="cancelModal" class="modal">
-    <div class="modal-content cancel-modal">
-        <span class="close-icon" onclick="closeCancelModal()">&times;</span>
-        <h3><i class="fas fa-exclamation-triangle"></i> Cancel Order</h3>
-        <p class="cancel-warning">Are you sure you want to cancel this order? This action cannot be undone.</p>
-
-        <form method="POST" id="cancelForm">
-            @csrf
-            <input type="hidden" name="status" value="4">
-            <label for="cancel_reason">Reason for Cancellation</label>
-            <textarea name="cancel_reason" id="cancel_reason" placeholder="Enter cancellation reason..." required> </textarea>
-
-            <div class="modal-actions">
-                <button type="button" onclick="closeCancelModal()" class="action-btn edit-btn">
-                    Close
-                </button> 
-                <button type="submit" class="action-btn delete-btn">
-                    Confirm Cancel
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <script>
     function viewItems(orderId){
@@ -390,11 +331,7 @@
         document.getElementById('cancelModal').style.display = 'none';
     }
 
-    function openCancelModal(actionUrl) {
-        const form = document.getElementById('cancelForm');
-        form.action = actionUrl; 
-        document.getElementById('cancelModal').style.display = 'flex';
-    }
+    
 
     document.getElementById('cancelForm').addEventListener('submit', function(){
         this.querySelector('button[type="submit"]').disabled = true;
