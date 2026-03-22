@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Crypt;
                         $statuses = [
                             0 => 'Pending',
                             1 => 'Confirmed',
-                            2 => 'Preparing',
+                            2 => 'Prepared',
                             3 => 'Handed Over'
                         ];
                     @endphp

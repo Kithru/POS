@@ -25,10 +25,13 @@ return new class extends Migration
             $table->string('receiver_email');
             $table->string('receiver_phone');
             $table->string('receiver_address');
-            $table->string('status')->default('0')->comment('Order status: pending=0, confirmed=1, preparing=2, hand over=3, cancelled=4');
+            $table->string('status')->default('0')->comment('Order status: pending=0, confirmed=1, prepared=2, hand over=3, cancelled=4');
             $table->text('notes')->nullable();
             $table->decimal('total_amount', 10, 2);
             $table->timestamp('added_date')->useCurrent();
+            $table->timestamp('confirmed_date')->nullable();
+            $table->timestamp('prepared_date')->nullable();
+            $table->timestamp('hand_over_date')->nullable();
             $table->timestamp('modified_date')->useCurrent()->useCurrentOnUpdate();
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->timestamp('cancelled_date')->nullable();

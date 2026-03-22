@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use PDF;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -150,7 +151,6 @@ class OrderController extends Controller
         if ($order->status != 0) {
             return back()->with('error', 'Order cannot be cancelled.');
         }
-
         $order->status = 4;
         $order->cancelled_date = now();
         $order->cancelled_by = auth()->id(); // or null if guest
@@ -158,6 +158,40 @@ class OrderController extends Controller
         $order->save();
 
         return back()->with('success', 'Order cancelled successfully.');
+    }
+
+    public function manage(){
+        $orders = Order::orderBy('order_id', 'desc')->paginate(10);
+        return view('order.order_manage', compact('orders'));
+    }
+
+    public function updateStatus(Request $request, $id){
+        $order = Order::findOrFail($id);
+        $status = $request->status;
+        $order->status = $status;
+        if ($status == 1) {
+            $order->confirmed_date = Carbon::now();
+        } elseif ($status == 2) {
+            $order->prepared_date = Carbon::now();
+        } elseif ($status == 3) {
+            $order->hand_over_date = Carbon::now();
+        } elseif ($status == 4) {
+            $order->cancelled_date = Carbon::now();
+            $order->cancelled_reason = $request->cancel_reason;
+        }
+
+        $order->save();
+        return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
+
+    public function getItems($orderId) {
+        $items = \DB::table('order_items')
+            ->join('items', 'order_items.item_id', '=', 'items.id')
+            ->where('order_items.order_id', $orderId)
+            ->select('items.item_name', 'order_items.quantity', 'order_items.price')
+            ->get();
+
+        return response()->json($items);
     }
 
 }

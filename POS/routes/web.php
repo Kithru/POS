@@ -89,3 +89,8 @@ Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name
 Route::get('/category/{id}', [ItemController::class, 'itemsByCategory'])->name('items.byCategory');
 
 Route::post('/order/cancel/{order_code}', [OrderController::class, 'cancel'])->name('order.cancel');
+
+// Order Manage 
+Route::get('/orders/manage', [OrderController::class, 'manage'])->name('order.manage');
+Route::post('/orders/update-status/{order}', [OrderController::class, 'updateStatus'])->name('order.update.status');
+Route::get('/orders/items/{orderId}', [OrderController::class, 'getItems'])->name('order.items');
