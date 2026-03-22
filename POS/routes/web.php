@@ -96,3 +96,4 @@ Route::get('/orders/view', [OrderController::class, 'viewOrders'])->name('order.
 Route::post('/orders/update-status/{order}', [OrderController::class, 'updateStatus'])->name('order.update.status');
 Route::get('/orders/items/{orderId}', [OrderController::class, 'getItems'])->name('order.items');
 
+Route::get('/about', function () {return view('about');})->name('about');

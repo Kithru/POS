@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void{
-        View::composer(['layouts.header', 'layouts.footer'], function ($view) {
+        View::composer(['layouts.header', 'layouts.footer', 'layouts.headernavi'], function ($view) {
             $categories = Category::whereHas('items', function ($query) {
                 $query->where('status', 1); // only categories with active items
             })->get();
