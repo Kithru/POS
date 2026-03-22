@@ -10,8 +10,8 @@
 
         <!-- Logo -->
         <h1 class="logo">
-            <span class="logo-full">Rajarata Sakura</span>
-            <span class="logo-short">RS</span>
+            <span class="logo-full">Rajarata Sakura Restaurant</span>
+            <span class="logo-short">RSR</span>
         </h1>
 
         <!-- Search -->
