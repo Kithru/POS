@@ -47,7 +47,7 @@
 
             <!-- Home Icon at bottom -->
             <div class="home-icon">
-                <a href="{{ url('/') }}" title="Home">
+                <a href="{{ route('home') }}" title="Home">
                     <i class="fas fa-home"></i>
                 </a>
             </div>

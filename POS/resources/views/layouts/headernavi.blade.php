@@ -23,7 +23,7 @@
         <i class="fa fa-times"></i>
     </div>
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="{{ route('home') }}">Home</a></li>
         @if(isset($categories) && $categories->count() > 0)
             @foreach($categories as $category)
                 @if($category->category_id) {{-- Safety check --}}

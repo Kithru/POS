@@ -94,7 +94,7 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     <!-- Print Button -->
     <div class="print-btn-container multi-btn">
         <button onclick="printAndDownload()" class="print-btn"> 🖨 Download Receipt </button>
-        <a href="{{ url('/') }}" class="home-btn"> 🏠 Home </a>
+        <a href="{{ route('home') }}" class="home-btn"> 🏠 Home </a>
         <a href="{{ route('order.track', ['order_code' => $order->order_code]) }}" class="tracking-btn">📦 Track Order</a>
     </div>
 

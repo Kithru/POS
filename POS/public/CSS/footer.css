@@ -1,3 +1,21 @@
+/* ---------------- Global / Layout ---------------- */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.page-wrapper {
+    min-height: 100vh; /* full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1; /* grow to push footer down */
+}
+
+/* ---------------- Footer ---------------- */
 .footer {
     background-color: #2e1a26; /* Dark plum */
     color: #fff;
@@ -25,12 +43,9 @@
     font-size: 18px;
 }
 
-.footer-col p {
+.footer-col p, .footer-col a.footer-link {
     margin-bottom: 10px;
     font-size: 14px;
-}
-
-.footer-col a.footer-link {
     color: #fff;
     text-decoration: none;
     transition: 0.3s;
@@ -55,6 +70,12 @@
     color: #7a0f5c; /* Wine purple on hover */
 }
 
+.footer-contact {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+}
+
 .footer-bottom {
     margin-top: 30px;
     font-size: 13px;
@@ -63,16 +84,19 @@
     color: #ccc;
 }
 
-/* Responsive Footer */
-@media(max-width:768px) {
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
     .footer-container {
         flex-direction: column;
         text-align: center;
         gap: 20px;
     }
+
     .footer-col {
         min-width: auto;
     }
-}
 
-/* Concept Designed and Developed by KV */
+    .social-icons a {
+        margin: 0 5px;
+    }
+}

@@ -4,13 +4,19 @@
 
 <link rel="stylesheet" href="{{ asset('css/order.css') }}">
 
+<style>
+    .required {
+        color: red;
+        margin-left: 3px;
+    }
+</style>
+
 <div class="checkout-container">
 
     <h2>🧾 Checkout</h2>
 
-    <!-- Continue Shopping (TOP for better UX) -->
     <div class="continue-top">
-        <a href="{{ url('/') }}" class="add-more-btn">
+        <a href="{{ route('home') }}" class="add-more-btn">
             ← Continue Shopping
         </a>
     </div>
@@ -24,29 +30,65 @@
             <div class="checkout-box">
                 <h3>Customer Details</h3>
 
-                <input type="text" name="customer_name" id="customer_name" placeholder="Full Name" required>
-                <input type="email" name="customer_email" id="customer_email" placeholder="Email" required>
-                <input type="text" name="customer_phone" id="customer_phone" placeholder="Phone" required>
-                <input type="text" name="customer_address" id="customer_address" placeholder="Address" required>
+                <label>First Name <span class="required">*</span></label>
+                <input type="text" name="customer_first_name" id="customer_first_name" required>
+
+                <label>Last Name <span class="required">*</span></label>
+                <input type="text" name="customer_last_name" id="customer_last_name" required>
+
+                <label>Country / Region</label>
+                <p><strong>Japan</strong></p>
+                <input type="hidden" name="country" value="Japan">
+
+                <label>Postal Code <span class="required">*</span></label>
+                <input type="text" name="postal_code" id="postal_code" required>
+
+                <label>Prefecture <span class="required">*</span></label>
+                <input type="text" name="perfecture" id="perfecture" required>
+
+                <label>Town / City <span class="required">*</span></label>
+                <input type="text" name="city" id="city" required>
+
+                <label>Street Name <span class="required">*</span></label>
+                <input type="text" name="street_name" id="street_name" required>
+
+                <label>Apartment No</label>
+                <input type="text" name="apartment_no" id="apartment_no">
+
+                <label>Full Address <span class="required">*</span></label>
+                <input type="text" name="customer_address" id="customer_address" required>
+
+                <label>Email <span class="required">*</span></label>
+                <input type="email" name="customer_email" id="customer_email" required>
+
+                <label>Phone <span class="required">*</span></label>
+                <input type="text" name="customer_phone" id="customer_phone" required>
             </div>
 
             <!-- Delivery Details -->
             <div class="checkout-box">
                 <h3>Delivery Details</h3>
 
-                <!-- Modern toggle switch for "Same as Customer" -->
                 <label class="switch">
                     <input type="checkbox" id="sameAsCustomer">
                     <span class="slider"></span>
                     <span class="label-text">Same as Customer Details</span>
                 </label>
 
-                <input type="text" name="receiver_name" id="receiver_name" placeholder="Receiver Name" required>
-                <input type="email" name="receiver_email" id="receiver_email" placeholder="Receiver Email" required>
-                <input type="text" name="receiver_phone" id="receiver_phone" placeholder="Receiver Phone" required>
-                <input type="text" name="receiver_address" id="receiver_address" placeholder="Receiver Address" required>
+                <label>Receiver Name <span class="required">*</span></label>
+                <input type="text" name="receiver_name" id="receiver_name" required>
 
-                <textarea name="notes" placeholder="Notes (Optional)"></textarea>
+                <label>Receiver Email <span class="required">*</span></label>
+                <input type="email" name="receiver_email" id="receiver_email" required>
+
+                <label>Receiver Phone <span class="required">*</span></label>
+                <input type="text" name="receiver_phone" id="receiver_phone" required>
+
+                <label>Delivery Address <span class="required">*</span></label>
+                <input type="text" name="receiver_address" id="receiver_address" required>
+
+                <label>Notes</label>
+                <textarea name="notes" id="notes" placeholder="Optional instructions (e.g. leave at door)"></textarea>
             </div>
 
         </div>
@@ -57,7 +99,7 @@
 
             @php 
                 $total = 0; 
-                $cartItems = $cart ?? []; // Use cart from controller or empty array
+                $cartItems = $cart ?? [];
             @endphp
 
             @if(count($cartItems) > 0)
@@ -86,7 +128,7 @@
                 ✅ Place Order
             </button>
 
-            <a href="{{ url('/') }}" class="add-more-btn">
+            <a href="{{ route('home') }}" class="add-more-btn">
                 🛒 Continue Shopping
             </a>
         </div>
@@ -95,14 +137,17 @@
 
 </div>
 
-<!-- JavaScript for auto-fill delivery fields -->
+<!-- JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const checkbox = document.getElementById('sameAsCustomer');
 
     checkbox.addEventListener('change', function () {
         if (this.checked) {
-            document.getElementById('receiver_name').value = document.getElementById('customer_name').value;
+            const fullName = document.getElementById('customer_first_name').value + ' ' +
+                             document.getElementById('customer_last_name').value;
+
+            document.getElementById('receiver_name').value = fullName;
             document.getElementById('receiver_email').value = document.getElementById('customer_email').value;
             document.getElementById('receiver_phone').value = document.getElementById('customer_phone').value;
             document.getElementById('receiver_address').value = document.getElementById('customer_address').value;

@@ -96,8 +96,6 @@
             <p><strong>Address:</strong> 110-65, FUNYU, CHIKUSEI SHI, IBARAKI KEN, JAPAN</p>
         </div>
 
-        
-
         <!-- Customer Details -->
         <div class="section">
             <h2>Customer Details</h2>
