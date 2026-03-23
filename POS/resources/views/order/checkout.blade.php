@@ -37,10 +37,9 @@
                 <input type="text" name="customer_last_name" id="customer_last_name" required>
 
                 <label>Country / Region</label>
-                <p><strong>Japan</strong></p>
-                <input type="hidden" name="country" value="Japan">
-
-                <label>Postal Code <span class="required">*</span></label>
+                <p style="margin-bottom: 20px; margin-top: 10px;"><strong>Japan</strong></p>
+                
+                <label style="margin-top: 20px;">Postal Code <span class="required">*</span></label>
                 <input type="text" name="postal_code" id="postal_code" required>
 
                 <label>Prefecture <span class="required">*</span></label>
@@ -54,9 +53,6 @@
 
                 <label>Apartment No</label>
                 <input type="text" name="apartment_no" id="apartment_no">
-
-                <label>Full Address <span class="required">*</span></label>
-                <input type="text" name="customer_address" id="customer_address" required>
 
                 <label>Email <span class="required">*</span></label>
                 <input type="email" name="customer_email" id="customer_email" required>
@@ -75,17 +71,35 @@
                     <span class="label-text">Same as Customer Details</span>
                 </label>
 
-                <label>Receiver Name <span class="required">*</span></label>
-                <input type="text" name="receiver_name" id="receiver_name" required>
+                <label>First Name <span class="required">*</span></label>
+                <input type="text" name="receiver_first_name" id="receiver_first_name" required>
 
-                <label>Receiver Email <span class="required">*</span></label>
+                <label>Last Name <span class="required">*</span></label>
+                <input type="text" name="receiver_last_name" id="receiver_last_name" required>
+
+                <label>Country / Region</label>
+                <p style="margin-bottom: 20px; margin-top: 10px;"><strong>Japan</strong></p>
+                
+                <label style="margin-top: 20px;">Postal Code <span class="required">*</span></label>
+                <input type="text" name="receiver_postal_code" id="receiver_postal_code" required>
+
+                <label>Prefecture <span class="required">*</span></label>
+                <input type="text" name="receiver_prefecture" id="receiver_prefecture" required>
+
+                <label>Town / City <span class="required">*</span></label>
+                <input type="text" name="receiver_city" id="receiver_city" required>
+
+                <label>Street Name <span class="required">*</span></label>
+                <input type="text" name="receiver_street_name" id="receiver_street_name" required>
+
+                <label>Apartment No</label>
+                <input type="text" name="receiver_apartment_no" id="receiver_apartment_no">
+
+                <label>Email <span class="required">*</span></label>
                 <input type="email" name="receiver_email" id="receiver_email" required>
 
-                <label>Receiver Phone <span class="required">*</span></label>
+                <label>Phone <span class="required">*</span></label>
                 <input type="text" name="receiver_phone" id="receiver_phone" required>
-
-                <label>Delivery Address <span class="required">*</span></label>
-                <input type="text" name="receiver_address" id="receiver_address" required>
 
                 <label>Notes</label>
                 <textarea name="notes" id="notes" placeholder="Optional instructions (e.g. leave at door)"></textarea>
