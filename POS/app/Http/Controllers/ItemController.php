@@ -285,20 +285,40 @@ class ItemController extends Controller
     //     return view('home', compact('items'));
     // }
 
-    public function getItemsForHome() {
-        $items = \App\Models\Item::select(
+    // public function getItemsForHome() {
+    //     $items = \App\Models\Item::select(
+    //                 'items.*',
+    //                 'currency.currency_icon as currency_icon'
+    //             )
+    //             ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+    //             ->where('items.status', 1)
+    //             ->get();
+    //     $categories = \App\Models\Category::whereHas('items', function($q) {
+    //         $q->where('status', 1);
+    //     })->get();
+
+    //     return view('home', compact('items', 'categories'));
+    // }
+
+    public function getItemsForHome(Request $request) {
+        $query = Item::select(
                     'items.*',
                     'currency.currency_icon as currency_icon'
                 )
                 ->leftJoin('currency', 'items.currency', '=', 'currency.id')
-                ->where('items.status', 1)
-                ->get();
-        $categories = \App\Models\Category::whereHas('items', function($q) {
+                ->where('items.status', 1);
+
+        if ($request->filled('category_id')) {
+            $query->where('items.category_id', $request->category_id);
+        }
+        $items = $query->get();
+        $categories = Category::whereHas('items', function($q) {
             $q->where('status', 1);
         })->get();
 
         return view('home', compact('items', 'categories'));
     }
+
 
     public function mainSearch(Request $request){
         $query = $request->input('query');
@@ -329,6 +349,15 @@ class ItemController extends Controller
         })->get();
 
         return view('home', compact('items', 'categories'));
+    }
+
+    public function categoryLanding() {
+        $categories = Category::where('status', 1)->orderBy('category_name')->get();
+        return view('landing', compact('categories'));
+    }
+
+    public function selectCategory($id) {
+        return redirect()->route('home', ['category_id' => $id]);
     }
 
 }

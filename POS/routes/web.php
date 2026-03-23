@@ -11,6 +11,16 @@ use App\Http\Controllers\OrderController;
 // Default home page
 // Route::get('/', function () {return view('home');})->name('home');
 
+// First landing page
+Route::get('/', [ItemController::class, 'categoryLanding'])->name('landing');
+
+// Home (items page)
+Route::get('/home', [ItemController::class, 'getItemsForHome'])->name('home');
+// Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
+
+// Category click
+Route::get('/select-category/{id}', [ItemController::class, 'selectCategory'])->name('select.category');
+
 // Login page
 Route::get('/login', function () { return view('welcome'); })->name('login');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
@@ -58,8 +68,6 @@ Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit
 // Route::post('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
 Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
 Route::get('/items/view', [ItemController::class, 'viewItems'])->name('item.view');
-
-Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
 
 // Item search for Home
 Route::get('/search-items', [ItemController::class, 'mainSearch'])->name('item.search');

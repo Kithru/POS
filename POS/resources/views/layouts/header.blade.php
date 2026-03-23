@@ -41,7 +41,7 @@
         <i class="fa fa-times"></i>
     </div>
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="{{ route('home') }}">Home</a></li>
         @if(isset($categories) && $categories->count() > 0)
             @foreach($categories as $category)
                 @if($category->category_id) {{-- Safety check --}}
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const count = parseInt(cartCountEl.textContent) || 0;
             if (count === 0) {
                 e.preventDefault(); // stop going to cart page
-                window.location.href = "/"; // redirect to home page
+                window.location.href = "{{ route('home') }}"; // redirect to home page
             }
         });
     }

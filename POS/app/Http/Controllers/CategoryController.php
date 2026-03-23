@@ -46,15 +46,13 @@ class CategoryController extends Controller
     }
 
     // Show Edit Category page
-    public function edit($id)
-    {
+    public function edit($id){
         $category = Category::findOrFail($id);
         return view('category.category_edit', compact('category'));
     }
 
     // Update Category
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $request->validate([
             'category_name' => "required|unique:categories,category_name,$id,category_id",
             'description' => 'nullable|string'
@@ -73,8 +71,7 @@ class CategoryController extends Controller
     }
 
     // Delete Category
-    public function destroy($id)
-    {
+    public function destroy($id){
         $category = Category::findOrFail($id);
         $category->delete();
 

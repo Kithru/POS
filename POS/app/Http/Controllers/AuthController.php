@@ -8,14 +8,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     
-    public function showLogin()
-    {
+    public function showLogin(){
         return view('welcome'); 
     }
 
-   
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         // Full Validation
         $request->validate([
             'email' => 'required|email|max:255',
@@ -59,7 +56,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         $request->session()->forget(['user_id', 'user_level']);
-
-        return redirect('/');
+        return redirect()->route('home');
     }
+
 }
