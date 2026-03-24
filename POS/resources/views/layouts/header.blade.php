@@ -1,117 +1,95 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <header class="header">
-    <div class="container">
 
-        <!-- Hamburger -->
-        <div class="hamburger" id="menuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- TOP BAR -->
+    <div class="header-top">
+        <!-- LEFT: LOCATION -->
+        <div class="header-left">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Company Logo" class="logo">
+            </a>
         </div>
 
-        <!-- Logo -->
-        <h1 class="logo">
-            <span class="logo-full">Rajarata Sakura Restaurant</span>
-            <span class="logo-short">RSR</span>
-        </h1>
-
-        <!-- Search -->
-        <div class="search-center">
-            <form action="{{ route('item.search') }}" method="GET" style="display:flex; width:100%;">
-                <input type="text" id="searchInput" name="query" placeholder="Search Items ..." value="{{ request('query') }}">
+        <!-- CENTER: SEARCH -->
+        <div class="search-wrapper">
+            <form action="{{ route('item.search') }}" method="GET" class="search-form">
+                <input type="text" id="searchInput" name="query"
+                    placeholder="Find product..."
+                    value="{{ request('query') }}" autocomplete="off">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                 <span class="clear-btn" id="clearSearch">✕</span>
             </form>
         </div>
 
-        <!-- Cart -->
-        <div class="cart-icon">
-            <a href="{{ route('cart.index') }}" class="cart-link">
-                🛒
-                <span class="cart-count-badge" id="cartCount">
+        <!-- RIGHT: ACTION ICONS -->
+        <div class="header-right">
+            <a href="{{ route('cart.index') }}" class="cart-wrapper" title="My Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">
                     {{ session('cart') ? count(session('cart')) : 0 }}
                 </span>
+            </a>
+
+            <a href="{{ route('login.post') }}" class="header-icon" title="Sign In">
+                <i class="fas fa-user"></i>
             </a>
         </div>
 
     </div>
-</header>
 
-<!-- SIDE MENU -->
-<nav class="side-menu" id="sideMenu">
-    <div class="close-btn" id="closeMenu">
-        <i class="fa fa-times"></i>
-    </div>
-    <ul>
-        <li><a href="{{ route('home') }}">Home</a></li>
-        @if(isset($categories) && $categories->count() > 0)
-            @foreach($categories as $category)
-                @if($category->category_id) {{-- Safety check --}}
-                    <li>
+    <!-- NAVIGATION BAR -->
+    <div class="nav-wrapper">
+        <nav class="nav-menu">
+            <div class="nav-dropdown" id="categoryDropdown">
+                 <span class="nav-link dropdown-toggle">
+        Categories
+        <i class="fas fa-chevron-down dropdown-icon"></i> <!-- added icon -->
+    </span>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    @foreach($categories as $category)
                         <a href="{{ route('items.byCategory', $category->category_id) }}">
                             {{ $category->category_name }}
                         </a>
-                    </li>
-                @endif
-            @endforeach
-        @endif
-        <li><a href="{{ route('about') }}">About Us</a></li>
-        <!-- <li><a href="#">Contact</a></li> -->
-        <li><a href="{{ route('order.track') }}">Track My Order</a></li> 
-        <li><a href="{{ route('login.post') }}">Login</a></li>
-    </ul>
-</nav>
+                    @endforeach
+                </div>
+            </div>
+            <!-- Example other nav links -->
+            <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+            <a href="{{ route('order.track') }}" class="nav-link {{ request()->routeIs('order.track') ? 'active' : '' }}">Track Order</a>
+        </nav>
+    </div>
+
+</header>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    // ----- SIDEBAR MENU -----
-    const menuBtn = document.getElementById("menuBtn");
-    const sideMenu = document.getElementById("sideMenu");
-    const closeMenu = document.getElementById("closeMenu");
-
-    if (menuBtn && sideMenu) {
-        menuBtn.addEventListener("click", () => {
-            sideMenu.style.left = "0"; // open menu
-        });
-    }
-
-    if (closeMenu && sideMenu) {
-        closeMenu.addEventListener("click", () => {
-            sideMenu.style.left = "-260px"; // close menu
-        });
-    }
-
-    // ----- CLEAR SEARCH -----
+document.addEventListener("DOMContentLoaded", function () {
+    // CLEAR SEARCH
     const clearBtn = document.getElementById("clearSearch");
     const searchInput = document.getElementById("searchInput");
-
     if (clearBtn && searchInput) {
         clearBtn.addEventListener("click", () => {
             searchInput.value = "";
             searchInput.focus();
         });
     }
+    
 
-    // ----- CART COUNT -----
-    const cartCountEl = document.getElementById("cartCount");
-    const cartLink = document.querySelector(".cart-link");
+    // DROPDOWN TOGGLE
+    const dropdown = document.getElementById("categoryDropdown");
+    const menu = document.getElementById("dropdownMenu");
+    dropdown.addEventListener("click", function (e) {
+        e.stopPropagation();
+        menu.classList.toggle("show");
+        dropdown.classList.toggle("open");
+    });
+    menu.addEventListener("click", function (e) { e.stopPropagation(); });
+    document.addEventListener("click", function () { menu.classList.remove("show"); });
 
-    function updateCartCount(count) {
-        if (cartCountEl) {
-            cartCountEl.textContent = count;
-        }
-    }
-    window.updateCartCount = updateCartCount;
-
-    // ----- CART CLICK BEHAVIOR -----
-    if (cartLink && cartCountEl) {
-        cartLink.addEventListener("click", function(e) {
-            const count = parseInt(cartCountEl.textContent) || 0;
-            if (count === 0) {
-                e.preventDefault(); // stop going to cart page
-                window.location.href = "{{ route('home') }}"; // redirect to home page
-            }
-        });
-    }
-
+    // CART COUNT UPDATE
+    window.updateCartCount = function(count) {
+        const el = document.getElementById("cartCount");
+        if (el) el.textContent = count;
+    };
 });
 </script>

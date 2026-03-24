@@ -320,10 +320,25 @@ class ItemController extends Controller
     }
 
 
+    // public function mainSearch(Request $request){
+    //     $query = $request->input('query');
+
+    //     $items = \App\Models\Item::select(
+    //                     'items.*',
+    //                     'currency.currency_icon as currency_icon'
+    //                 )
+    //                 ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+    //                 ->where('items.item_name', 'like', "%{$query}%")
+    //                 ->where('items.status', 1)
+    //                 ->get();
+
+    //     return view('home', compact('items'));
+    // }
+
     public function mainSearch(Request $request){
         $query = $request->input('query');
 
-        $items = \App\Models\Item::select(
+        $items = Item::select(
                         'items.*',
                         'currency.currency_icon as currency_icon'
                     )
@@ -331,8 +346,11 @@ class ItemController extends Controller
                     ->where('items.item_name', 'like', "%{$query}%")
                     ->where('items.status', 1)
                     ->get();
+        $categories = Category::whereHas('items', function($q){
+            $q->where('status', 1);
+        })->get();
 
-        return view('home', compact('items'));
+        return view('home', compact('items', 'categories'));
     }
 
     public function itemsByCategory($category_id) {
