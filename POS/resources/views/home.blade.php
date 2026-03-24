@@ -37,17 +37,6 @@
     </button>
 </div>
 
-<!-- Category Buttons -->
-<div class="category-buttons">
-    <button class="category-btn active" data-category="all">All</button>
-    @foreach($categories as $category)
-        <button class="category-btn" data-category="{{ $category->category_id }}">
-            {{ $category->category_name }}
-        </button>
-    @endforeach
-</div>
-
-
 <!-- Products Section -->
 <section class="products" id="productsContainer">
 @forelse($items as $item)
