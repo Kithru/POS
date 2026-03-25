@@ -64,32 +64,46 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     // CLEAR SEARCH
     const clearBtn = document.getElementById("clearSearch");
     const searchInput = document.getElementById("searchInput");
+
     if (clearBtn && searchInput) {
         clearBtn.addEventListener("click", () => {
             searchInput.value = "";
             searchInput.focus();
         });
     }
-    
 
-    // DROPDOWN TOGGLE
     const dropdown = document.getElementById("categoryDropdown");
     const menu = document.getElementById("dropdownMenu");
-    dropdown.addEventListener("click", function (e) {
-        e.stopPropagation();
-        menu.classList.toggle("show");
-        dropdown.classList.toggle("open");
-    });
-    menu.addEventListener("click", function (e) { e.stopPropagation(); });
-    document.addEventListener("click", function () { menu.classList.remove("show"); });
 
-    // CART COUNT UPDATE
+    if (dropdown && menu) {
+
+        dropdown.addEventListener("click", function (e) {
+            e.stopPropagation();
+
+            const isOpen = menu.classList.contains("show");
+            menu.classList.toggle("show");
+            dropdown.classList.toggle("open", !isOpen);
+        });
+
+        // prevent closing when clicking inside menu
+        menu.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+
+        document.addEventListener("click", function () {
+            menu.classList.remove("show");
+            dropdown.classList.remove("open"); // 🔥 reset arrow
+        });
+    }
+
     window.updateCartCount = function(count) {
         const el = document.getElementById("cartCount");
         if (el) el.textContent = count;
     };
+
 });
 </script>
