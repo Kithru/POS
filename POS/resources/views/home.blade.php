@@ -8,6 +8,7 @@
         <div class="ad-slide">🍣 Fresh Sushi Available Now!</div>
         <div class="ad-slide">🚚 Free Delivery for Orders Over 5000</div>
         <div class="ad-slide">🎉 Special Combo Offers This Week</div>
+        
         <!-- ...................................................................... -->
         <div class="ad-slide">🔥 20% OFF on All Items Today!</div>
         <div class="ad-slide">🍣 Fresh Sushi Available Now!</div>
@@ -38,36 +39,74 @@
 </div>
 
 <!-- Products Section -->
-<section class="products" id="productsContainer">
-@forelse($items as $item)
-    <div class="product-card">
-        <!-- Product Image -->
-        <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}" alt="{{ $item->item_name }}">
-        
-        <div class="product-info">
-            <h3 class="item-name">{{ $item->item_name }}</h3>
-            <p>{{ $item->description ?? 'No description available' }}</p>
-            <!-- Product Price with Currency Icon -->
-            <span class="product-price">
-                {!! $item->currency_icon ?? '' !!} {{ number_format($item->price, 2) }}
-            </span>
-            <br><br>
-            
-            <!-- Order Button -->
-            <button class="orderBtn"
-                data-id="{{ $item->item_id }}"
-                data-name="{{ $item->item_name }}"
-                data-price="{{ $item->price }}"
-                data-desc="{{ $item->description ?? '' }}"
-                data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}"
-                data-currency-icon='{!! $item->currency_icon ?? "" !!}'>
-                Order Now
-            </button>
-        </div>
+<div class="products-wrapper">
+    <!-- LEFT ARROW -->
+    <div class="scroll-arrow left-arrow">
+        <i class="fas fa-chevron-left"></i>
     </div>
-@empty
-    <p>No items available.</p>
-@endforelse
+
+    <!-- PRODUCTS -->
+    <section class="products" id="productsContainer">
+        @forelse($items as $item)
+            <div class="product-card">
+                <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}" alt="{{ $item->item_name }}">
+                
+                <div class="product-info">
+                    <h3 class="item-name">{{ $item->item_name }}</h3>
+                    <span class="product-price">
+                        {!! $item->currency_icon ?? '' !!} {{ number_format($item->price, 2) }}
+                    </span>
+                    <br><br>
+
+                    <button class="orderBtn"
+                        data-id="{{ $item->item_id }}"
+                        data-name="{{ $item->item_name }}"
+                        data-price="{{ $item->price }}"
+                        data-desc="{{ $item->description ?? '' }}"
+                        data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}"
+                        data-currency-icon='{!! $item->currency_icon ?? "" !!}'>
+                        Order Now
+                    </button>
+                </div>
+            </div>
+        @empty
+            <p>No items available.</p>
+        @endforelse
+    </section>
+
+    <!-- RIGHT ARROW -->
+    <div class="scroll-arrow right-arrow">
+        <i class="fas fa-chevron-right"></i>
+    </div>
+</div>
+
+<div style="display: flex; justify-content: center;">
+    <h2 class="explore-title">Explore more products</h2>
+</div>
+
+<section class="products-grid">
+    @forelse($items as $item)
+        <div class="product-card">
+            <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}">
+            
+            <div class="product-info">
+                <h3 class="item-name">{{ $item->item_name }}</h3>
+
+                <span class="product-price">
+                    {!! $item->currency_icon ?? '' !!} {{ number_format($item->price, 2) }}
+                </span>
+
+                <button class="orderBtn"
+                    data-id="{{ $item->item_id }}"
+                    data-name="{{ $item->item_name }}"
+                    data-price="{{ $item->price }}">
+                    Order Now
+                </button>
+            </div>
+        </div>
+    @empty
+        <p>No items available.</p>
+    @endforelse
 </section>
 
 <!-- ORDER POPUP -->
@@ -152,6 +191,19 @@ categoryButtons.forEach(btn => {
             }
         });
     });
+});
+
+const leftArrow = document.querySelector('.left-arrow');
+const rightArrow = document.querySelector('.right-arrow');
+const productsContainer = document.getElementById('productsContainer');
+const scrollAmount = 220; 
+
+leftArrow.addEventListener('click', () => {
+    productsContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+});
+
+rightArrow.addEventListener('click', () => {
+    productsContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 });
 
 </script>

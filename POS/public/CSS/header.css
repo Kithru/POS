@@ -122,3 +122,14 @@ body { margin: 0; font-family: 'Segoe UI', sans-serif; }
 .nav-dropdown.open .dropdown-toggle i {
     transform: rotate(180deg);
 }
+
+.header-left-navi .logo-navi{
+    height: 50px;                  /* keeps header height unchanged */
+    width: auto;
+    transform: scale(1.5);         /* make logo bigger */
+    transform-origin: left top;    /* grow from top-left */
+    margin-top: -20px;             /* keep top margin */
+    margin-left: -30px;            /* move logo further left */
+    position: relative;            /* allows overlap */
+    z-index: 1000;                 /* above nav */
+}
