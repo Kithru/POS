@@ -318,6 +318,8 @@ body {
     color: #fff;
     cursor: pointer;
     transition: background 0.3s ease;
+    text-decoration: none; /* removes underline */
+    display: inline-block;
 }
 
 .category-btn.active {
@@ -388,4 +390,125 @@ body {
         font-size: 12px;
         padding: 0 10px;
     }
+}
+
+/* ===============================
+   EXPLORE SECTION WITH FILTER
+================================ */
+.explore-section {
+    padding: 20px;
+}
+
+.explore-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrap for small screens */
+}
+
+/* FILTER SQUARE */
+.explore-filter {
+    flex: 0 0 200px; /* Fixed width sidebar */
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.explore-filter h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7a0f5c;
+    margin-bottom: 12px;
+}
+
+.explore-filter .category-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.explore-filter .category-btn {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    background: #f0e5eb;
+    color: #7a0f5c;
+    transition: 0.25s;
+}
+
+.explore-filter .category-btn.active,
+.explore-filter .category-btn:hover {
+    background: #7a0f5c;
+    color: #fff;
+}
+
+/* PRODUCTS GRID */
+.explore-products {
+    flex: 1 1 auto; /* Take remaining space */
+}
+
+/* Adjust Explore title */
+.explore-title {
+    margin: 20px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #7a0f5c;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.explore-title::after {
+    content: "";
+    display: block;
+    width: 100%;
+    max-width: 1320px;
+    height: 4px;
+    background: linear-gradient(90deg, #aa2b66, #6a1b9a);
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* PRODUCTS GRID */
+.products-grid {
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media(max-width:992px){
+    .explore-container {
+        flex-direction: column; /* Stack filter + products on smaller screens */
+    }
+
+    .explore-filter {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .explore-title::after {
+        width: 90%;
+    }
+}
+
+@media(max-width:480px){
+    .explore-title::after {
+        width: 80%;
+    }
+}
+
+.price-input {
+    width: 100%;
+    padding: 6px 10px;
+    margin-bottom: 8px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:14px;
 }

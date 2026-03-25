@@ -299,7 +299,7 @@ class ItemController extends Controller
 
     //     return view('home', compact('items', 'categories'));
     // }
-
+    
     public function getItemsForHome(Request $request) {
         $query = Item::select(
                     'items.*',
@@ -312,11 +312,18 @@ class ItemController extends Controller
             $query->where('items.category_id', $request->category_id);
         }
         $items = $query->get();
+        $exploreItems = Item::where('status', 1)->get();
+
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc') 
+                        ->take(10)
+                        ->get();
+
         $categories = Category::whereHas('items', function($q) {
             $q->where('status', 1);
         })->get();
 
-        return view('home', compact('items', 'categories'));
+        return view('home', compact('items', 'topItems', 'exploreItems', 'categories'));
     }
 
 
@@ -335,7 +342,7 @@ class ItemController extends Controller
     //     return view('home', compact('items'));
     // }
 
-    public function mainSearch(Request $request){
+    public function mainSearch(Request $request) {
         $query = $request->input('query');
 
         $items = Item::select(
@@ -346,14 +353,21 @@ class ItemController extends Controller
                     ->where('items.item_name', 'like', "%{$query}%")
                     ->where('items.status', 1)
                     ->get();
+
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc') 
+                        ->take(10)
+                        ->get();
+
+        $exploreItems = $items;
         $categories = Category::whereHas('items', function($q){
             $q->where('status', 1);
         })->get();
 
-        return view('home', compact('items', 'categories'));
+        return view('home', compact('items', 'topItems', 'exploreItems', 'categories'));
     }
 
-    public function itemsByCategory($category_id) {
+    public function itemsByCategory($category_id){
         $items = Item::select(
                         'items.*',
                         'currency.currency_icon as currency_icon'
@@ -362,11 +376,19 @@ class ItemController extends Controller
                     ->where('items.status', 1)
                     ->where('items.category_id', $category_id)
                     ->get();
+
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc')
+                        ->take(10)
+                        ->get();
+
+        $exploreItems = $items;
+
         $categories = Category::whereHas('items', function($q){
             $q->where('status', 1);
         })->get();
 
-        return view('home', compact('items', 'categories'));
+        return view('home', compact('items', 'topItems', 'exploreItems', 'categories'));
     }
 
     public function categoryLanding() {
@@ -376,6 +398,97 @@ class ItemController extends Controller
 
     public function selectCategory($id) {
         return redirect()->route('home', ['category_id' => $id]);
+    }
+
+    
+    public function filterItems(Request $request) {
+        $query = Item::select('items.*', 'currency.currency_icon as currency_icon')
+                    ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+                    ->where('items.status', 1);
+
+        // Category filter
+        if ($request->filled('category_id') && $request->category_id != 'all') {
+            $query->where('items.category_id', $request->category_id);
+        }
+
+        // Price filters
+        if ($request->filled('min_price')) {
+            $query->where('items.price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('items.price', '<=', $request->max_price);
+        }
+
+        $items = $query->orderBy('items.price', 'asc')->get();
+
+        if ($request->ajax()) {
+            return view('partials.products_grid', compact('items'))->render();
+        }
+
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc') 
+                        ->take(10)
+                        ->get();
+
+        $categories = Category::whereHas('items', function($q){
+            $q->where('status', 1);
+        })->get();
+
+        return view('home', [
+            'items' => $items,             
+            'topItems' => $topItems,
+            'exploreItems' => $items,
+            'categories' => $categories
+        ]);
+    }
+
+    public function filter(Request $request) {
+        $categoryId = $request->input('category_id', 'all');
+        $minPrice = $request->input('min_price', 0);
+        $maxPrice = $request->input('max_price', 100000);
+
+        $query = Item::where('status', 1);
+
+        if ($categoryId != 'all') {
+            $query->where('category_id', $categoryId);
+        }
+
+        $query->whereBetween('price', [$minPrice, $maxPrice]);
+
+        $items = $query->get();
+
+        if ($request->ajax()) {
+            return view('partials.products_grid', compact('items'))->render();
+        }
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc') 
+                        ->take(10)
+                        ->get();
+
+        $categories = Category::whereHas('items', function($q){
+            $q->where('status', 1);
+        })->get();
+
+        return view('home', [
+            'items' => $items,
+            'topItems' => $topItems,
+            'exploreItems' => $items,
+            'categories' => $categories
+        ]);
+    }
+
+    public function index(){
+        $items = Item::where('status', 1)->get();
+        $topItems = Item::where('status', 1)
+                        ->orderBy('added_date', 'desc') 
+                        ->take(10)
+                        ->get();
+
+        $exploreItems = $items;
+        $categories = Category::all();
+
+        return view('home', compact('items', 'topItems', 'exploreItems', 'categories'));
     }
 
 }
