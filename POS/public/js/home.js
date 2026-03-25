@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             popupName.textContent = currentItem.name;
             popupDesc.textContent = currentItem.desc || 'No description';
-            popupPrice.innerHTML = currentItem.currency_icon + " " + currentItem.price.toFixed(2);
+            popupPrice.innerHTML = "¥ " + currentItem.price.toFixed(2);
             popupImage.src = currentItem.image;
             qtyInput.value = 1;
             modal.style.display = "flex";
@@ -104,4 +104,87 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+});
+
+
+// const CART_ADD_URL = "{{ route('cart.add') }}";
+
+// Banner Auto Slide (3 seconds)
+let slides = document.querySelectorAll('.banner-slide');
+let currentSlide = 0;
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+    });
+    slides[index].classList.add('active');
+}
+
+// Auto change every 5 seconds
+setInterval(() => {
+    currentSlide++;
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    }
+    showSlide(currentSlide);
+}, 5000);
+
+function nextSlide() {
+    currentSlide++;
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    }
+    showSlide(currentSlide);
+}
+
+function prevSlide() {
+    currentSlide--;
+    if (currentSlide < 0) {
+        currentSlide = slides.length - 1;
+    }
+    showSlide(currentSlide);
+}
+
+// Category filtering
+const categoryButtons = document.querySelectorAll('.category-btn');
+const productCards = document.querySelectorAll('.product-card');
+
+categoryButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const category = btn.getAttribute('data-category');
+
+        productCards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+
+const leftArrow = document.querySelector('.left-arrow');
+const rightArrow = document.querySelector('.right-arrow');
+const productsContainer = document.getElementById('productsContainer');
+const scrollAmount = 220; 
+
+leftArrow.addEventListener('click', () => {
+    productsContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+});
+
+rightArrow.addEventListener('click', () => {
+    productsContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if(window.location.hash === '#exploreSection'){
+        const explore = document.getElementById('exploreSection');
+        if(explore){
+            explore.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 });
