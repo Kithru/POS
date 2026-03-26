@@ -35,8 +35,6 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     <div class="section card">
         <h2>Customer Details</h2>
         @if($order->customer)
-            <div class="section">
-                <h2>Customer Details</h2>
                 <p><strong>Name:</strong> {{ $order->customer->customer_first_name ?? '' }} {{ $order->customer->customer_last_name ?? '' }}</p>
                 <p><strong>Email:</strong> {{ $order->customer->customer_email ?? '' }}</p>
                 <p><strong>Phone:</strong> {{ $order->customer->customer_phone ?? '' }}</p>
@@ -47,7 +45,6 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
                     {{ $order->customer->street_name ?? '' }}
                     {{ $order->customer->apartment_no ?? '' }}
                 </p>
-            </div>
         @else
             <p>No customer info available.</p>
         @endif
@@ -126,9 +123,9 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 
 <!-- Auto PDF download on page load -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
+// });
 
 function printAndDownload() {
     setTimeout(function() {
