@@ -9,14 +9,10 @@ class OrderCustomer extends Model
 {
     use HasFactory;
 
-    // Table name (optional if it follows Laravel naming convention)
     protected $table = 'order_customer';
-
-    // Primary key
     protected $primaryKey = 'order_customer_id';
-
-    // Disable default timestamps as we use custom columns
-    public $timestamps = false;
+    public $timestamps = false; 
+    protected $guarded = [];
 
     // Mass assignable fields
     protected $fillable = [

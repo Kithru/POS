@@ -95,14 +95,14 @@ class OrderController extends Controller
 
     public function receipt($order_id){
         try {
-            $id = Crypt::decryptString($order_id);
+            $id = \Crypt::decryptString($order_id);
             $order = Order::with(['items.item', 'customer'])->findOrFail($id);
             return view('order.receipt_view', compact('order'));
         } catch (\Exception $e) {
             abort(404, 'Invalid order ID.');
         }
     }
-
+    
     public function downloadPdf($order_id){
         try {
             $id = Crypt::decryptString($order_id);

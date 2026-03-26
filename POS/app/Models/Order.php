@@ -8,7 +8,7 @@ use App\Models\OrderItem;
 class Order extends Model
 {
     protected $primaryKey = 'order_id';
-
+    protected $guarded = [];
     public $timestamps = true;
     const CREATED_AT = 'added_date';
     const UPDATED_AT = 'modified_date';
@@ -33,5 +33,6 @@ class Order extends Model
     public function customer(){
         return $this->hasOne(OrderCustomer::class, 'order_id', 'order_id');
     }
+    
 }
 
