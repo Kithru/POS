@@ -83,6 +83,7 @@
                     <th style="padding:12px; text-align:left;">Category</th>
                     <th style="padding:12px; text-align:left;">Subcategory</th>
                     <th style="padding:12px;">Price</th>
+                    <th style="padding:12px;">Discount</th>
                     <th style="padding:12px;">Quantity</th>
                     <th style="padding:12px;">Status</th>
                     <th style="padding:12px;">Added Date</th>
@@ -99,6 +100,7 @@
                         <td style="padding:12px; text-align:left;">{{ $item->category->category_name ?? '-' }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->subcategory->subcategory_name ?? '-' }}</td>
                         <td style="padding:12px;">{{ number_format($item->price,2) }}</td>
+                        <td style="padding:12px;">{{ number_format($item->discount, 2) }}</td>
                         <td style="padding:12px;">{{ $item->quantity }}</td>
                         <td style="padding:12px;">
                             @if($item->status == 1)
