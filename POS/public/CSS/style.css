@@ -452,24 +452,31 @@ body {
 
 /* Adjust Explore title */
 .explore-title {
-    margin: 20px 0;
-    font-size: 22px;
+    margin: 40px 20px 20px;
+    font-size: 24px;
     font-weight: 700;
-    color: #7a0f5c;
     text-align: center;
     position: relative;
     display: inline-block;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #ffb347, #ff7eb3); /* golden-pink gradient complementing purple */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.1); /* subtle depth */
 }
 
+/* Horizontal line under title */
 .explore-title::after {
     content: "";
     display: block;
-    width: 100%;
+    width: 60%;
     max-width: 1320px;
     height: 4px;
-    background: linear-gradient(90deg, #aa2b66, #6a1b9a);
-    margin: 8px auto 0;
+    background: linear-gradient(90deg, #ffb347, #ff7eb3); /* matching line gradient */
+    margin: 10px auto 0;
     border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: width 0.3s ease, margin 0.3s ease;
 }
 
 /* PRODUCTS GRID */
