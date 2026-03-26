@@ -53,7 +53,6 @@ class ItemController extends Controller
 
     // Store Item
     public function store(Request $request) {
-
         $request->validate([
             'item_name'        => 'required|max:255',
             'currency'         => 'required',
@@ -61,12 +60,12 @@ class ItemController extends Controller
             'subcategory_id'   => 'required|exists:subcategories,subcategory_id',
             'description'      => 'nullable',
             'price'            => 'required|numeric',
-            'quantity'         => 'required|numeric',
+            'quantity'         => 'nullable|numeric|min:0',
+            'discount'         => 'nullable|numeric|min:0|max:100', // new discount validation
             'image'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'countable'        => 'nullable|integer'
         ]);
 
-        // Check for duplicate in same subcategory
         $exists = Item::where('item_name', $request->item_name)
                     ->where('subcategory_id', $request->subcategory_id)
                     ->exists();
@@ -77,6 +76,7 @@ class ItemController extends Controller
                             ->with('error', 'Item with this name already exists in the selected subcategory.');
         }
 
+        // Handle image
         $imageName = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -86,24 +86,25 @@ class ItemController extends Controller
             $file->move(public_path('images/uploads'), $imageName);
         }
 
-
+        // Generate item code
         $subcategory = SubCategory::find($request->subcategory_id);
-        if(!$subcategory) {
-            return redirect()->back()->withInput()->with('error', 'Invalid subcategory.');
-        }
         $lastItem = Item::latest('item_id')->first();
         $nextId = $lastItem ? $lastItem->item_id + 1 : 1;
         $itemCode = $subcategory->subcategory_code . '-' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+
+        // Determine quantity based on countable
+        $quantity = $request->countable ? $request->quantity : 0;
 
         Item::create([
             'item_name'       => $request->item_name,
             'item_code'       => $itemCode,
             'currency'        => $request->currency,
             'category_id'     => $request->category_id,
-            'subcategory_id' => $request->subcategory_id,
+            'subcategory_id'  => $request->subcategory_id,
             'description'     => $request->description,
             'price'           => $request->price,
-            'quantity'        => $request->quantity,
+            'discount'        => $request->discount ?? 0, // new field
+            'quantity'        => $quantity,
             'countable'       => $request->countable ?? 1,
             'image'           => $imageName,
             'added_date'      => now(),
@@ -197,7 +198,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
 
         $request->validate([
-               'item_name' => ['required','max:255',
+            'item_name' => ['required','max:255',
                 Rule::unique('items')->where(function ($query) use ($request) {
                     return $query->where('subcategory_id', $request->subcategory_id);
                 })->ignore($item->item_id, 'item_id')
@@ -206,22 +207,22 @@ class ItemController extends Controller
             'category_id'    => 'required',
             'subcategory_id' => 'required',
             'price'          => 'required|numeric',
-            'quantity'       => 'required|numeric|min:0',
+            'quantity'       => 'nullable|numeric|min:0',
+            'discount'       => 'nullable|numeric|min:0|max:100', // new field
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status'         => 'required|in:0,1',
         ]);
 
         $imageName = $item->image;
-
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
-
             $imageName = $filename.'_'.time().'.'.$extension;
-
             $file->move(public_path('images/uploads'), $imageName);
         }
+
+        $quantity = $request->countable ? $request->quantity : 0;
 
         $item->update([
             'item_name'      => $request->item_name,
@@ -230,7 +231,8 @@ class ItemController extends Controller
             'subcategory_id' => $request->subcategory_id,
             'description'    => $request->description,
             'price'          => $request->price,
-            'quantity'       => $request->quantity,
+            'discount'       => $request->discount ?? 0, // update discount
+            'quantity'       => $quantity,
             'countable'      => $request->countable ?? 1,
             'status'         => $request->status,
             'image'          => $imageName,

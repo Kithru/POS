@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('item_code')->unique();
             $table->string('currency');
             $table->decimal('price',10,2);
+            $table->decimal('discount', 8, 2)->default(0)->after('price');
             $table->integer('quantity');
             $table->boolean('countable')->default(1);
             $table->tinyInteger('status')->default(1)->comment('1 = Active, 0 = Deactive'); 
