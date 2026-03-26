@@ -15,19 +15,11 @@ return new class extends Migration
             $table->id('order_id');
             $table->string('order_code')->unique();
             
-            $table->string('customer_name');
-            $table->string('customer_email');
-            $table->string('customer_phone');
-            $table->string('customer_address');
-
-            // Delivery
-            $table->string('receiver_name');
-            $table->string('receiver_email');
-            $table->string('receiver_phone');
-            $table->string('receiver_address');
             $table->string('status')->default('0')->comment('Order status: pending=0, confirmed=1, prepared=2, hand over=3, cancelled=4');
             $table->text('notes')->nullable();
             $table->decimal('total_amount', 10, 2);
+            $table->decimal('discount', 10, 2)->default(0);
+            $table->decimal('tax', 10, 2)->default(0);
             $table->timestamp('added_date')->useCurrent();
             $table->timestamp('confirmed_date')->nullable();
             $table->timestamp('prepared_date')->nullable();

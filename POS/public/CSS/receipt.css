@@ -218,4 +218,10 @@ body {
     }
 }
 
+.receipt-header .logo {
+    max-height: 80px;       /* adjust as needed */
+    display: block;
+    margin: 0 auto 10px;    /* center and add spacing below */
+}
+
 /* Concept Designed and Developed by KV */

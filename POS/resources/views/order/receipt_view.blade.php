@@ -17,7 +17,8 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     @endif
 
     <div class="receipt-header">
-        <h1>🍽 Order Receipt</h1>
+        <img src="{{ asset('images/logo.png') }}" alt="Company Logo" class="logo" style="max-height: 80px; display:block; margin-bottom:10px;">
+        <h1>Order Receipt</h1>
         <p><strong>Order ID:</strong> {{ $order->order_code }}</p>
         <p><strong>Date:</strong> {{ $order->added_date->format('d M Y, H:i') }}</p>
     </div>
@@ -33,19 +34,42 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     <!-- Customer Details -->
     <div class="section card">
         <h2>Customer Details</h2>
-        <p><strong>Name:</strong> {{ $order->customer_name }}</p>
-        <p><strong>Email:</strong> {{ $order->customer_email }}</p>
-        <p><strong>Phone:</strong> {{ $order->customer_phone }}</p>
-        <p><strong>Address:</strong> {{ $order->customer_address }}</p>
+        @if($order->customer)
+            <div class="section">
+                <h2>Customer Details</h2>
+                <p><strong>Name:</strong> {{ $order->customer->customer_first_name ?? '' }} {{ $order->customer->customer_last_name ?? '' }}</p>
+                <p><strong>Email:</strong> {{ $order->customer->customer_email ?? '' }}</p>
+                <p><strong>Phone:</strong> {{ $order->customer->customer_phone ?? '' }}</p>
+                <p><strong>Address:</strong> 
+                    {{ $order->customer->postal_code ?? '' }},
+                    {{ $order->customer->perfecture ?? '' }},
+                    {{ $order->customer->city ?? '' }},
+                    {{ $order->customer->street_name ?? '' }}
+                    {{ $order->customer->apartment_no ?? '' }}
+                </p>
+            </div>
+        @else
+            <p>No customer info available.</p>
+        @endif
     </div>
 
     <!-- Delivery Details -->
     <div class="section card">
         <h2>Delivery Details</h2>
-        <p><strong>Name:</strong> {{ $order->receiver_name }}</p>
-        <p><strong>Email:</strong> {{ $order->receiver_email }}</p>
-        <p><strong>Phone:</strong> {{ $order->receiver_phone }}</p>
-        <p><strong>Address:</strong> {{ $order->receiver_address }}</p>
+        @if($order->customer)
+            <p><strong>Name:</strong> {{ $order->customer->receiver_first_name }} {{ $order->customer->receiver_last_name }}</p>
+            <p><strong>Email:</strong> {{ $order->customer->receiver_email }}</p>
+            <p><strong>Phone:</strong> {{ $order->customer->receiver_phone }}</p>
+            <p><strong>Address:</strong>
+                {{ $order->customer->receiver_street_name }},
+                {{ $order->customer->receiver_city }},
+                {{ $order->customer->receiver_prefecture }},
+                {{ $order->customer->receiver_postal_code }}
+                @if($order->customer->receiver_apartment_no), Apt: {{ $order->customer->receiver_apartment_no }}@endif
+            </p>
+        @else
+            <p>No delivery info available.</p>
+        @endif
     </div>
 
     <!-- Payment Details -->
@@ -71,13 +95,13 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
                     <tr>
                         <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                         <td>{{ $item->quantity }}</td>
-                        <td>{{ number_format($item->price, 2) }}</td>
-                        <td>{{ number_format($item->subtotal, 2) }}</td>
+                        <td>¥ {{ number_format($item->price, 2) }}</td>
+                        <td>¥ {{ number_format($item->subtotal, 2) }}</td>
                     </tr>
                 @endforeach
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;"><strong>Total Amount</strong></td>
-                    <td><strong>{{ number_format($order->total_amount, 2) }}</strong></td>
+                    <td><strong>¥ {{ number_format($order->total_amount, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -102,16 +126,14 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 
 <!-- Auto PDF download on page load -->
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
-    window.location.href = "{{ route('order.pdf', Crypt::encryptString($order->order_id))}}";
+    window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
 });
 
 function printAndDownload() {
     setTimeout(function() {
-        window.location.href = "{{ route('order.pdf', Crypt::encryptString($order->order_id))}}";
+        window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
     }, 500);
-    
 }
 </script>
 

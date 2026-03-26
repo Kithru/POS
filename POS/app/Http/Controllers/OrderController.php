@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderCustomer;
 use PDF;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
@@ -14,11 +15,7 @@ class OrderController extends Controller
     public function store(Request $request) {
         $cart = session()->get('cart');
 
-        if (empty($cart)) {
-            return back()->with('error', 'Cart is empty');
-        }
-
-        if (!$cart || count($cart) == 0) {
+        if (empty($cart) || count($cart) == 0) {
             return back()->with('error', 'Cart is empty');
         }
 
@@ -28,32 +25,55 @@ class OrderController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
 
+        // Optional discount and tax
+        $discount = $request->input('discount', 0);
+        $tax = $request->input('tax', 0);
+        $finalTotal = $total - $discount + $tax;
+
         // Generate order code
-        $dateTimePart = now()->format('dmyH'); // d=day, m=month, y=last 2 digits of year, H=hour (24h)
-        // Generate 4 random digits
+        $dateTimePart = now()->format('dmyH'); 
         $randomPart = rand(1000, 9999);
         $orderCode = $dateTimePart . $randomPart;
 
+        // Create order
         $order = Order::create([
-            'order_code'        => $orderCode,
-            'customer_name'     => $request->customer_name,
-            'customer_email'    => $request->customer_email,
-            'customer_phone'    => $request->customer_phone,
-            'customer_address'  => $request->customer_address,
-
-            'receiver_name'     => $request->receiver_name,
-            'receiver_email'    => $request->receiver_email,
-            'receiver_phone'    => $request->receiver_phone,
-            'receiver_address'  => $request->receiver_address,
-
-            'notes'             => $request->notes,
-            'status'            => '0',
-            'total_amount'      => $total
+            'order_code'   => $orderCode,
+            'total_amount' => $finalTotal,
+            'discount'     => $discount,
+            'tax'          => $tax,
+            'status'       => '0',
+            'notes'        => $request->notes,
         ]);
 
+        // Create order_customer
+        OrderCustomer::create([
+            'order_id'                => $order->order_id,
+            'order_code'              => $orderCode,
+            'customer_first_name'     => $request->customer_first_name,
+            'customer_last_name'      => $request->customer_last_name,
+            'customer_email'          => $request->customer_email,
+            'customer_phone'          => $request->customer_phone,
+            'postal_code'             => $request->postal_code,
+            'perfecture'              => $request->perfecture,
+            'city'                    => $request->city,
+            'street_name'             => $request->street_name,
+            'apartment_no'            => $request->apartment_no,
+            'receiver_first_name'     => $request->receiver_first_name,
+            'receiver_last_name'      => $request->receiver_last_name,
+            'receiver_email'          => $request->receiver_email,
+            'receiver_phone'          => $request->receiver_phone,
+            'receiver_postal_code'    => $request->receiver_postal_code,
+            'receiver_prefecture'     => $request->receiver_prefecture,
+            'receiver_city'           => $request->receiver_city,
+            'receiver_street_name'    => $request->receiver_street_name,
+            'receiver_apartment_no'   => $request->receiver_apartment_no,
+            'notes'                   => $request->notes,
+        ]);
+
+        // Save order items
         foreach ($cart as $id => $item) {
             OrderItem::create([
-                'order_id' => $order->order_id, // custom PK
+                'order_id' => $order->order_id,
                 'item_id'  => $id,
                 'price'    => $item['price'],
                 'quantity' => $item['quantity'],
@@ -75,22 +95,20 @@ class OrderController extends Controller
 
     public function receipt($order_id){
         try {
-            $id = Crypt::decryptString($order_id); 
-            $order = Order::with('items.item')->findOrFail($id);
-
+            $id = \Crypt::decryptString($order_id);
+            $order = Order::with(['items.item', 'customer'])->findOrFail($id);
             return view('order.receipt_view', compact('order'));
         } catch (\Exception $e) {
             abort(404, 'Invalid order ID.');
         }
     }
-
+    
     public function downloadPdf($order_id){
         try {
             $id = Crypt::decryptString($order_id);
-            $order = Order::with('items.item')->findOrFail($id);
+            $order = Order::with(['items.item', 'customer'])->findOrFail($id);
             $pdf = PDF::loadView('order.receipt_pdf', compact('order'))
                     ->setPaper('A4', 'portrait');
-
             return $pdf->download("Order_{$order->order_code}.pdf");
         } catch (\Exception $e) {
             abort(404, 'Invalid order ID.');
@@ -101,17 +119,16 @@ class OrderController extends Controller
         $orderCode = $request->input('order_code');
         $order = null;
         if ($orderCode) {
-            $order = Order::with('items.item')->where('order_code', $orderCode)->first();
+            $order = Order::with(['items.item','customer'])->where('order_code', $orderCode)->first();
         }
         return view('order.track_order', compact('order', 'orderCode'));
     }
 
-    // Search within order by item_code
     public function searchOrder(Request $request) {
         $orderCode = $request->input('order_code');
         $itemCode = $request->input('item_code');
 
-        $ordersQuery = Order::with(['items.item']);
+        $ordersQuery = Order::with(['items.item','customer']);
         if ($orderCode) {
             $ordersQuery->where('order_code', $orderCode);
         }
@@ -133,11 +150,11 @@ class OrderController extends Controller
     }
 
     public function track(Request $request){
-        $orderCode = $request->input('order_code', null); // optional
+        $orderCode = $request->input('order_code', null);
         $order = null;
 
         if ($orderCode) {
-            $order = Order::where('order_code', $orderCode)->first();
+            $order = Order::with('customer')->where('order_code', $orderCode)->first();
         }
         return view('order.track', compact('order', 'orderCode'));
     }
@@ -151,9 +168,10 @@ class OrderController extends Controller
         if ($order->status != 0) {
             return back()->with('error', 'Order cannot be cancelled.');
         }
+
         $order->status = 4;
         $order->cancelled_date = now();
-        $order->cancelled_by = auth()->id(); // or null if guest
+        $order->cancelled_by = auth()->id();
         $order->cancelled_reason = $request->cancel_reason;
         $order->save();
 
@@ -171,10 +189,10 @@ class OrderController extends Controller
         if ($request->filled('date_from')) {
             $query->whereDate('added_date', '>=', $request->date_from);
         }
-
         if ($request->filled('date_to')) {
             $query->whereDate('added_date', '<=', $request->date_to);
         }
+
         $orders = $query->orderBy('added_date', 'desc')->paginate(10);
         $orders->appends($request->all());
         return view('order.order_manage', compact('orders'));
@@ -191,10 +209,10 @@ class OrderController extends Controller
         if ($request->filled('date_from')) {
             $query->whereDate('added_date', '>=', $request->date_from);
         }
-
         if ($request->filled('date_to')) {
             $query->whereDate('added_date', '<=', $request->date_to);
         }
+
         $orders = $query->orderBy('added_date', 'desc')->paginate(10);
         $orders->appends($request->all());
         return view('order.view_orders', compact('orders'));
@@ -204,6 +222,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $status = $request->status;
         $order->status = $status;
+
         if ($status == 1) {
             $order->confirmed_date = Carbon::now();
         } elseif ($status == 2) {
@@ -216,15 +235,12 @@ class OrderController extends Controller
         }
 
         $order->save();
-        if ($status == 4) {
-            return redirect()->back()->with('success', 'Order has been cancelled!');
-        }
 
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
     public function getItems($orderId) {
-        $order = \DB::table('orders')->where('order_id', $orderId)->first();
+        $order = Order::with('customer')->where('order_id', $orderId)->first();
         $items = \DB::table('order_items')
             ->join('items', 'order_items.item_id', '=', 'items.item_id')
             ->where('order_items.order_id', $orderId)
@@ -241,15 +257,13 @@ class OrderController extends Controller
 
         return response()->json([
             'order' => [
-                'order_code'   => $order->order_code,
-                'status'       => $order->status,
-                'created_at'   => $order->added_date,
-                'customer_name'=> $order->customer_name, // <-- added customer name
-                'status_times' => $status_times
+                'order_code'    => $order->order_code,
+                'status'        => $order->status,
+                'created_at'    => $order->added_date,
+                'customer_name' => $order->customer->customer_first_name . ' ' . $order->customer->customer_last_name,
+                'status_times'  => $status_times
             ],
             'items' => $items
         ]);
     }
-
-
 }

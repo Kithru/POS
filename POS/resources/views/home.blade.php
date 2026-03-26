@@ -6,10 +6,10 @@
 <div class="ad-slider">
     <div class="ad-track">
         @for($i = 0; $i < 2; $i++)
-            <div class="ad-slide">🔥 20% OFF on All Items Today!</div>
-            <div class="ad-slide">🍣 Fresh Sushi Available Now!</div>
-            <div class="ad-slide">🚚 Free Delivery for Orders Over 5000</div>
-            <div class="ad-slide">🎉 Special Combo Offers This Week</div>
+            <div class="ad-slide">🔥 Rajarata Sakura Restaurant</div>
+            <div class="ad-slide">🎉 Rajarata Sakura Restaurant</div>
+            <div class="ad-slide">🔥 Rajarata Sakura Restaurant</div>
+            <div class="ad-slide">🎉 Rajarata Sakura Restaurant</div>
         @endfor
     </div>
 </div>
