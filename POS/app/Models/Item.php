@@ -20,6 +20,7 @@ class Item extends Model
         'description',
         'item_code',
         'price',
+        'discount',
         'quantity',
         'countable',
         'image',

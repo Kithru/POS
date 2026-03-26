@@ -95,16 +95,22 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Quantity</label>
-                <input type="number" name="quantity" class="form-input" value="{{ old('quantity') }}">
+                <label class="form-label">Discount (%)</label>
+                <input type="number" step="0.01" name="discount" class="form-input" value="{{ old('discount') }}">
             </div>
 
             <div class="form-group">
                 <label class="form-label">Countable</label>
-                <select name="countable" class="form-input">
+                <select name="countable" id="countable_select" class="form-input">
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+            </div>
+
+            <!-- Quantity -->
+            <div class="form-group" id="quantity_group">
+                <label class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-input" value="{{ old('quantity') }}">
             </div>
 
             <!-- New Image Upload Field -->
@@ -257,6 +263,30 @@
         .catch(error => console.log('Error:', error));
     });
 
+
+    const countableSelect = document.getElementById('countable_select');
+    const quantityGroup = document.getElementById('quantity_group');
+    const quantityInput = quantityGroup.querySelector('input[name="quantity"]');
+
+    function toggleQuantity() {
+        if (countableSelect.value === "1") {
+            // Countable = Yes → show quantity
+            quantityGroup.style.display = "block";
+            quantityInput.disabled = false;
+        } else {
+            // Countable = No → hide quantity and set value 0
+            quantityGroup.style.display = "none";
+            quantityInput.value = 0;
+            quantityInput.disabled = true;
+        }
+    }
+
+    // Run on page load
+    toggleQuantity();
+
+    // Listen for changes
+    countableSelect.addEventListener('change', toggleQuantity);
+</script>
 </script>
 
 

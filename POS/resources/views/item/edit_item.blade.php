@@ -98,6 +98,11 @@
             </div>
 
             <div class="form-group">
+                <label for="discount" class="form-label">Discount</label>
+                <input type="number" step="0.01" name="discount" id="discount" value="{{ old('discount', $item->discount) }}" class="form-input">
+            </div>
+
+            <div class="form-group">
                 <label for="quantity" class="form-label">Quantity</label>
                 <input type="number"  min="0" step="1" name="quantity" id="quantity" value="{{ old('quantity', $item->quantity) }}" class="form-input">
             </div>
