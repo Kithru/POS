@@ -30,25 +30,28 @@ document.addEventListener('DOMContentLoaded', function () {
     window.updateCartCount = updateCartCount;
 
     // ----- OPEN POPUP -----
-    orderBtns.forEach(btn => {
-        btn.addEventListener("click", function() {
-            currentItemId = parseInt(this.dataset.id, 10);
-            const currentItem = {
-                id: currentItemId,
-                name: this.dataset.name,
-                price: parseFloat(this.dataset.price),
-                image: this.dataset.image,
-                desc: this.dataset.desc,
-                currency_icon: this.dataset.currencyIcon || ''
-            };
+    document.addEventListener("click", function(e) {
+        const btn = e.target.closest(".orderBtn");
+        if (!btn) return;
 
-            popupName.textContent = currentItem.name;
-            popupDesc.textContent = currentItem.desc || 'No description';
-            popupPrice.innerHTML = "¥ " + currentItem.price.toFixed(2);
-            popupImage.src = currentItem.image;
-            qtyInput.value = 1;
-            modal.style.display = "flex";
-        });
+        currentItemId = parseInt(btn.dataset.id, 10);
+
+        const currentItem = {
+            id: currentItemId,
+            name: btn.dataset.name,
+            price: parseFloat(btn.dataset.price),
+            image: btn.dataset.image,
+            desc: btn.dataset.desc,
+            currency_icon: btn.dataset.currencyIcon || ''
+        };
+
+        popupName.textContent = currentItem.name;
+        popupDesc.textContent = currentItem.desc || 'No description';
+        popupPrice.innerHTML = "¥ " + currentItem.price.toFixed(2);
+        popupImage.src = currentItem.image || '/images/no-image.jpg';
+
+        qtyInput.value = 1;
+        modal.style.display = "flex";
     });
 
     // ----- CLOSE POPUP -----

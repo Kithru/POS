@@ -47,12 +47,12 @@ class CartController extends Controller {
                 "quantity" => $request->quantity
             ];
         }
-
         session()->put('cart', $cart);
+        $totalQty = array_sum(array_column($cart, 'quantity'));
 
         return response()->json([
             'success' => true,
-            'count' => count($cart)
+            'count' => $totalQty
         ]);
     }
 
@@ -77,6 +77,7 @@ class CartController extends Controller {
         return response()->json([
             'success' => true
         ]);
+        
     }
 
   
@@ -86,9 +87,11 @@ class CartController extends Controller {
             unset($cart[$request->id]);
             session()->put('cart', $cart);
         }
+        $totalQty = array_sum(array_column($cart, 'quantity'));
+
         return response()->json([
             'success' => true,
-            'count' => count($cart)
+            'count' => $totalQty
         ]);
     }
 

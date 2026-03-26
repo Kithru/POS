@@ -8,10 +8,7 @@
     font-family: 'Open Sans', sans-serif;
 }
 
-body {
-    background: #f8f4ef;
-    color: #2e1a26;
-}
+body { background: #e6e5e5; color: #2e1a26; }
 
 /* ===============================
    HEADER
@@ -91,7 +88,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+   
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     transition: 0.25s ease;
 }
 

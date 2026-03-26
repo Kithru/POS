@@ -26,7 +26,7 @@
             <a href="{{ route('cart.index') }}" class="cart-wrapper" title="My Cart">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">
-                    {{ session('cart') ? count(session('cart')) : 0 }}
+                    {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
                 </span>
             </a>
 
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.addEventListener("click", function () {
             menu.classList.remove("show");
-            dropdown.classList.remove("open"); // 🔥 reset arrow
+            dropdown.classList.remove("open"); 
         });
     }
 

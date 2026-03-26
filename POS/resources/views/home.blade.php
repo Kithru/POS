@@ -57,7 +57,10 @@
                     <button class="orderBtn"
                         data-id="{{ $item->item_id }}"
                         data-name="{{ $item->item_name }}"
-                        data-price="{{ $item->price }}">
+                        data-price="{{ $item->price }}"
+                        data-image="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}"
+                        data-desc="{{ $item->description }}"
+                        data-currency-icon="{{ $item->currency_icon ?? '' }}">
                         Order Now
                     </button>
                 </div>
