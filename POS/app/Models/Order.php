@@ -15,14 +15,8 @@ class Order extends Model
 
     protected $fillable = [
         'order_code',
-        'customer_name',
-        'customer_email',
-        'customer_phone',
-        'customer_address',
-        'receiver_name',
-        'receiver_email',
-        'receiver_phone',
-        'receiver_address',
+        'discount',
+        'tax',
         'status',
         'notes',
         'total_amount',
@@ -32,8 +26,12 @@ class Order extends Model
         'cancelled_reason'
     ];
 
-    public function items() {
-        return $this->hasMany(OrderItem::class, 'order_id');
+    public function items(){
+        return $this->hasMany(OrderItem::class, 'order_id', 'order_id');
+    }
+
+    public function customer(){
+        return $this->hasOne(OrderCustomer::class, 'order_id', 'order_id');
     }
 }
 

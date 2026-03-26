@@ -23,6 +23,16 @@ $prefectures = [
 ];
 @endphp
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="checkout-container">
 
     <h2>🧾 Checkout</h2>
@@ -146,13 +156,13 @@ $prefectures = [
                     @endphp
                     <p>
                         <span>{{ $item['name'] }} (x{{ $item['quantity'] }})</span>
-                        <span>{{ number_format($subtotal, 2) }}</span>
+                        <span>¥ {{ number_format($subtotal, 2) }}</span>
                     </p>
                 @endforeach
-                <h4>Total: {{ number_format($total, 2) }}</h4>
+                <h4>Total: ¥ {{ number_format($total, 2) }}</h4>
             @else
                 <p>Your cart is empty.</p>
-                <h4>Total: 0.00</h4>
+                <h4>Total: ¥ 0.00</h4>
             @endif
         </div>
 

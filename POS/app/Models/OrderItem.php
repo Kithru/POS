@@ -21,11 +21,13 @@ class OrderItem extends Model
     // Relationship with Order
     public function item()
     {
-        return $this->belongsTo(Item::class, 'item_id');
+        return $this->belongsTo(Item::class, 'item_id', 'item_id');
     }
 
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
+
+    
 }
