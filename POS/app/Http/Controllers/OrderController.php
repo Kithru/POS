@@ -257,11 +257,33 @@ class OrderController extends Controller
 
         return response()->json([
             'order' => [
-                'order_code'    => $order->order_code,
-                'status'        => $order->status,
-                'created_at'    => $order->added_date,
-                'customer_name' => $order->customer->customer_first_name . ' ' . $order->customer->customer_last_name,
-                'status_times'  => $status_times
+                'order_code' => $order->order_code,
+                'status' => $order->status,
+                'created_at' => $order->added_date,
+
+                'customer' => [
+                    'name' => $order->customer 
+                        ? $order->customer->customer_first_name . ' ' . $order->customer->customer_last_name 
+                        : 'N/A',
+                    'email' => $order->customer->customer_email ?? 'N/A',
+                    'phone' => $order->customer->customer_phone ?? 'N/A',
+                ],
+
+                'receiver' => [
+                    'name' => $order->customer 
+                        ? $order->customer->receiver_first_name . ' ' . $order->customer->receiver_last_name 
+                        : 'N/A',
+                    'email' => $order->customer->receiver_email ?? 'N/A',
+                    'phone' => $order->customer->receiver_phone ?? 'N/A',
+                    'address' => $order->customer 
+                        ? ($order->customer->receiver_street_name . ', ' .
+                        $order->customer->receiver_city . ', ' .
+                        $order->customer->receiver_prefecture . ' - ' .
+                        $order->customer->receiver_postal_code)
+                        : 'N/A',
+                ],
+
+                'status_times' => $status_times
             ],
             'items' => $items
         ]);

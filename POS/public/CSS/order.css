@@ -276,4 +276,11 @@ input:checked + .slider::before {
     }
 }
 
+#customerDetails {
+    background: #fafafa;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
 /* Concept Designed and Developed by KV */
