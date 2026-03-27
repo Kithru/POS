@@ -123,9 +123,9 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 
 <!-- Auto PDF download on page load -->
 <script>
-// document.addEventListener('DOMContentLoaded', function () {
-//     window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
-// });
+document.addEventListener('DOMContentLoaded', function () {
+    window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
+});
 
 function printAndDownload() {
     setTimeout(function() {
