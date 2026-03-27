@@ -116,19 +116,52 @@ use Illuminate\Support\Facades\Crypt;
         <!-- Customer Details -->
         <div class="section card">
             <h2 style="text-align:center;">Customer Details</h2>
-            <p><strong>Name:</strong> {{ $order->customer_name }}</p>
-            <p><strong>Email:</strong> {{ $order->customer_email }}</p>
-            <p><strong>Phone:</strong> {{ $order->customer_phone }}</p>
-            <p><strong>Address:</strong> {{ $order->customer_address }}</p>
+            @if($order->customer)
+                <p><strong>Name:</strong> 
+                    {{ $order->customer->customer_first_name }} 
+                    {{ $order->customer->customer_last_name }}
+                </p>
+                <p><strong>Email:</strong> {{ $order->customer->customer_email }}</p>
+                <p><strong>Phone:</strong> {{ $order->customer->customer_phone }}</p>
+                <p><strong>Address:</strong>
+                    {{ $order->customer->street_name }}
+                    @if($order->customer->apartment_no)
+                        , {{ $order->customer->apartment_no }}
+                    @endif,
+                    {{ $order->customer->city }},
+                    {{ $order->customer->perfecture }},
+                    {{ $order->customer->postal_code }}
+                </p>
+            @else
+                <p style="color:red;">No customer data found</p>
+            @endif
+
         </div>
 
         <!-- Delivery Details -->
         <div class="section card">
             <h2 style="text-align:center;">Delivery Details</h2>
-            <p><strong>Name:</strong> {{ $order->receiver_name }}</p>
-            <p><strong>Email:</strong> {{ $order->receiver_email }}</p>
-            <p><strong>Phone:</strong> {{ $order->receiver_phone }}</p>
-            <p><strong>Address:</strong> {{ $order->receiver_address }}</p>
+            @if($order->customer)
+                <p><strong>Name:</strong> 
+                    {{ $order->customer->receiver_first_name }} 
+                    {{ $order->customer->receiver_last_name }}
+                </p>
+                <p><strong>Email:</strong> {{ $order->customer->receiver_email }}</p>
+                <p><strong>Phone:</strong> {{ $order->customer->receiver_phone }}</p>
+
+                <p><strong>Address:</strong>
+                    {{ $order->customer->receiver_street_name }}
+                    @if($order->customer->receiver_apartment_no)
+                        , {{ $order->customer->receiver_apartment_no }}
+                    @endif,
+                    {{ $order->customer->receiver_city }},
+                    {{ $order->customer->receiver_prefecture }},
+                    {{ $order->customer->receiver_postal_code }}
+                </p>
+            @else
+                <p style="color:red;">No delivery data found</p>
+            @endif
+
         </div>
 
         <!-- Payment Details -->
@@ -156,13 +189,13 @@ use Illuminate\Support\Facades\Crypt;
                             <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                             <td>{{ $item->item->item_code ?? 'N/A' }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price, 2) }}</td>
-                            <td>{{ number_format($item->quantity * $item->price, 2) }}</td>
+                            <td>¥ {{ number_format($item->price, 2) }}</td>
+                            <td>¥ {{ number_format($item->quantity * $item->price, 2) }}</td>
                         </tr>
                     @endforeach
                     <tr class="total-row">
                         <td colspan="4" style="text-align:right;"><strong>Total Amount</strong></td>
-                        <td><strong>{{ number_format($order->total_amount, 2) }}</strong></td>
+                        <td><strong>¥ {{ number_format($order->total_amount, 2) }}</strong></td>
                     </tr>
                 </tbody>
             </table>

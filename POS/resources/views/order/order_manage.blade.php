@@ -103,7 +103,10 @@
                 <tr style="border-bottom:1px solid #eee; text-align:center;">
                     <td style="padding:12px;">{{ $orders->firstItem() + $index }}</td>
                     <td style="padding:12px; text-align:left;">{{ $order->order_code }}</td>
-                    <td style="padding:12px; text-align:left;">{{ $order->customer_name }}</td>
+                    <td style="padding:12px; text-align:left;">
+                        {{ $order->customer->customer_first_name ?? '' }}
+                        {{ $order->customer->customer_last_name ?? '' }}
+                    </td>
 
                     <!-- View Items Button -->
                     <td style="padding:12px;">
@@ -212,8 +215,8 @@
                     <span id="orderAdded">--</span>
                 </div>
                 <div class="order-field">
-                    <strong>Customer</strong>
-                    <span id="customerName">--</span>
+                    <!-- <strong>Customer</strong> -->
+                    <span id="customerDetails">--</span>
                 </div>
             </div>
         <div id="statusTimeline" style="margin-bottom:15px; font-size:13px; background:#f9f9f9; padding:10px; border-radius:6px;">
@@ -274,7 +277,27 @@
             document.getElementById('orderCode').textContent = order.order_code;
             document.getElementById('orderAdded').textContent = new Date(order.created_at).toLocaleString();
             document.getElementById('currentStatus').textContent = getStatusText(order.status);
-            document.getElementById('customerName').textContent = order.customer_name || 'N/A';
+            const customerHTML = `
+                <div style="line-height:1.8; font-size:13px;">
+                    <div style="margin-bottom:10px;">
+                        <strong style="color:#4b0f3a; margin-bottom:-20px;">Customer Details</strong><br>
+                        <span><b>Name:</b> ${order.customer.name}</span><br>
+                        <span><b>Email:</b> ${order.customer.email}</span><br>
+                        <span><b>Phone:</b> ${order.customer.phone}</span>
+                    </div>
+
+                    <div style="margin-top:20px;">
+                        <strong style="color:#4b0f3a; margin-bottom:-20px;">Delivery Details</strong><br>
+                        <span><b>Name:</b> ${order.receiver.name}</span><br>
+                        <span><b>Email:</b> ${order.receiver.email}</span><br>
+                        <span><b>Phone:</b> ${order.receiver.phone}</span><br>
+                        <span><b>Address:</b> ${order.receiver.address}</span>
+                    </div>
+
+                </div>
+            `;
+
+            document.getElementById('customerDetails').innerHTML = customerHTML;
 
             const statusHistoryEl = document.getElementById('statusHistory');
             const timelineBox = document.getElementById('statusTimeline');
@@ -351,14 +374,14 @@
                 html += `<tr>
                     <td>${item.item_name}</td>
                     <td>${item.quantity}</td>
-                    <td>${price.toFixed(2)}</td>
-                    <td>${subtotal.toFixed(2)}</td>
+                    <td>¥ ${price.toFixed(2)}</td>
+                    <td>¥ ${subtotal.toFixed(2)}</td>
                 </tr>`;
             });
 
             html += `<tr class="total-row">
                 <td colspan="3">Total:</td>
-                <td>${total.toFixed(2)}</td>
+                <td>¥ ${total.toFixed(2)}</td>
             </tr>`;
 
             document.getElementById('itemsContent').innerHTML = html;
