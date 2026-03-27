@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Rajarata Sakura')</title>
     
+    <title>Rajarata Sakura Restaurant</title>
+    <meta name="description" content="Rajarata Sakura Restaurant – Authentic Sri Lankan and Japanese cuisine.">
+
     <!-- CSS Files -->
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/header.css') }}" rel="stylesheet">
