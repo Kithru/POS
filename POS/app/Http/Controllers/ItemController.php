@@ -278,18 +278,6 @@ class ItemController extends Controller
     // public function getItemsForHome() {
     //     $items = \App\Models\Item::select(
     //                 'items.*',
-    //                 'currency.currency_icon'
-    //             )
-    //             ->leftJoin('currency', 'items.currency', '=', 'currency.id')
-    //             ->where('items.status', 1)
-    //             ->get();
-
-    //     return view('home', compact('items'));
-    // }
-
-    // public function getItemsForHome() {
-    //     $items = \App\Models\Item::select(
-    //                 'items.*',
     //                 'currency.currency_icon as currency_icon'
     //             )
     //             ->leftJoin('currency', 'items.currency', '=', 'currency.id')
@@ -314,12 +302,20 @@ class ItemController extends Controller
             $query->where('items.category_id', $request->category_id);
         }
         $items = $query->get();
-        $exploreItems = Item::where('status', 1)->get();
+        $exploreItems = Item::select(
+                    'items.*',
+                    'currency.currency_icon as currency_icon')
+                ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+                ->where('items.status', 1)
+                ->get();
 
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc') 
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $categories = Category::whereHas('items', function($q) {
             $q->where('status', 1);
@@ -356,10 +352,13 @@ class ItemController extends Controller
                     ->where('items.status', 1)
                     ->get();
 
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc') 
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $exploreItems = $items;
         $categories = Category::whereHas('items', function($q){
@@ -379,10 +378,13 @@ class ItemController extends Controller
                     ->where('items.category_id', $category_id)
                     ->get();
 
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc')
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $exploreItems = $items;
 
@@ -428,10 +430,13 @@ class ItemController extends Controller
             return view('partials.products_grid', compact('items'))->render();
         }
 
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc') 
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $categories = Category::whereHas('items', function($q){
             $q->where('status', 1);
@@ -463,10 +468,13 @@ class ItemController extends Controller
         if ($request->ajax()) {
             return view('partials.products_grid', compact('items'))->render();
         }
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc') 
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $categories = Category::whereHas('items', function($q){
             $q->where('status', 1);
@@ -482,10 +490,13 @@ class ItemController extends Controller
 
     public function index(){
         $items = Item::where('status', 1)->get();
-        $topItems = Item::where('status', 1)
-                        ->orderBy('added_date', 'desc') 
-                        ->take(10)
-                        ->get();
+        $topItems = Item::select('items.*',
+                'currency.currency_icon as currency_icon' )
+            ->leftJoin('currency', 'items.currency', '=', 'currency.id')
+            ->where('items.status', 1)
+            ->orderBy('items.added_date', 'desc')
+            ->take(10)
+            ->get();
 
         $exploreItems = $items;
         $categories = Category::all();
