@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Order;
 use App\Models\Category;
-use App\Models\SubCategory;
+use App\Models\Subcategory;
 use App\Models\Item;
 use App\Models\Currency;
 
@@ -21,7 +21,7 @@ class ItemController extends Controller
 
         // Categories
         $categoryCount = Category::where('status', 1)->count();
-        $subcategoryCount = SubCategory::where('status', 1)->count();
+        $subcategoryCount = Subcategory::where('status', 1)->count();
 
         $totalItems = Item::count();
         $activeItems = Item::where('status', 1)->count();
@@ -87,7 +87,7 @@ class ItemController extends Controller
         }
 
         // Generate item code
-        $subcategory = SubCategory::find($request->subcategory_id);
+        $subcategory = Subcategory::find($request->subcategory_id);
         $lastItem = Item::latest('item_id')->first();
         $nextId = $lastItem ? $lastItem->item_id + 1 : 1;
         $itemCode = $subcategory->subcategory_code . '-' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
@@ -117,7 +117,7 @@ class ItemController extends Controller
     }
 
     public function getSubcategories($category_id) {
-        $subcategories = SubCategory::where('category_id', $category_id)
+        $subcategories = Subcategory::where('category_id', $category_id)
             ->where('status',1)
             ->orderBy('subcategory_name')
             ->get();
@@ -141,7 +141,7 @@ class ItemController extends Controller
         $items->appends($request->all()); 
 
         $categories = Category::where('status', 1)->get();
-        $subcategories = SubCategory::where('status', 1)
+        $subcategories = Subcategory::where('status', 1)
             ->when($request->category_id, function($q) use ($request) {
                 $q->where('category_id', $request->category_id);
             })
@@ -179,7 +179,7 @@ class ItemController extends Controller
         $currencies = Currency::orderBy('currency')->get();
         $categories = Category::orderBy('category_name')->get();
 
-        $subcategories = SubCategory::where('category_id', $item->category_id)
+        $subcategories = Subcategory::where('category_id', $item->category_id)
             ->where('status',1)
             ->orderBy('subcategory_name')
             ->get();
@@ -248,7 +248,7 @@ class ItemController extends Controller
     public function viewItems(Request $request) {
 
         $categories = Category::where('status', 1)->orderBy('category_name')->get();
-        $subcategories = SubCategory::where('status', 1)
+        $subcategories = Subcategory::where('status', 1)
             ->when($request->category_id, function($q) use ($request) {
                 $q->where('category_id', $request->category_id);
             })

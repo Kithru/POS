@@ -8,33 +8,50 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
-// Default home page
-// Route::get('/', function () {return view('home');})->name('home');
+/*
+|--------------------------------------------------------------------------
+| Public Pages
+|--------------------------------------------------------------------------
+*/
 
-// First landing page
+// Landing page
 Route::get('/', [ItemController::class, 'categoryLanding'])->name('landing');
 
-// Home (items page)
+// Home page
 Route::get('/home', [ItemController::class, 'getItemsForHome'])->name('home');
-// Route::get('/', [ItemController::class, 'getItemsForHome'])->name('home');
 
-// Category click
+// Category selection
 Route::get('/select-category/{id}', [ItemController::class, 'selectCategory'])->name('select.category');
 
-// Login page
-Route::get('/login', function () { return view('welcome'); })->name('login');
+// About page
+Route::view('/about', 'about')->name('about');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Login submit
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+/*
+|--------------------------------------------------------------------------
+| Dashboard (Protected)
+|--------------------------------------------------------------------------
+*/
 
-// Dashboard route
-Route::get('/dashboard', function () {return view('dashboard'); })->middleware('auth')->name('dashboard');
-Route::get('/dashboard', [ItemController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [ItemController::class, 'dashboard'])
+    ->middleware('auth')
+    ->name('dashboard');
 
-// Category
+/*
+|--------------------------------------------------------------------------
+| Category
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/category/add', [CategoryController::class, 'index'])->name('category.add');
 Route::post('/category/add', [CategoryController::class, 'store'])->name('category.store');
 Route::get('/category/manage', [CategoryController::class, 'manage'])->name('category.manage');
@@ -42,71 +59,49 @@ Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('ca
 Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-// Sub Category
+/*
+|--------------------------------------------------------------------------
+| Subcategory
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/subcategory/add', [SubcategoryController::class, 'create'])->name('subcategory.create');
 Route::post('/subcategory/add', [SubcategoryController::class, 'store'])->name('subcategory.store');
 Route::get('/subcategory/manage', [SubcategoryController::class, 'manage'])->name('subcategory.manage');
 Route::get('/subcategory/deactivate/{id}', [SubcategoryController::class, 'deactivate'])->name('subcategory.deactivate');
 Route::get('/subcategory/activate/{id}', [SubcategoryController::class, 'activate'])->name('subcategory.activate');
-Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');   // show edit form
+Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');
 Route::put('/subcategory/edit/{id}', [SubcategoryController::class, 'update'])->name('subcategory.update');
-Route::get('/subcategory/view', [SubcategoryController::class, 'view'])->name('subcategory.view');
 
-// Items
+/*
+|--------------------------------------------------------------------------
+| Items
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/add-item', [ItemController::class, 'create'])->name('item.add');
 Route::post('/save-item', [ItemController::class, 'store'])->name('item.save');
-Route::get('/save-item', function() { return redirect()->route('item.add');});
-Route::get('/get-subcategories/{category_id}', [ItemController::class,'getSubcategories']);
-
-// Manage items page
 Route::get('/items/manage', [ItemController::class, 'manage'])->name('item.manage');
-Route::get('/items/activate/{id}', [ItemController::class, 'activate'])->name('item.activate');
-Route::get('/items/deactivate/{id}', [ItemController::class, 'deactivate'])->name('item.deactivate');
 Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
-
-Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
-// Route::post('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
 Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('item.update');
-Route::get('/items/view', [ItemController::class, 'viewItems'])->name('item.view');
 
-// Item search for Home
-Route::get('/search-items', [ItemController::class, 'mainSearch'])->name('item.search');
+/*
+|--------------------------------------------------------------------------
+| Cart
+|--------------------------------------------------------------------------
+*/
 
-// Cart
 Route::post('/cart/add', [CartController::class,'add'])->name('cart.add');
 Route::get('/cart', [CartController::class,'index'])->name('cart.index');
-Route::post('/cart/update', [CartController::class,'update']);
-Route::post('/cart/remove', [CartController::class,'remove']);
-Route::get('/cart/clear', [CartController::class,'clear']);
 
-// orders
-// Route::get('/checkout', function () {return view('checkout');})->name('checkout');
-Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+/*
+|--------------------------------------------------------------------------
+| Orders
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
+Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
 
 Route::get('/order/receipt/{order_id}', [OrderController::class, 'receipt'])->name('order.receipt');
-// Route::get('/order/pdf/{order}', [OrderController::class, 'downloadPdf'])->name('order.pdf');
 Route::get('/order/pdf/{order_id}', [OrderController::class, 'downloadPdf'])->name('order.pdf');
-
-// Show track order page (with optional order_code search)
-Route::get('/order/track', [OrderController::class, 'trackOrderPage'])->name('order.track');
-
-// Search for item_code or order_code
-Route::get('/order/track/search', [OrderController::class, 'searchOrder'])->name('order.track.search');
-
-// Route for category filtering
-Route::get('/category/{id}', [ItemController::class, 'itemsByCategory'])->name('items.byCategory');
-
-Route::post('/order/cancel/{order_code}', [OrderController::class, 'cancel'])->name('order.cancel');
-
-// Order Manage 
-Route::get('/orders/manage', [OrderController::class, 'manage'])->name('order.manage');
-Route::get('/orders/view', [OrderController::class, 'viewOrders'])->name('order.view');
-Route::post('/orders/update-status/{order}', [OrderController::class, 'updateStatus'])->name('order.update.status');
-Route::get('/orders/items/{orderId}', [OrderController::class, 'getItems'])->name('order.items');
-
-// about us page
-Route::get('/about', function () {return view('about');})->name('about');
-
-// Filter items by category or price
-Route::get('/filter-items', [ItemController::class, 'filterItems'])->name('items.filter');
