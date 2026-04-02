@@ -8,47 +8,51 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller {
     
     public function index(){
-        $prefectures = Prefecture::all();
+        $prefectures = Prefecture::orderBy('prefecture_id', 'asc')->get();
         return view('settings.prefecture', compact('prefectures'));
     }
 
     public function save(Request $request){
-        $ids = $request->input('id', []);
-        $names = $request->input('prefecture', []);
-        $amounts = $request->input('amount', []);
+    $ids = $request->input('id', []);
+    $names = $request->input('prefecture', []);
+    $amounts = $request->input('amount', []);
 
-        foreach ($names as $key => $name) {
+    foreach ($names as $key => $name) {
 
-            // UPDATE
-            if (!empty($ids[$key])) {
+        // Remove spaces + skip empty values
+        $name = trim($name);
 
-                Prefecture::where('prefecture_id', $ids[$key])
-                    ->update([
-                        'prefecture_name' => $name,
-                        'amount' => $amounts[$key],
-                        'updated_at' => now()
-                    ]);
-
-            } 
-            // INSERT
-            else {
-
-                Prefecture::create([
-                    'prefecture_name' => $name,
-                    'amount' => $amounts[$key],
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ]);
-            }
+        if ($name === '') {
+            continue;
         }
 
-        return redirect()->route('prefecture.index')
-            ->with('success', 'Prefecture saved successfully.');
+        $amount = isset($amounts[$key]) ? (float) $amounts[$key] : 0;
+        $id = $ids[$key] ?? null;
+
+        if (!empty($id)) {
+
+            Prefecture::where('prefecture_id', $id)->update([
+                'prefecture_name' => $name,
+                'amount' => $amount,
+                'updated_at' => now()
+            ]);
+
+        } else {
+
+            Prefecture::create([
+                'prefecture_name' => $name,
+                'amount' => $amount,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
     }
 
+    return redirect()->route('prefecture.index')
+        ->with('success', 'Prefecture saved successfully.');
+}
     public function delete($id){
         Prefecture::where('prefecture_id', $id)->delete();
-
         return redirect()->route('prefecture.index')
             ->with('success', 'Prefecture deleted successfully.');
     }
