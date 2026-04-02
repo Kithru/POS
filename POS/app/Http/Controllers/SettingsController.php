@@ -7,21 +7,19 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller {
     
-    public function index()
-    {
+    public function index(){
         $prefectures = Prefecture::all();
-        return view('prefecture.index', compact('prefectures'));
+        return view('settings.prefecture', compact('prefectures'));
     }
 
-    public function save(Request $request)
-    {
+    public function save(Request $request){
         $ids = $request->input('id', []);
         $names = $request->input('prefecture', []);
         $amounts = $request->input('amount', []);
 
         foreach ($names as $key => $name) {
 
-            // Existing record (UPDATE)
+            // UPDATE
             if (!empty($ids[$key])) {
 
                 Prefecture::where('prefecture_id', $ids[$key])
@@ -31,8 +29,9 @@ class SettingsController extends Controller {
                     ]);
 
             } 
-            // New record (INSERT)
+            // INSERT
             else {
+
                 Prefecture::create([
                     'name' => $name,
                     'amount' => $amounts[$key]
@@ -41,13 +40,11 @@ class SettingsController extends Controller {
         }
 
         return redirect()->route('prefecture.index')
-            ->with('success', 'Prefecture details saved successfully.');
+            ->with('success', 'Prefecture saved successfully.');
     }
 
-    public function delete($id)
-    {
+    public function delete($id){
         Prefecture::where('prefecture_id', $id)->delete();
-
         return redirect()->route('prefecture.index')
             ->with('success', 'Prefecture deleted successfully.');
     }
