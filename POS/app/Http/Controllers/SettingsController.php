@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Prefecture;
 
+use App\Models\Prefecture;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller {
@@ -24,8 +24,9 @@ class SettingsController extends Controller {
 
                 Prefecture::where('prefecture_id', $ids[$key])
                     ->update([
-                        'name' => $name,
-                        'amount' => $amounts[$key]
+                        'prefecture_name' => $name,
+                        'amount' => $amounts[$key],
+                        'updated_at' => now()
                     ]);
 
             } 
@@ -33,8 +34,10 @@ class SettingsController extends Controller {
             else {
 
                 Prefecture::create([
-                    'name' => $name,
-                    'amount' => $amounts[$key]
+                    'prefecture_name' => $name,
+                    'amount' => $amounts[$key],
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
             }
         }
@@ -45,6 +48,7 @@ class SettingsController extends Controller {
 
     public function delete($id){
         Prefecture::where('prefecture_id', $id)->delete();
+
         return redirect()->route('prefecture.index')
             ->with('success', 'Prefecture deleted successfully.');
     }

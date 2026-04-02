@@ -7,8 +7,8 @@
 
     <link href="{{ asset('css/navi.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/all_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/prefecture.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     <h1>Manage Prefecture</h1>
 
     @if(session('success'))
-        <div style="padding:10px; background:#d4edda; color:#155724; border-radius:8px; margin-top:20px;">
+        <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
@@ -28,59 +28,58 @@
     <form action="{{ route('prefecture.save') }}" method="POST">
         @csrf
 
-        <table style="width:100%; border-collapse:collapse; text-align:center;">
-            <thead>
-                <tr style="background:#f5f5f5;">
-                    <th>#</th>
-                    <th>Prefecture</th>
-                    <th>Amount</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+        <div class="form-card">
 
-            <tbody id="prefecture-body">
-                @foreach($prefectures as $pref)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Prefecture</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        <input type="hidden" name="id[]" value="{{ $pref->prefecture_id }}">
-                        <input type="text" name="prefecture[]" value="{{ $pref->name }}" required>
-                    </td>
+                <tbody id="prefecture-body">
+                    @foreach($prefectures as $pref)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <td>
-                        <input type="number" step="0.01" name="amount[]" value="{{ $pref->amount }}" required>
-                    </td>
+                        <td>
+                            <input type="hidden" name="id[]" value="{{ $pref->prefecture_id }}">
+                            <input class="form-input" type="text" name="prefecture[]" value="{{ $pref->prefecture_name }}" required>
+                        </td>
 
-                    <td>
-                        <!-- UPDATE -->
-                        <button type="submit" style="border:none; background:none;">
-                            <i class="fas fa-check" style="color:green;"></i>
-                        </button>
+                        <td>
+                            <input class="form-input" type="number" step="0.01" name="amount[]" value="{{ $pref->amount }}" required>
+                        </td>
 
-                        <!-- DELETE -->
-                        <a href="{{ route('prefecture.delete', $pref->prefecture_id) }}"
-                           onclick="return confirm('⚠️ Warning: This action will permanently delete this prefecture and cannot be undone. Do you want to continue?')">
-                            <i class="fas fa-times" style="color:red;"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        <td>
+                            <!-- UPDATE -->
+                            <button type="submit" class="action-btn edit-btn">
+                                <i class="fas fa-check"></i>
+                            </button>
 
-        <br>
+                            <!-- DELETE -->
+                            <a href="{{ route('prefecture.delete', $pref->prefecture_id) }}"
+                               class="action-btn delete-btn"
+                               onclick="return confirm('⚠️ Are you sure you want to delete this prefecture? This action cannot be undone.')">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+        </div>
 
         <!-- ADD NEW -->
         <div style="text-align:center;">
-            <button type="button" onclick="addRow()">
+            <button type="button" class="btn-primary" onclick="addRow()">
                 Add New Prefecture
             </button>
         </div>
-
-        <br>
-
-        <button type="submit">Save All</button>
 
     </form>
 </div>
@@ -95,22 +94,23 @@ function addRow() {
 
             <td>
                 <input type="hidden" name="id[]" value="">
-                <input type="text" name="prefecture[]" required>
+                <input class="form-input" type="text" name="prefecture[]" required>
             </td>
 
             <td>
-                <input type="number" step="0.01" name="amount[]" required>
+                <input class="form-input" type="number" step="0.01" name="amount[]" required>
             </td>
 
             <td>
                 <!-- SAVE -->
-                <button type="submit" style="border:none; background:none;">
-                    <i class="fas fa-check" style="color:green;"></i>
+                <button type="submit" class="action-btn edit-btn">
+                    <i class="fas fa-check"></i>
                 </button>
 
                 <!-- REMOVE ROW -->
-                <i class="fas fa-times" style="color:red; cursor:pointer;" 
-                   onclick="this.closest('tr').remove()"></i>
+                <button type="button" class="action-btn delete-btn" onclick="this.closest('tr').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
             </td>
         </tr>
     `;
