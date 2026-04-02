@@ -7,6 +7,7 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingsController;
 
 // Default home page
 // Route::get('/', function () {return view('home');})->name('home');
@@ -110,3 +111,7 @@ Route::get('/about', function () {return view('about');})->name('about');
 
 // Filter items by category or price
 Route::get('/filter-items', [ItemController::class, 'filterItems'])->name('items.filter');
+
+Route::get('/prefecture', [SettingsController::class, 'index'])->name('prefecture.index');
+Route::post('/prefecture/save', [SettingsController::class, 'save'])->name('prefecture.save');
+Route::get('/prefecture/delete/{id}', [SettingsController::class, 'delete'])->name('prefecture.delete');

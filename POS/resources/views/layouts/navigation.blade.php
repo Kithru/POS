@@ -116,6 +116,20 @@
                 <span class="link-text">Settings</span>
             </a>
         </li> -->
+
+        <li class="has-submenu">
+            <a href="#">
+                <i class="fas fa-cog"></i>
+                <span class="link-text">Settings</span>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </a>
+            <ul class="submenu"> 
+                <li><a href="{{ route('prefecture.index') }}"><i class="fas fa-map-marker-alt"></i>Prefecture</a></li>
+                <!-- <li><a href="{{ route('order.view') }}"><i class="fas fa-eye"></i>View Orders</a></li> -->
+                <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
+            </ul>
+        </li>
+
     </ul>
 
     <!-- LOGOUT -->
