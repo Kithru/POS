@@ -56,13 +56,20 @@
 
                         <td>
                             <!-- UPDATE -->
-                            <button type="submit" class="action-btn edit-btn">
+                            @if($pref->prefecture_id)
+                            <button type="submit" formaction="{{ route('prefecture.save') }}" class="action-btn edit-btn" title="Update this prefecture">
                                 <i class="fas fa-check"></i>
                             </button>
+                            @else
+                            <button type="submit" class="action-btn edit-btn" title="Add this prefecture">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            @endif
 
                             <!-- DELETE -->
                             <a href="{{ route('prefecture.delete', $pref->prefecture_id) }}"
                                class="action-btn delete-btn"
+                               title="Delete this prefecture"
                                onclick="return confirm('⚠️ Are you sure you want to delete this prefecture? This action cannot be undone.')">
                                 <i class="fas fa-times"></i>
                             </a>
@@ -70,6 +77,7 @@
                     </tr>
                     @endforeach
                 </tbody>
+                
             </table>
 
         </div>
@@ -86,36 +94,50 @@
 
 <script>
 function addRow() {
-    let table = document.getElementById('prefecture-body');
+    const table = document.getElementById('prefecture-body');
 
-    let row = `
-        <tr>
-            <td>New</td>
+    if (!table) {
+        console.error('Table body not found!');
+        return;
+    }
 
-            <td>
-                <input type="hidden" name="id[]" value="">
-                <input class="form-input" type="text" name="prefecture[]" required>
-            </td>
+    const tr = document.createElement('tr');
 
-            <td>
-                <input class="form-input" type="number" step="0.01" name="amount[]" required>
-            </td>
+    tr.innerHTML = `
+        <td>New</td>
 
-            <td>
-                <!-- SAVE -->
-                <button type="submit" class="action-btn edit-btn">
-                    <i class="fas fa-check"></i>
-                </button>
+        <td>
+            <input type="hidden" name="id[]" value="">
+            <input class="form-input" type="text" name="prefecture[]" placeholder="Enter Prefecture" required>
+        </td>
 
-                <!-- REMOVE ROW -->
-                <button type="button" class="action-btn delete-btn" onclick="this.closest('tr').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </td>
-        </tr>
-    `;
+        <td>
+            <input class="form-input" type="number" step="0.01" name="amount[]" placeholder="Enter Amount" required>
+        </td>
 
-    table.insertAdjacentHTML('beforeend', row);
+        <td>
+            <!-- SAVE -->
+            <button type="submit" class="action-btn edit-btn" data-tooltip="Save">
+                <i class="fas fa-check"></i>
+            </button>
+
+            <!-- REMOVE ROW -->
+            <button type="button" class="action-btn delete-btn" data-tooltip="Remove row">
+                <i class="fas fa-times"></i>
+            </button>
+        </td>`;
+
+    table.appendChild(tr);
+
+    const input = tr.querySelector('input[name="prefecture[]"]');
+    if (input) {
+        input.focus();
+    }
+
+    const deleteBtn = tr.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', function () {
+        tr.remove();
+    });
 }
 </script>
 
