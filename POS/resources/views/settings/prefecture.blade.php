@@ -87,6 +87,7 @@
 
                             <a href="{{ route('prefecture.delete', $pref->prefecture_id) }}"
                                class="action-btn delete-btn"
+                               style="text-decoration: none;"
                                onclick="return confirm('⚠️ Are you sure you want to delete this prefecture? This action cannot be undone.')">
                                 Delete
                             </a>
