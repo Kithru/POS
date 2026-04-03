@@ -19,127 +19,120 @@
 
     <h1>Manage Prefecture</h1>
 
+    {{-- SUCCESS --}}
     @if(session('success'))
-        <div class="alert alert-success">
+        <div style="padding:10px; background:#d4edda; color:#155724; border-radius:8px; margin:20px 0;">
             {{ session('success') }}
         </div>
     @endif
 
-    <form action="{{ route('prefecture.save') }}" method="POST">
-        @csrf
+    {{-- ERROR --}}
+    @if(session('error'))
+        <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin:20px 0;">
+            {{ session('error') }}
+        </div>
+    @endif
 
-        <div class="form-card">
+    {{-- VALIDATION --}}
+    @if($errors->any())
+        <div style="padding:10px; background:#f8d7da; color:#721c24; border-radius:8px; margin:20px 0;">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </div>
+    @endif
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Prefecture</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+    <div class="form-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Prefecture</th>
+                    <th>Amount ( <i class="fas fa-yen-sign"></i> )</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-                <tbody id="prefecture-body">
-                    @foreach($prefectures as $pref)
-                    <tr>
+            <tbody id="prefecture-body">
+
+            {{-- EXISTING ROWS --}}
+            @foreach($prefectures as $pref)
+
+                <tr>
+                    <form action="{{ route('prefecture.save') }}" method="POST">
+                        @csrf
+
                         <td>{{ $loop->iteration }}</td>
 
                         <td>
-                            <input type="hidden" name="id[]" value="{{ $pref->prefecture_id }}">
-                            <input class="form-input" type="text" name="prefecture[]" value="{{ $pref->prefecture_name }}" required>
+                            <input type="hidden" name="id" value="{{ $pref->prefecture_id }}">
+
+                            <input class="form-input" type="text"
+                                   name="name"
+                                   value="{{ $pref->prefecture_name }}"
+                                   required>
                         </td>
 
                         <td>
-                            <input class="form-input" type="number" step="0.01" name="amount[]" value="{{ $pref->amount }}" required>
+                            <input class="form-input" type="number" step="0.01"
+                                   name="amount"
+                                   value="{{ $pref->amount }}"
+                                   required>
                         </td>
 
                         <td>
-                            <!-- UPDATE -->
-                            @if($pref->prefecture_id)
-                            <button type="submit" formaction="{{ route('prefecture.save') }}" class="action-btn edit-btn" title="Update this prefecture">
-                                <i class="fas fa-check"></i>
+                            <button type="submit" class="action-btn edit-btn">
+                                Update
                             </button>
-                            @else
-                            <button type="submit" class="action-btn edit-btn" title="Add this prefecture">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                            @endif
 
-                            <!-- DELETE -->
                             <a href="{{ route('prefecture.delete', $pref->prefecture_id) }}"
                                class="action-btn delete-btn"
-                               title="Delete this prefecture"
                                onclick="return confirm('⚠️ Are you sure you want to delete this prefecture? This action cannot be undone.')">
-                                <i class="fas fa-times"></i>
+                                Delete
                             </a>
                         </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                
-            </table>
 
-        </div>
+                    </form>
+                </tr>
 
-        <!-- ADD NEW -->
-        <div style="text-align:center;">
-            <button type="button" class="btn-primary" onclick="addRow()">
-                Add New Prefecture
-            </button>
-        </div>
+            @endforeach
 
-    </form>
+            {{-- ADD NEW ROW --}}
+            <tr>
+                <form action="{{ route('prefecture.save') }}" method="POST">
+                    @csrf
+
+                    <td>New</td>
+
+                    <td>
+                        <input type="hidden" name="id" value="">
+                        <input class="form-input" type="text"
+                               name="name"
+                               placeholder="Enter Prefecture"
+                               required>
+                    </td>
+
+                    <td>
+                        <input class="form-input" type="number" step="0.01"
+                               name="amount"
+                               placeholder="Enter Amount"
+                               required>
+                    </td>
+
+                    <td>
+                        <button type="submit" class="action-btn edit-btn">
+                            Add
+                        </button>
+                    </td>
+
+                </form>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
 </div>
-
-<script>
-function addRow() {
-    const table = document.getElementById('prefecture-body');
-
-    if (!table) {
-        console.error('Table body not found!');
-        return;
-    }
-
-    const tr = document.createElement('tr');
-
-    tr.innerHTML = `
-        <td>New</td>
-
-        <td>
-            <input type="hidden" name="id[]" value="">
-            <input class="form-input" type="text" name="prefecture[]" placeholder="Enter Prefecture" required>
-        </td>
-
-        <td>
-            <input class="form-input" type="number" step="0.01" name="amount[]" placeholder="Enter Amount" required>
-        </td>
-
-        <td>
-            <!-- SAVE -->
-            <button type="submit" class="action-btn edit-btn" data-tooltip="Save">
-                <i class="fas fa-check"></i>
-            </button>
-
-            <!-- REMOVE ROW -->
-            <button type="button" class="action-btn delete-btn" data-tooltip="Remove row">
-                <i class="fas fa-times"></i>
-            </button>
-        </td>`;
-
-    table.appendChild(tr);
-
-    const input = tr.querySelector('input[name="prefecture[]"]');
-    if (input) {
-        input.focus();
-    }
-
-    const deleteBtn = tr.querySelector('.delete-btn');
-    deleteBtn.addEventListener('click', function () {
-        tr.remove();
-    });
-}
-</script>
 
 </body>
 </html>
