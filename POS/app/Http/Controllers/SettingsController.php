@@ -12,44 +12,36 @@ class SettingsController extends Controller {
         return view('settings.prefecture', compact('prefectures'));
     }
 
-    public function save(Request $request){
-    $ids = $request->input('id', []);
-    $names = $request->input('prefecture', []);
-    $amounts = $request->input('amount', []);
+    public function save(Request $request)
+{
+    $name = trim($request->name);
+    $amount = $request->amount;
+    $id = $request->id;
 
-    foreach ($names as $key => $name) {
-
-        // Remove spaces + skip empty values
-        $name = trim($name);
-
-        if ($name === '') {
-            continue;
-        }
-
-        $amount = isset($amounts[$key]) ? (float) $amounts[$key] : 0;
-        $id = $ids[$key] ?? null;
-
-        if (!empty($id)) {
-
-            Prefecture::where('prefecture_id', $id)->update([
-                'prefecture_name' => $name,
-                'amount' => $amount,
-                'updated_at' => now()
-            ]);
-
-        } else {
-
-            Prefecture::create([
-                'prefecture_name' => $name,
-                'amount' => $amount,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        }
+    if ($name === '' || $amount === null) {
+        return back()->with('error', 'All fields are required.');
     }
 
-    return redirect()->route('prefecture.index')
-        ->with('success', 'Prefecture saved successfully.');
+    if (!empty($id)) {
+        // UPDATE
+        Prefecture::where('prefecture_id', $id)->update([
+            'prefecture_name' => $name,
+            'amount' => $amount,
+            'updated_at' => now()
+        ]);
+
+        return back()->with('success', 'Prefecture updated successfully.');
+    } else {
+        // ADD
+        Prefecture::create([
+            'prefecture_name' => $name,
+            'amount' => $amount,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        return back()->with('success', 'Prefecture added successfully.');
+    }
 }
     public function delete($id){
         Prefecture::where('prefecture_id', $id)->delete();

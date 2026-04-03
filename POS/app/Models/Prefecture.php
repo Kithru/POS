@@ -12,7 +12,7 @@ class Prefecture extends Model
     protected $table = 'prefectures';
     protected $primaryKey = 'prefecture_id';
     protected $fillable = [
-        'name',
+        'prefecture_name',
         'amount',
     ];
     protected $casts = [
