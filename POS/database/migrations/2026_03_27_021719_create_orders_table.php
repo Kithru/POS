@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2);
             $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('tax', 10, 2)->default(0);
+            $table->decimal('cod_amount', 10, 2)->default(0.00);
             $table->timestamp('added_date')->useCurrent();
             $table->timestamp('confirmed_date')->nullable();
             $table->timestamp('prepared_date')->nullable();

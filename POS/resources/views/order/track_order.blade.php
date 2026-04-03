@@ -168,7 +168,10 @@ use Illuminate\Support\Facades\Crypt;
         <div class="section card">
             <h2 style="text-align:center;">Payment Details</h2>
             <p><strong>Payment Method:</strong> Cash On Delivery</p>
+            <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
         </div>
+
+        
 
         <!-- Items Table -->
         <div class="section card">
@@ -193,9 +196,26 @@ use Illuminate\Support\Facades\Crypt;
                             <td>¥ {{ number_format($item->quantity * $item->price, 2) }}</td>
                         </tr>
                     @endforeach
+
+                    <tr>
+                        <td colspan="4" style="text-align:right;"><strong>Subtotal</strong></td>
+                        <td>¥ {{ number_format($order->total_amount, 2) }}</td>
+                    </tr>
+
+                    <!-- COD Row -->
+                    <tr>
+                        <td colspan="4" style="text-align:right;"><strong>COD Amount</strong></td>
+                        <td>¥ {{ number_format($order->cod_amount, 2) }}</td>
+                    </tr>
+
+                    <!-- Final Total -->
                     <tr class="total-row">
-                        <td colspan="4" style="text-align:right;"><strong>Total Amount</strong></td>
-                        <td><strong>¥ {{ number_format($order->total_amount, 2) }}</strong></td>
+                        <td colspan="4" style="text-align:right;"><strong>Total Payable</strong></td>
+                        <td>
+                            <strong>
+                                ¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}
+                            </strong>
+                        </td>
                     </tr>
                 </tbody>
             </table>
