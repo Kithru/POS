@@ -116,7 +116,7 @@
                 <span class="link-text">Settings</span>
             </a>
         </li> -->
-
+        @if(session('user_level') == 1)  
         <li class="has-submenu">
             <a href="#">
                 <i class="fas fa-cog"></i>
@@ -129,6 +129,7 @@
                 <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
             </ul>
         </li>
+        @endif
 
     </ul>
 
