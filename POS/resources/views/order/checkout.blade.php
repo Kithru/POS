@@ -11,7 +11,7 @@
     }
 </style>
 
-@php
+<!-- @php
 $prefectures = [
     'Hokkaido','Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima',
     'Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa',
@@ -21,7 +21,7 @@ $prefectures = [
     'Ehime','Kochi','Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki',
     'Kagoshima','Okinawa'
 ];
-@endphp
+@endphp -->
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -65,10 +65,14 @@ $prefectures = [
                 <input type="text" name="postal_code" id="postal_code" placeholder="100-0001" required>
 
                 <label>Prefecture <span class="required">*</span></label>
-                <select name="perfecture" id="perfecture" required>
+                <select name="prefecture" id="prefecture" required>
                     <option value="" disabled selected>Select Prefecture</option>
                     @foreach($prefectures as $pref)
-                        <option value="{{ $pref }}">{{ $pref }}</option>
+                        <option 
+                            value="{{ $pref->prefecture_id }}"
+                            data-amount="{{ $pref->amount }}">
+                            {{ $pref->prefecture_name }}
+                        </option>
                     @endforeach
                 </select>
 
@@ -114,7 +118,11 @@ $prefectures = [
                 <select name="receiver_prefecture" id="receiver_prefecture" required>
                     <option value="" disabled selected>Select Prefecture</option>
                     @foreach($prefectures as $pref)
-                        <option value="{{ $pref }}">{{ $pref }}</option>
+                        <option 
+                            value="{{ $pref->prefecture_id }}"
+                            data-amount="{{ $pref->amount }}">
+                            {{ $pref->prefecture_name }}
+                        </option>
                     @endforeach
                 </select>
 
@@ -142,7 +150,6 @@ $prefectures = [
         <!-- Order Summary -->
         <div class="checkout-summary">
             <h3>Order Summary</h3>
-
             @php 
                 $total = 0; 
                 $cartItems = $cart ?? [];
@@ -159,7 +166,21 @@ $prefectures = [
                         <span>¥ {{ number_format($subtotal, 2) }}</span>
                     </p>
                 @endforeach
-                <h4>Total: ¥ {{ number_format($total, 2) }}</h4>
+
+                <!-- COD Amount -->
+                <p>
+                    <span>COD Amount</span>
+                    <span id="codAmount">¥ 0.00</span>
+                </p>
+
+                <!-- Final Total -->
+                <h4>
+                    Total: ¥ <span id="finalTotal">{{ number_format($total, 2) }}</span>
+                </h4>
+
+                <!-- Hidden input to submit COD -->
+                <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
+
             @else
                 <p>Your cart is empty.</p>
                 <h4>Total: ¥ 0.00</h4>
@@ -182,33 +203,74 @@ $prefectures = [
 </div>
 
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
+
     const checkbox = document.getElementById('sameAsCustomer');
 
+    const customerPref = document.getElementById('prefecture');
+    const receiverPref = document.getElementById('receiver_prefecture');
+
+    const codAmountEl = document.getElementById('codAmount');
+    const finalTotalEl = document.getElementById('finalTotal');
+    const codInput = document.getElementById('cod_amount_input');
+
+    let baseTotal = {{ $total ?? 0 }};
+
+    // 🔹 Update COD + Total
+    function updateCOD(selectElement) {
+        if (!selectElement || selectElement.selectedIndex < 0) return;
+
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const codAmount = parseFloat(selectedOption.getAttribute('data-amount')) || 0;
+
+        codAmountEl.innerText = '¥ ' + codAmount.toFixed(2);
+        codInput.value = codAmount;
+
+        const finalTotal = baseTotal + codAmount;
+        finalTotalEl.innerText = finalTotal.toFixed(2);
+    }
+
+    receiverPref.addEventListener('change', function () {
+        updateCOD(this);
+    });
+
     checkbox.addEventListener('change', function () {
+
         if (this.checked) {
+
             document.getElementById('receiver_first_name').value = document.getElementById('customer_first_name').value;
             document.getElementById('receiver_last_name').value = document.getElementById('customer_last_name').value;
             document.getElementById('receiver_email').value = document.getElementById('customer_email').value;
             document.getElementById('receiver_phone').value = document.getElementById('customer_phone').value;
             document.getElementById('receiver_postal_code').value = document.getElementById('postal_code').value;
-            document.getElementById('receiver_prefecture').value = document.getElementById('perfecture').value;
+            receiverPref.value = customerPref.value;
             document.getElementById('receiver_city').value = document.getElementById('city').value;
             document.getElementById('receiver_street_name').value = document.getElementById('street_name').value;
             document.getElementById('receiver_apartment_no').value = document.getElementById('apartment_no').value;
+            receiverPref.dispatchEvent(new Event('change'));
+
         } else {
+
             document.getElementById('receiver_first_name').value = '';
             document.getElementById('receiver_last_name').value = '';
             document.getElementById('receiver_email').value = '';
             document.getElementById('receiver_phone').value = '';
             document.getElementById('receiver_postal_code').value = '';
-            document.getElementById('receiver_prefecture').value = '';
+            receiverPref.value = '';
             document.getElementById('receiver_city').value = '';
             document.getElementById('receiver_street_name').value = '';
             document.getElementById('receiver_apartment_no').value = '';
+
+            // Reset COD
+            codAmountEl.innerText = '¥ 0.00';
+            finalTotalEl.innerText = baseTotal.toFixed(2);
+            codInput.value = 0;
         }
     });
+
 });
+</script>
 </script>
 
 @endsection

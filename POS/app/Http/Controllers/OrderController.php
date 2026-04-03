@@ -8,12 +8,14 @@ use App\Models\OrderItem;
 use App\Models\OrderCustomer;
 use PDF;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class OrderController extends Controller
 {
     public function store(Request $request) {
         $cart = session()->get('cart');
+        $codAmount = $request->input('cod_amount', 0);
 
         if (empty($cart) || count($cart) == 0) {
             return back()->with('error', 'Cart is empty');
@@ -41,6 +43,7 @@ class OrderController extends Controller
             'total_amount' => $finalTotal,
             'discount'     => $discount,
             'tax'          => $tax,
+            'cod_amount'   => $codAmount,
             'status'       => '0',
             'notes'        => $request->notes,
         ]);
@@ -90,7 +93,8 @@ class OrderController extends Controller
 
     public function index() {
         $cart = session('cart', []);
-        return view('order.checkout', compact('cart'));
+        $prefectures = DB::table('prefectures')->get();
+        return view('order.checkout', compact('cart', 'prefectures'));
     }
 
     public function receipt($order_id){
