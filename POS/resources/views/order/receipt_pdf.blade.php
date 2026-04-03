@@ -122,7 +122,6 @@
             </p>
 
             <p><strong>Email:</strong> {{ $order->customer->customer_email }}</p>
-
             <p><strong>Phone:</strong> {{ $order->customer->customer_phone }}</p>
 
             <p><strong>Address:</strong>
@@ -151,7 +150,6 @@
             </p>
 
             <p><strong>Email:</strong> {{ $order->customer->receiver_email }}</p>
-
             <p><strong>Phone:</strong> {{ $order->customer->receiver_phone }}</p>
 
             <p><strong>Address:</strong>
@@ -173,6 +171,7 @@
     <div class="section">
         <h2>Payment Details</h2>
         <p><strong>Payment method:</strong> Cash On Delivery</p>
+        <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
     </div>
 
     <!-- Items -->
@@ -199,9 +198,14 @@
                 </tr>
                 @endforeach
 
+                <tr>
+                    <td colspan="3" style="text-align:right;">COD Amount</td>
+                    <td> ¥ {{ number_format($order->cod_amount, 2) }}</td>
+                </tr>
+
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;">Total Amount</td>
-                    <td>¥ {{ number_format($order->total_amount, 2) }}</td>
+                    <td><strong>¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>

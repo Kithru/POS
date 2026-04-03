@@ -11,18 +11,6 @@
     }
 </style>
 
-@php
-$prefectures = [
-    'Hokkaido','Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima',
-    'Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa',
-    'Niigata','Toyama','Ishikawa','Fukui','Yamanashi','Nagano','Gifu',
-    'Shizuoka','Aichi','Mie','Shiga','Kyoto','Osaka','Hyogo','Nara','Wakayama',
-    'Tottori','Shimane','Okayama','Hiroshima','Yamaguchi','Tokushima','Kagawa',
-    'Ehime','Kochi','Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki',
-    'Kagoshima','Okinawa'
-];
-@endphp
-
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -65,10 +53,16 @@ $prefectures = [
                 <input type="text" name="postal_code" id="postal_code" placeholder="100-0001" required>
 
                 <label>Prefecture <span class="required">*</span></label>
-                <select name="perfecture" id="perfecture" required>
+                <select name="prefecture" id="prefecture" required>
                     <option value="" disabled selected>Select Prefecture</option>
                     @foreach($prefectures as $pref)
-                        <option value="{{ $pref }}">{{ $pref }}</option>
+                        <option 
+                            value="{{ is_object($pref) ? $pref->prefecture_id : $pref }}"
+                            data-amount="{{ is_object($pref) ? $pref->amount : 0 }}">
+                            
+                            {{ is_object($pref) ? $pref->prefecture_name : $pref }}
+
+                        </option>
                     @endforeach
                 </select>
 
@@ -114,7 +108,13 @@ $prefectures = [
                 <select name="receiver_prefecture" id="receiver_prefecture" required>
                     <option value="" disabled selected>Select Prefecture</option>
                     @foreach($prefectures as $pref)
-                        <option value="{{ $pref }}">{{ $pref }}</option>
+                        <option 
+                            value="{{ is_object($pref) ? $pref->prefecture_id : $pref }}"
+                            data-amount="{{ is_object($pref) ? $pref->amount : 0 }}">
+                            
+                            {{ is_object($pref) ? $pref->prefecture_name : $pref }}
+
+                        </option>
                     @endforeach
                 </select>
 
@@ -142,7 +142,6 @@ $prefectures = [
         <!-- Order Summary -->
         <div class="checkout-summary">
             <h3>Order Summary</h3>
-
             @php 
                 $total = 0; 
                 $cartItems = $cart ?? [];
@@ -159,7 +158,21 @@ $prefectures = [
                         <span>¥ {{ number_format($subtotal, 2) }}</span>
                     </p>
                 @endforeach
-                <h4>Total: ¥ {{ number_format($total, 2) }}</h4>
+
+                <!-- COD Amount -->
+                <p style=" margin-top: 15px;padding-top: 10px; border-top: 1px solid #ddd;">
+                    <span>COD Amount</span>
+                    <span id="codAmount">¥ 0.00</span>
+                </p>
+
+                <!-- Final Total -->
+                <h4 style=" margin-top: 15px;padding-top: 15px; border-top: 1px solid #ddd;">
+                    Total: ¥ <span id="finalTotal">{{ number_format($total, 2) }}</span>
+                </h4>
+
+                <!-- Hidden input to submit COD -->
+                <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
+
             @else
                 <p>Your cart is empty.</p>
                 <h4>Total: ¥ 0.00</h4>
@@ -183,31 +196,76 @@ $prefectures = [
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
     const checkbox = document.getElementById('sameAsCustomer');
 
+    const customerPref = document.getElementById('prefecture');
+    const receiverPref = document.getElementById('receiver_prefecture');
+
+    const codAmountEl = document.getElementById('codAmount');
+    const finalTotalEl = document.getElementById('finalTotal');
+    const codInput = document.getElementById('cod_amount_input');
+
+    let baseTotal = {{ $total ?? 0 }};
+
+    // 🔹 Update COD + Total
+    function updateCOD(selectElement) {
+        if (!selectElement || selectElement.selectedIndex < 0) return;
+
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const codAmount = parseFloat(selectedOption.getAttribute('data-amount')) || 0;
+
+        codAmountEl.innerText = '¥ ' + codAmount.toFixed(2);
+        codInput.value = codAmount;
+
+        const finalTotal = baseTotal + codAmount;
+        finalTotalEl.innerText = finalTotal.toFixed(2);
+    }
+
+    // 🔹 Prefecture change (receiver)
+    receiverPref.addEventListener('change', function () {
+        updateCOD(this);
+    });
+
+    // 🔹 Same as customer
     checkbox.addEventListener('change', function () {
+
         if (this.checked) {
+
             document.getElementById('receiver_first_name').value = document.getElementById('customer_first_name').value;
             document.getElementById('receiver_last_name').value = document.getElementById('customer_last_name').value;
             document.getElementById('receiver_email').value = document.getElementById('customer_email').value;
             document.getElementById('receiver_phone').value = document.getElementById('customer_phone').value;
             document.getElementById('receiver_postal_code').value = document.getElementById('postal_code').value;
-            document.getElementById('receiver_prefecture').value = document.getElementById('perfecture').value;
+
+            receiverPref.value = customerPref.value;
             document.getElementById('receiver_city').value = document.getElementById('city').value;
             document.getElementById('receiver_street_name').value = document.getElementById('street_name').value;
             document.getElementById('receiver_apartment_no').value = document.getElementById('apartment_no').value;
+
+            // trigger COD update
+            updateCOD(receiverPref);
+
         } else {
+
             document.getElementById('receiver_first_name').value = '';
             document.getElementById('receiver_last_name').value = '';
             document.getElementById('receiver_email').value = '';
             document.getElementById('receiver_phone').value = '';
             document.getElementById('receiver_postal_code').value = '';
-            document.getElementById('receiver_prefecture').value = '';
             document.getElementById('receiver_city').value = '';
             document.getElementById('receiver_street_name').value = '';
             document.getElementById('receiver_apartment_no').value = '';
+
+            receiverPref.value = '';
+
+            // Reset COD
+            codAmountEl.innerText = '¥ 0.00';
+            codInput.value = 0;
+            finalTotalEl.innerText = baseTotal.toFixed(2);
         }
     });
+
 });
 </script>
 

@@ -21,6 +21,7 @@ class Order extends Model
         'notes',
         'total_amount',
         'modified_by',
+        'cod_amount',
         'cancelled_date',
         'cancelled_by',
         'cancelled_reason'

@@ -25,7 +25,7 @@ class OrderCustomer extends Model
         'customer_email',
         'customer_phone',
         'postal_code',
-        'perfecture',
+        'prefecture',
         'city',
         'street_name',
         'apartment_no',

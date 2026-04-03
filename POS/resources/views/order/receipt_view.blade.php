@@ -72,7 +72,8 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     <!-- Payment Details -->
     <div class="section card">
         <h2>Payment Details</h2>
-        <p><strong>Payment method:</strong> Cash On Delivery </p>
+        <p><strong>Payment method:</strong> Cash On Delivery</p>
+        <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
     </div>
 
     <!-- Items Table -->
@@ -96,14 +97,21 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
                         <td>¥ {{ number_format($item->subtotal, 2) }}</td>
                     </tr>
                 @endforeach
+
+                <!-- COD Row -->
+                <tr>
+                    <td colspan="3" style="text-align:right;"> COD Amount </td>
+                    <td> ¥ {{ number_format($order->cod_amount, 2) }} </td>
+                </tr>
+
+                <!-- Final Total -->
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;"><strong>Total Amount</strong></td>
-                    <td><strong>¥ {{ number_format($order->total_amount, 2) }}</strong></td>
+                    <td><strong>¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
     </div>
-
     <!-- Notes -->
     @if($order->notes)
     <div class="section card">
