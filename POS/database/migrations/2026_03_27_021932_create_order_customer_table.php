@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('customer_email');
             $table->string('customer_phone');
             $table->string('postal_code');
-            $table->string('perfecture');
+            $table->string('prefecture');
             $table->string('city');
             $table->string('street_name');
             $table->string('apartment_no')->nullable();

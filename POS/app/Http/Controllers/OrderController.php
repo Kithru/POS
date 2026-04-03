@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderCustomer;
+use App\Models\Prefecture;
 use PDF;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,12 @@ class OrderController extends Controller
         $randomPart = rand(1000, 9999);
         $orderCode = $dateTimePart . $randomPart;
 
+        $customerPrefecture = Prefecture::find($request->prefecture);
+        $receiverPrefecture = Prefecture::find($request->receiver_prefecture);
+
+        $customerPrefectureName = $customerPrefecture?->prefecture_name;
+        $receiverPrefectureName = $receiverPrefecture?->prefecture_name;
+
         // Create order
         $order = Order::create([
             'order_code'   => $orderCode,
@@ -57,7 +64,7 @@ class OrderController extends Controller
             'customer_email'          => $request->customer_email,
             'customer_phone'          => $request->customer_phone,
             'postal_code'             => $request->postal_code,
-            'perfecture'              => $request->perfecture,
+            'prefecture'              => $customerPrefectureName,
             'city'                    => $request->city,
             'street_name'             => $request->street_name,
             'apartment_no'            => $request->apartment_no,
@@ -66,7 +73,7 @@ class OrderController extends Controller
             'receiver_email'          => $request->receiver_email,
             'receiver_phone'          => $request->receiver_phone,
             'receiver_postal_code'    => $request->receiver_postal_code,
-            'receiver_prefecture'     => $request->receiver_prefecture,
+            'receiver_prefecture'     => $receiverPrefectureName,
             'receiver_city'           => $request->receiver_city,
             'receiver_street_name'    => $request->receiver_street_name,
             'receiver_apartment_no'   => $request->receiver_apartment_no,
@@ -92,9 +99,9 @@ class OrderController extends Controller
     }
 
     public function index() {
-        $cart = session('cart', []);
-        $prefectures = DB::table('prefectures')->get();
-        return view('order.checkout', compact('cart', 'prefectures'));
+        $prefectures = Prefecture::all(); 
+        $cart = session()->get('cart', []);
+        return view('order.checkout', compact('prefectures', 'cart'));
     }
 
     public function receipt($order_id){
