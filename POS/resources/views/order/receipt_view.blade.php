@@ -11,19 +11,18 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 
 <div class="receipt-container" id="receipt-content">
 
-    <!-- Success Alert -->
     @if(session('success'))
         <script>alert("{{ session('success') }}");</script>
     @endif
 
     <div class="receipt-header">
-        <img src="{{ asset('images/logo.png') }}" alt="Company Logo" class="logo" style="max-height: 80px; display:block; margin-bottom:10px;">
+        <img src="{{ asset('images/logo.png') }}" class="logo" style="max-height:80px; display:block; margin:auto;">
         <h1>Order Receipt</h1>
         <p><strong>Order ID:</strong> {{ $order->order_code }}</p>
         <p><strong>Date:</strong> {{ $order->added_date->format('d M Y, H:i') }}</p>
     </div>
 
-    <!-- Restaurant Details -->
+    <!-- Restaurant -->
     <div class="section card">
         <h2>Restaurant Info</h2>
         <p><strong>Name:</strong> Rajarata Sakura Restaurant</p>
@@ -31,54 +30,69 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
         <p><strong>Address:</strong> 110-65, FUNYU, CHIKUSEI SHI, IBARAKI KEN, JAPAN</p>
     </div>
 
-    <!-- Customer Details -->
+    <!-- Customer -->
     <div class="section card">
         <h2>Customer Details</h2>
+
         @if($order->customer)
-                <p><strong>Name:</strong> {{ $order->customer->customer_first_name ?? '' }} {{ $order->customer->customer_last_name ?? '' }}</p>
-                <p><strong>Email:</strong> {{ $order->customer->customer_email ?? '' }}</p>
-                <p><strong>Phone:</strong> {{ $order->customer->customer_phone ?? '' }}</p>
-                <p><strong>Address:</strong> 
-                    {{ $order->customer->postal_code ?? '' }},
-                    {{ $order->customer->perfecture ?? '' }},
-                    {{ $order->customer->city ?? '' }},
-                    {{ $order->customer->street_name ?? '' }}
-                    {{ $order->customer->apartment_no ?? '' }}
-                </p>
-        @else
-            <p>No customer info available.</p>
+            <p><strong>Name:</strong>
+                {{ $order->customer->customer_first_name }}
+                {{ $order->customer->customer_last_name }}
+            </p>
+
+            <p><strong>Email:</strong> {{ $order->customer->customer_email }}</p>
+            <p><strong>Phone:</strong> {{ $order->customer->customer_phone }}</p>
+
+            <p><strong>Address:</strong>
+                {{ $order->customer->street_name }},
+                {{ $order->customer->city }},
+                {{ $order->customer->prefecture }},
+                {{ $order->customer->postal_code }}
+                @if($order->customer->apartment_no)
+                    , {{ $order->customer->apartment_no }}
+                @endif
+            </p>
         @endif
     </div>
 
-    <!-- Delivery Details -->
+    <!-- Delivery -->
     <div class="section card">
         <h2>Delivery Details</h2>
+
         @if($order->customer)
-            <p><strong>Name:</strong> {{ $order->customer->receiver_first_name }} {{ $order->customer->receiver_last_name }}</p>
+            <p><strong>Name:</strong>
+                {{ $order->customer->receiver_first_name }}
+                {{ $order->customer->receiver_last_name }}
+            </p>
+
             <p><strong>Email:</strong> {{ $order->customer->receiver_email }}</p>
             <p><strong>Phone:</strong> {{ $order->customer->receiver_phone }}</p>
+
             <p><strong>Address:</strong>
                 {{ $order->customer->receiver_street_name }},
                 {{ $order->customer->receiver_city }},
                 {{ $order->customer->receiver_prefecture }},
                 {{ $order->customer->receiver_postal_code }}
-                @if($order->customer->receiver_apartment_no), Apt: {{ $order->customer->receiver_apartment_no }}@endif
+                @if($order->customer->receiver_apartment_no)
+                    , {{ $order->customer->receiver_apartment_no }}
+                @endif
             </p>
-        @else
-            <p>No delivery info available.</p>
         @endif
     </div>
 
-    <!-- Payment Details -->
+    <!-- Payment -->
     <div class="section card">
         <h2>Payment Details</h2>
-        <p><strong>Payment method:</strong> Cash On Delivery</p>
+        <p><strong>Payment Method:</strong> Cash On Delivery</p>
+        <p><strong>Subtotal:</strong> ¥ {{ number_format($order->total_amount - $order->tax, 2) }}</p>
+        <p><strong>Tax (8%):</strong> ¥ {{ number_format($order->tax, 2) }}</p>
         <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
     </div>
 
-    <!-- Items Table -->
+    <!-- Items -->
     <div class="section card">
         <h2>Order Items</h2>
+
         <table class="items-table">
             <thead>
                 <tr>
@@ -88,31 +102,39 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
                     <th>Subtotal</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach($order->items as $item)
-                    <tr>
-                        <td>{{ $item->item->item_name ?? 'N/A' }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>¥ {{ number_format($item->price, 2) }}</td>
-                        <td>¥ {{ number_format($item->subtotal, 2) }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ $item->item->item_name ?? 'N/A' }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>¥ {{ number_format($item->price, 2) }}</td>
+                    <td>¥ {{ number_format($item->subtotal, 2) }}</td>
+                </tr>
                 @endforeach
 
-                <!-- COD Row -->
                 <tr>
-                    <td colspan="3" style="text-align:right;"> COD Amount </td>
-                    <td> ¥ {{ number_format($order->cod_amount, 2) }} </td>
+                    <td colspan="3" style="text-align:right;">Tax</td>
+                    <td>¥ {{ number_format($order->tax, 2) }}</td>
                 </tr>
 
-                <!-- Final Total -->
+                <tr>
+                    <td colspan="3" style="text-align:right;">COD Amount</td>
+                    <td>¥ {{ number_format($order->cod_amount, 2) }}</td>
+                </tr>
+
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;"><strong>Total Amount</strong></td>
-                    <td><strong>¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}</strong></td>
+                    <td>
+                        <strong>
+                            ¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}
+                        </strong>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <!-- Notes -->
+
     @if($order->notes)
     <div class="section card">
         <h2>Notes</h2>
@@ -120,25 +142,21 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     </div>
     @endif
 
-    <!-- Print Button -->
     <div class="print-btn-container multi-btn">
-        <button onclick="printAndDownload()" class="print-btn"> 🖨 Download Receipt </button>
-        <a href="{{ route('home') }}" class="home-btn"> 🏠 Home </a>
+        <button onclick="downloadReceipt()" class="print-btn">🖨 Download Receipt</button>
+        <a href="{{ route('home') }}" class="home-btn">🏠 Home</a>
         <a href="{{ route('order.track', ['order_code' => $order->order_code]) }}" class="tracking-btn">📦 Track Order</a>
     </div>
 
 </div>
 
-<!-- Auto PDF download on page load -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
 });
 
-function printAndDownload() {
-    setTimeout(function() {
-        window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
-    }, 500);
+function downloadReceipt() {
+    window.location.href = "{{ route('order.pdf', $encryptedOrderId) }}";
 }
 </script>
 
