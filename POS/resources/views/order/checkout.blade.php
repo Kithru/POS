@@ -159,18 +159,22 @@
                     </p>
                 @endforeach
 
+                <p style="margin-top:15px; padding-top:10px; border-top:1px solid #ddd;">
+                    <span>Tax (8%)</span>
+                    <span id="taxAmount">¥ {{ number_format($total * 0.08, 2) }}</span>
+                </p>
+
                 <!-- COD Amount -->
-                <p style=" margin-top: 15px;padding-top: 10px; border-top: 1px solid #ddd;">
+                <p style="margin-top:10px;">
                     <span>COD Amount</span>
                     <span id="codAmount">¥ 0.00</span>
                 </p>
 
                 <!-- Final Total -->
-                <h4 style=" margin-top: 15px;padding-top: 15px; border-top: 1px solid #ddd;">
-                    Total: ¥ <span id="finalTotal">{{ number_format($total, 2) }}</span>
+                <h4 style="margin-top:15px;padding-top:15px; border-top:1px solid #ddd;">
+                    Total: ¥ <span id="finalTotal">{{ number_format(($total * 1.08), 2) }}</span>
                 </h4>
 
-                <!-- Hidden input to submit COD -->
                 <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
 
             @else
@@ -207,8 +211,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const codInput = document.getElementById('cod_amount_input');
 
     let baseTotal = {{ $total ?? 0 }};
+    let taxAmount = baseTotal * 0.08;
 
-    // 🔹 Update COD + Total
     function updateCOD(selectElement) {
         if (!selectElement || selectElement.selectedIndex < 0) return;
 
@@ -218,7 +222,9 @@ document.addEventListener('DOMContentLoaded', function () {
         codAmountEl.innerText = '¥ ' + codAmount.toFixed(2);
         codInput.value = codAmount;
 
-        const finalTotal = baseTotal + codAmount;
+        document.getElementById('taxAmount').innerText = '¥ ' + taxAmount.toFixed(2);
+
+        const finalTotal = baseTotal + taxAmount + codAmount;
         finalTotalEl.innerText = finalTotal.toFixed(2);
     }
 
@@ -262,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reset COD
             codAmountEl.innerText = '¥ 0.00';
             codInput.value = 0;
-            finalTotalEl.innerText = baseTotal.toFixed(2);
+            finalTotalEl.innerText = (baseTotal + taxAmount).toFixed(2);
         }
     });
 

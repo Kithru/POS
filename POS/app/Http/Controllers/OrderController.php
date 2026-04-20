@@ -28,10 +28,13 @@ class OrderController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
 
-        // Optional discount and tax
+        // discount and tax
         $discount = $request->input('discount', 0);
-        $tax = $request->input('tax', 0);
-        $finalTotal = $total - $discount + $tax;
+        // 8% tax based on items total
+        $tax = round($total * 0.08, 2);
+        // Final total = items - discount + tax + COD
+        $finalTotal = $total - $discount + $tax + $codAmount;
+
 
         // Generate order code
         $dateTimePart = now()->format('dmyH'); 
