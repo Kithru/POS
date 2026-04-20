@@ -91,9 +91,9 @@
                     <th style="padding:12px; text-align:left;">Category</th>
                     <th style="padding:12px; text-align:left;">Subcategory</th>
                     <th style="padding:12px;">Price</th>
-                    <th style="padding:12px;">Quantity</th>
+                    <th style="padding:9px;">Quantity</th>
                     <th style="padding:12px;">Status</th>
-                    <th style="padding:12px;">Action</th>
+                    <th style="padding:15px;">Action</th>
                     <th style="padding:12px;">Edit</th>
                 </tr>
             </thead>
@@ -108,7 +108,7 @@
                         <td style="padding:12px; text-align:left;">{{ $item->category->category_name ?? '-' }}</td>
                         <td style="padding:12px; text-align:left;">{{ $item->subcategory->subcategory_name ?? '-' }}</td>
                         <td style="padding:12px;"> {!! $item->currencyRel->currency_icon ?? '' !!} {{ number_format($item->price, 2) }} </td>
-                        <td style="padding:12px;">{{ $item->quantity }}</td>
+                        <td style="padding:9px;">{{ $item->quantity }}</td>
                         <td style="padding:12px;">
                             @if($item->status == 1)
                                 <span style="background:#d4edda; color:#155724; padding:5px 12px; border-radius:20px; font-size:12px;">Active</span>
@@ -118,18 +118,18 @@
                         </td>
 
                         <!-- Activate / Deactivate -->
-                        <td style="padding:12px;">
+                        <td style="padding:15px;">
                             @if($item->status == 1)
                                 <a href="{{ route('item.deactivate', $item->item_id) }}"
                                    onclick="return confirm('Are you sure you want to deactivate this item?')"
                                    class="action-btn delete-btn" style="text-decoration:none;">
-                                   <i class="fas fa-ban"></i> Deactivate
+                                   <i class=""></i> Deactivate
                                 </a>
                             @else
                                 <a href="{{ route('item.activate', $item->item_id) }}"
                                    onclick="return confirm('Do you want to activate this item?')"
                                    class="action-btn edit-btn" style="background:#28a745; text-decoration:none;">
-                                   <i class="fas fa-check"></i> Activate
+                                   <i class=""></i> Activate
                                 </a>
                             @endif
                         </td>
