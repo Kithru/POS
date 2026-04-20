@@ -86,11 +86,21 @@ th{
 <p><strong>Phone:</strong> {{ $order->customer->receiver_phone }}</p>
 </div>
 
+@php
+    $itemsTotal = 0;
+@endphp
+
 <div class="section">
 <h2>Payment Details</h2>
 
-<p><strong>Subtotal:</strong>
-¥ {{ number_format($order->total_amount - $order->tax - $order->cod_amount,2) }}
+@foreach($order->items as $item)
+    @php
+        $itemsTotal += $item->subtotal;
+    @endphp
+@endforeach
+
+<p><strong>Items Total:</strong>
+¥ {{ number_format($itemsTotal,2) }}
 </p>
 
 <p><strong>Tax:</strong>
@@ -126,6 +136,12 @@ th{
 <td>¥ {{ number_format($item->subtotal,2) }}</td>
 </tr>
 @endforeach
+
+<!-- NEW ROW: SUM OF ALL SUBTOTALS -->
+<tr>
+<td colspan="3" align="right"><strong>Items Subtotal</strong></td>
+<td><strong>¥ {{ number_format($itemsTotal,2) }}</strong></td>
+</tr>
 
 <tr>
 <td colspan="3" align="right">Tax</td>
