@@ -227,15 +227,17 @@ small{
         </div>
 
         <p>
+            Shipping costs for defective products will be borne by the store.  
+            / 商品不良時の送料負担は、店舗負担で対応いたします
+        </p>
+        <p>
             Refund requests must be submitted within 24 hours after delivery.  
             / 返金申請は配達後24時間以内にご連絡ください。
         </p>
-
         <p>
             All requests are subject to verification and approval.  
             / すべての申請は確認および承認の対象となります。
         </p>
-
         <p>
             Fresh and frozen items are non-refundable unless damaged during delivery.  
             / 生鮮食品・冷凍食品は配送時の破損を除き返金不可です。
