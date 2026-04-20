@@ -172,23 +172,17 @@ body{
 }
 
 .social-links a{
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
     display: inline-block;
-    margin: 0 8px;
-    border-radius: 50%;
-    background: #fff;
-    color: #8d1558;
-    font-size: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    transition: .3s;
+    margin: 0 12px;
+    color: #ffffff;
+    font-size: 28px;
+    transition: 0.3s ease;
+    text-decoration: none;
 }
 
 .social-links a:hover{
-    transform: translateY(-5px);
-    background: #8d1558;
-    color: #fff;
+    color: #ffd6ea;
+    transform: translateY(-5px) scale(1.15);
 }
 
 /* Map */
@@ -282,12 +276,11 @@ body{
 
     </div>
 
-    <!-- COMPANY DETAILS -->
 <section class="details-wrap">
 
     <h2 class="section-title">Company Information</h2>
     <p style="text-align:center; color:#666; margin-top:-15px; margin-bottom:35px;">
-        Official business details of Rajarata Sakura Restaurant.
+        Official business and restaurant details of Rajarata Sakura Restaurant.
     </p>
 
     <div class="detail-list">
@@ -316,13 +309,25 @@ body{
             </p>
         </div>
 
+        <!-- Company Location -->
         <div class="detail-item">
             <p>
-                <i class="fas fa-location-dot"></i>
+                <i class="fas fa-city"></i>
                 <strong>Company Location</strong><br>
                 837-5, Nunogawa,<br>
                 Chikusei Shi, Ibaraki Ken,<br>
-                Japan.
+                Japan
+            </p>
+        </div>
+
+        <!-- Shop Location -->
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-store"></i>
+                <strong>Shop Location</strong><br>
+                110-65, Funyu,<br>
+                Chikusei Shi, Ibaraki Ken,<br>
+                Japan
             </p>
         </div>
 
@@ -385,11 +390,15 @@ body{
 
     <!-- MAP -->
     <section class="map-box">
+
+        <h2 class="section-title" style="padding-top:30px;">Visit Our Shop</h2>
+
         <iframe
-            src="https://www.google.com/maps?q=837-5+Nunogawa,+Chikusei,+Ibaraki,+Japan&output=embed"
+            src="https://www.google.com/maps?q=110-65+Funyu,+Chikusei,+Ibaraki,+Japan&output=embed"
             loading="lazy"
             allowfullscreen>
         </iframe>
+
     </section>
 
 </div>
