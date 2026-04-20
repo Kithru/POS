@@ -1,4 +1,3 @@
-
 @include('layouts.headernavi')
 
 <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
@@ -7,199 +6,392 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <style>
-    /* ---------------- About Page Styling ---------------- */
+/* ================= PREMIUM ABOUT PAGE ================= */
 
-#receipt-content {
-    max-width: 900px;
-    margin: 50px auto; /* space from top */
-    padding: 40px 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #444;
-    text-align: center;
+body{
+    background: linear-gradient(135deg,#fff7fb,#fffaf5);
 }
 
-#receipt-content h1 {
-    color: #2e1a26; /* Dark plum */
-    font-size: 32px;
-    margin-bottom: 20px;
+/* Main Container */
+.about-wrapper{
+    max-width: 1250px;
+    margin: 50px auto;
+    padding: 0 20px;
 }
 
-#receipt-content p {
-    font-size: 16px;
-    line-height: 1.8;
-    margin-bottom: 20px;
+/* Hero Section */
+.about-hero{
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
 }
 
-#receipt-content img {
+.about-hero img{
     width: 100%;
-    max-width: 800px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    margin: 30px 0;
+    height: 520px;
+    object-fit: cover;
 }
 
-/* Mission & Vision Section */
-#receipt-content .mission-vision {
+.about-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right,rgba(30,10,20,0.82),rgba(120,30,80,0.35));
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 30px;
+    align-items: center;
+    padding: 60px;
+}
+
+.about-overlay-content{
+    max-width: 650px;
+    color: #fff;
+}
+
+.about-overlay-content h1{
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.about-overlay-content p{
+    font-size: 18px;
+    line-height: 1.9;
+    opacity: .95;
+}
+
+.tag-line{
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    padding: 10px 18px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Cards */
+.info-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 25px;
     margin-top: 40px;
-    text-align: left;
 }
 
-#receipt-content .mission-vision div {
-    flex: 1 1 300px;
+.card-box{
+    background: #fff;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
 }
 
-#receipt-content .mission-vision h3 {
-    color: #f3c1d8; /* Sakura pink */
-    margin-bottom: 10px;
+.card-box:hover{
+    transform: translateY(-8px);
 }
 
-#receipt-content .mission-vision p {
-    color: #444;
+.card-box h3{
+    color: #8d1558;
+    font-size: 24px;
+    margin-bottom: 15px;
 }
 
-/* Social Media Section */
-#receipt-content .social-icons {
+.card-box p{
+    color: #555;
+    line-height: 1.9;
+    margin: 0;
+}
+
+/* Details Section */
+.details-wrap{
+    background: #fff;
     margin-top: 40px;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.section-title{
     text-align: center;
+    font-size: 34px;
+    color: #2e1a26;
+    margin-bottom: 35px;
+    font-weight: 800;
 }
 
-#receipt-content .social-icons a {
-    color: #f3c1d8;
-    margin: 0 10px;
-    font-size: 28px;
-    transition: 0.3s;
+.detail-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+    gap: 25px;
 }
 
-#receipt-content .social-icons a:hover {
-    color: #7a0f5c; /* Wine purple */
-    transform: scale(1.2);
+.detail-item{
+    background: #fff7fb;
+    border-left: 5px solid #b61e72;
+    padding: 22px;
+    border-radius: 18px;
 }
 
-/* ---------------- Responsive ---------------- */
-@media(max-width:768px) {
-    #receipt-content {
-        padding: 30px 15px;
+.detail-item i{
+    color: #b61e72;
+    margin-right: 10px;
+    width: 24px;
+}
+
+.detail-item strong{
+    color: #2e1a26;
+}
+
+/* Contact Box */
+.contact-box{
+    margin-top: 40px;
+    background: linear-gradient(135deg,#8d1558,#5d123e);
+    color: #fff;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(141,21,88,.28);
+}
+
+.contact-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+}
+
+.contact-grid div{
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 18px;
+}
+
+/* Social */
+.social-links{
+    text-align: center;
+    margin-top: 35px;
+}
+
+.social-links a{
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    display: inline-block;
+    margin: 0 8px;
+    border-radius: 50%;
+    background: #fff;
+    color: #8d1558;
+    font-size: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: .3s;
+}
+
+.social-links a:hover{
+    transform: translateY(-5px);
+    background: #8d1558;
+    color: #fff;
+}
+
+/* Map */
+.map-box{
+    margin-top: 40px;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.map-box iframe{
+    width: 100%;
+    height: 450px;
+    border: 0;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    .about-overlay{
+        padding: 30px;
     }
 
-    #receipt-content .mission-vision {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
+    .about-overlay-content h1{
+        font-size: 34px;
     }
 
-    #receipt-content .mission-vision div {
-        flex: 1 1 auto;
+    .about-hero img{
+        height: 430px;
+    }
+
+    .details-wrap,
+    .contact-box{
+        padding: 25px;
+    }
+
+    .section-title{
+        font-size: 28px;
     }
 }
 </style>
 
-<div class="receipt-container" id="receipt-content" style="padding: 50px 20px; max-width: 900px; margin: auto; text-align: center;">
+<div class="about-wrapper">
 
-    <h1 style="color: #2e1a26; margin-bottom: 20px;">About Rajarata Sakura Restaurant</h1>
-    
-    <p style="font-size: 16px; line-height: 1.8; color: #444;">
-        Welcome to <strong>Rajarata Sakura</strong>, your premier destination for authentic Japanese cuisine in Sri Lanka.
-        We are passionate about serving fresh, high-quality dishes prepared with care and tradition.
+    <!-- HERO -->
+    <section class="about-hero">
+        <img src="{{ asset('images/about.jpg') }}" alt="Rajarata Sakura Restaurant">
+
+        <div class="about-overlay">
+            <div class="about-overlay-content">
+                <span class="tag-line">Authentic Japanese Experience</span>
+
+                <h1>About Rajarata Sakura Restaurant</h1>
+
+                <p>
+                    Welcome to Rajarata Sakura Restaurant — where authentic Japanese flavors,
+                    premium ingredients, elegant hospitality, and unforgettable dining moments
+                    come together in perfect harmony.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION -->
+    <div class="info-grid">
+
+        <div class="card-box">
+            <h3>Our Story</h3>
+            <p>
+                Since our beginning, Rajarata Sakura Restaurant has proudly delivered
+                high-quality Japanese cuisine with a modern touch. Every dish is crafted
+                with passion, precision, and freshness.
+            </p>
+        </div>
+
+        <div class="card-box">
+            <h3>Our Mission</h3>
+            <p>
+                To provide a world-class dining experience through exceptional food,
+                warm service, and a peaceful atmosphere inspired by Japanese culture.
+            </p>
+        </div>
+
+        <div class="card-box">
+            <h3>Our Vision</h3>
+            <p>
+                To become one of the most trusted and loved Japanese restaurants,
+                recognized for quality, innovation, and customer satisfaction.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- COMPANY DETAILS -->
+<section class="details-wrap">
+
+    <h2 class="section-title">Company Information</h2>
+    <p style="text-align:center; color:#666; margin-top:-15px; margin-bottom:35px;">
+        Official business details of Rajarata Sakura Restaurant.
     </p>
 
-    <p style="font-size: 16px; line-height: 1.8; color: #444;">
-        Since our founding in 2015, we have strived to bring the flavors of Japan to every table,
-        blending traditional recipes with a modern dining experience. Our chefs are trained in
-        the art of sushi, ramen, and other Japanese delicacies to ensure every bite delights.
+    <div class="detail-list">
+
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-building"></i>
+                <strong>Dealer</strong><br>
+                Uni Lanka Exports
+            </p>
+        </div>
+
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-user-tie"></i>
+                <strong>Company Representative</strong><br>
+                Loku Singamkutti Kankanamalage Hemachandra Upali
+            </p>
+        </div>
+
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-user-cog"></i>
+                <strong>Manager</strong><br>
+                Loku Singamkutti Kankanamalage Hemachandra Upali
+            </p>
+        </div>
+
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-location-dot"></i>
+                <strong>Company Location</strong><br>
+                837-5, Nunogawa,<br>
+                Chikusei Shi, Ibaraki Ken,<br>
+                Japan.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+<section class="contact-box">
+
+    <h2 class="section-title" style="color:#fff; margin-bottom:10px;">Contact Us</h2>
+    <p style="text-align:center; color:rgba(255,255,255,.85); margin-bottom:30px;">
+        We are always happy to hear from you. Reach us anytime.
     </p>
 
-    <!-- Image Section -->
-    <div style="margin: 30px 0;">
-        <img src="{{ asset('images/about.jpg') }}" 
-             alt="Rajarata Sakura Restaurant" 
-             style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
-    </div>
+    <div class="contact-grid">
 
-    <!-- Mission & Vision -->
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 30px; margin-top: 40px; text-align: left;">
-        <div style="flex: 1 1 300px;">
-            <h3 style="color: #aa2b66;">Our Mission</h3>
-            <p style="color: #444;">To deliver an authentic Japanese dining experience with fresh ingredients, friendly service, and a welcoming ambiance.</p>
-        </div>
-        <div style="flex: 1 1 300px;">
-            <h3 style="color: #aa2b66;">Our Vision</h3>
-            <p style="color: #444;">To be recognized as the leading Japanese restaurant in the region, celebrated for quality, innovation, and customer satisfaction.</p>
-        </div>
-    </div>
+        <div>
+            <p style="font-size:18px; margin-bottom:12px;">
+                <i class="fas fa-phone-volume"></i>
+                <strong>Call Us</strong>
+            </p>
 
-        <!-- Address Section -->
-    <div style="margin-top: 50px; text-align: center;">
-        <h2 style="color: #aa2b66; margin-bottom: 20px;">Our Address</h2>
-        <div style="display: inline-block; background: #fff0f5; padding: 25px 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-width: 500px;">
-            <p style="font-size: 16px; color: #444; margin: 10px 0;">
-                <i class="fas fa-map-marker-alt" style="color: #aa2b66; margin-right: 10px;"></i>
-                110-65, 
-                FUNYU, 
-                CHIKUSEI SHI, 
-                IBARAKI KEN, 
-                JAPAN.
+            <p style="margin:8px 0;">0296-48-6606</p>
+            <p style="margin:8px 0;">080-1756-2569</p>
+        </div>
+
+        <div>
+            <p style="font-size:18px; margin-bottom:12px;">
+                <i class="fas fa-envelope"></i>
+                <strong>Email Us</strong>
+            </p>
+
+            <p style="margin:8px 0; word-break:break-word;">
+                rajaratasakurarestaurant@gmail.com
             </p>
         </div>
-    </div>
 
-    <!-- Contact Section -->
-    <div style="margin-top: 40px; text-align: center;">
-        <h2 style="color: #aa2b66; margin-bottom: 20px;">Contact Us</h2>
-        <div style="display: inline-block; background: #fff0f5; padding: 25px 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-width: 500px;">
-            <p style="font-size: 16px; color: #444; margin: 10px 0;">
-                <i class="fas fa-phone-volume" style="color: #aa2b66; margin-right: 10px;"></i>
-                Hot Line: +81 80-1756-2569
+        <div>
+            <p style="font-size:18px; margin-bottom:12px;">
+                <i class="fas fa-clock"></i>
+                <strong>Opening Hours</strong>
             </p>
 
-            <!-- Landline -->
-            <p style="font-size: 16px; color: #444; margin: 10px 0;">
-                <i class="fas fa-phone" style="color: #aa2b66; margin-right: 10px;"></i>
-                TEL: 0296 48 6606
-            </p>
-            <p style="font-size: 16px; color: #444; margin: 10px 0;">
-                <i class="fas fa-envelope" style="color: #aa2b66; margin-right: 10px;"></i>
-                rajaratasakura@gmail.com
-            </p>
-            <p style="font-size: 16px; color: #444; margin: 10px 0;">
-                <i class="fas fa-clock" style="color: #aa2b66; margin-right: 10px;"></i>
-                Mon-Wed, Fri-Sun: 10:00 AM - 10:00 PM <br>
-                <strong>Closed on Thursdays</strong>
-            </p>
+            <p style="margin:8px 0;">Mon - Wed, Fri - Sun</p>
+            <p style="margin:8px 0;">10:00 AM - 10:00 PM</p>
+            <p style="margin:8px 0;"><strong>Closed on Thursdays</strong></p>
         </div>
+
     </div>
 
-    <!-- Location Map Section -->
-    <div style="margin-top: 40px; text-align: center;">
-        <h2 style="color: #aa2b66; margin-bottom: 20px;">Find Us Here</h2>
-        <iframe 
-            src="https://www.google.com/maps?q=Sakura+Sri+Lanka+restaurant,+110-65+Funyu,+Chikusei,+Ibaraki+308-0111&output=embed" 
-            width="100%" 
-            height="400" 
-            style="border:0; border-radius:15px;" 
-            allowfullscreen="" 
-            loading="lazy">
+    <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+
+</section>
+
+    <!-- MAP -->
+    <section class="map-box">
+        <iframe
+            src="https://www.google.com/maps?q=837-5+Nunogawa,+Chikusei,+Ibaraki,+Japan&output=embed"
+            loading="lazy"
+            allowfullscreen>
         </iframe>
-    </div>
-
-
-    <!-- Social Media -->
-    <div style="margin-top: 40px;">
-        <h3 style="color: #2e1a26;">Follow Us</h3>
-        <div style="margin-top: 15px;">
-            <a href="#" style="color:#aa2b66; margin:0 10px; font-size: 24px;"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" style="color:#aa2b66; margin:0 10px; font-size: 24px;"><i class="fab fa-instagram"></i></a>
-            <a href="#" style="color:#aa2b66; margin:0 10px; font-size: 24px;"><i class="fab fa-youtube"></i></a>
-        </div>
-    </div>
+    </section>
 
 </div>
 
 @include('layouts.footer')
-
