@@ -32,11 +32,11 @@
                         About <i class="fas fa-chevron-down"></i>
                     </span>
                     <div class="dropdown-menu" id="aboutMenu">
-                        <a href="{{ route('about') }}">About Main</a>
-                        <a href="{{ route('about') }}#A">A</a>
-                        <a href="{{ route('about') }}#B">B</a>
-                        <a href="{{ route('about') }}#C">C</a>
-
+                        <a href="{{ route('about') }}">About Us</a>
+                        <a href="{{ route('about') }}#contactus">Contact Us</a>
+                        <a href="{{ route('about') }}#delivery">Delivery Information</a>
+                        <a href="{{ route('about') }}#terms">Terms & Conditions</a>
+                        <a href="{{ route('delivery') }}#refund">Refund</a>
                     </div>
                 </div>
 
@@ -96,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-
     setupDropdown(categoryDropdown, dropdownMenu);
     setupDropdown(aboutDropdown, aboutMenu);
 

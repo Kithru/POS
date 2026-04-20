@@ -55,7 +55,20 @@
             </div>
             <!-- Example other nav links -->
             <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+            
+                <div class="nav-dropdown" id="aboutDropdown">
+                    <span class="nav-link dropdown-toggle {{ request()->routeIs('about') ? 'active' : '' }}">
+                        About <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <div class="dropdown-menu" id="aboutMenu">
+                        <a href="{{ route('about') }}">About Us</a>
+                        <a href="{{ route('about') }}#contactus">Contact Us</a>
+                        <a href="{{ route('delivery') }}#delivery">Delivery Information</a>
+                        <a href="{{ route('delivery') }}#terms">Terms & Conditions</a>
+                        <a href="{{ route('delivery') }}#refund">Refund</a>
+                    </div>
+                </div>
+
             <a href="{{ route('order.track') }}" class="nav-link {{ request()->routeIs('order.track') ? 'active' : '' }}">Track Order</a>
         </nav>
     </div>
@@ -79,26 +92,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdown = document.getElementById("categoryDropdown");
     const menu = document.getElementById("dropdownMenu");
 
-    if (dropdown && menu) {
+    const aboutDropdown = document.getElementById("aboutDropdown");
+    const aboutMenu = document.getElementById("aboutMenu");
 
-        dropdown.addEventListener("click", function (e) {
-            e.stopPropagation();
+    function setupDropdown(dropdown, menu) {
+        if (dropdown && menu) {
 
-            const isOpen = menu.classList.contains("show");
-            menu.classList.toggle("show");
-            dropdown.classList.toggle("open", !isOpen);
-        });
+            dropdown.addEventListener("click", function(e){
+                e.stopPropagation();
 
-        // prevent closing when clicking inside menu
-        menu.addEventListener("click", function (e) {
-            e.stopPropagation();
-        });
+                menu.classList.toggle("show");
+                dropdown.classList.toggle("open");
+            });
 
-        document.addEventListener("click", function () {
-            menu.classList.remove("show");
-            dropdown.classList.remove("open"); 
-        });
+            menu.addEventListener("click", function(e){
+                e.stopPropagation();
+            });
+        }
     }
+    setupDropdown(categoryDropdown, dropdownMenu);
+    setupDropdown(aboutDropdown, aboutMenu);
+
+    document.addEventListener("click", function () {
+
+        if(dropdownMenu){
+            dropdownMenu.classList.remove("show");
+            categoryDropdown.classList.remove("open");
+        }
+
+        if(aboutMenu){
+            aboutMenu.classList.remove("show");
+            aboutDropdown.classList.remove("open");
+        }
+
+    });
 
     window.updateCartCount = function(count) {
         const el = document.getElementById("cartCount");
