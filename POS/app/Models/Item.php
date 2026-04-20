@@ -36,7 +36,7 @@ class Item extends Model
     }
 
     public function subcategory() {
-        return $this->belongsTo(SubCategory::class,'subcategory_id','subcategory_id');
+        return $this->belongsTo(Subcategory::class,'subcategory_id','subcategory_id');
     }
 
     public function currencyRel() {
