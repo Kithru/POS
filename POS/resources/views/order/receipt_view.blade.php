@@ -4,7 +4,12 @@
 
 @php
 use Illuminate\Support\Facades\Crypt;
+
 $encryptedOrderId = Crypt::encryptString($order->order_id);
+
+/* Correct totals */
+$subtotal = $order->total_amount - $order->tax - $order->cod_amount;
+$grandTotal = $subtotal + $order->tax + $order->cod_amount;
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/receipt.css') }}">
@@ -84,7 +89,7 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
     <div class="section card">
         <h2>Payment Details</h2>
         <p><strong>Payment Method:</strong> Cash On Delivery</p>
-        <p><strong>Subtotal:</strong> ¥ {{ number_format($order->total_amount - $order->tax, 2) }}</p>
+        <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 2) }}</p>
         <p><strong>Tax (8%):</strong> ¥ {{ number_format($order->tax, 2) }}</p>
         <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
     </div>
@@ -114,6 +119,11 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
                 @endforeach
 
                 <tr>
+                    <td colspan="3" style="text-align:right;">Subtotal</td>
+                    <td>¥ {{ number_format($subtotal, 2) }}</td>
+                </tr>
+
+                <tr>
                     <td colspan="3" style="text-align:right;">Tax</td>
                     <td>¥ {{ number_format($order->tax, 2) }}</td>
                 </tr>
@@ -125,11 +135,7 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;"><strong>Total Amount</strong></td>
-                    <td>
-                        <strong>
-                            ¥ {{ number_format($order->total_amount + $order->cod_amount, 2) }}
-                        </strong>
-                    </td>
+                    <td><strong>¥ {{ number_format($grandTotal, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
