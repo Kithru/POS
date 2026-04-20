@@ -142,7 +142,7 @@
                                 </a>
                             @else
                                 <span class="action-btn" style="background:#e9ecef; color:#6c757d; font-size:13px;">
-                                    <i class="fas fa-lock"></i> Locked
+                                    <i class=""></i> Locked
                                 </span>
                             @endif
                         </td>
