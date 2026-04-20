@@ -109,6 +109,9 @@ Route::get('/orders/items/{orderId}', [OrderController::class, 'getItems'])->nam
 // about us page
 Route::get('/about', function () {return view('about');})->name('about');
 
+// delivery information page
+Route::get('/delivery', function () {return view('deliveryinfo');})->name('delivery');
+
 // Filter items by category or price
 Route::get('/filter-items', [ItemController::class, 'filterItems'])->name('items.filter');
 

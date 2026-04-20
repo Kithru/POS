@@ -34,8 +34,9 @@
                     <div class="dropdown-menu" id="aboutMenu">
                         <a href="{{ route('about') }}">About Us</a>
                         <a href="{{ route('about') }}#contactus">Contact Us</a>
-                        <a href="{{ route('about') }}#B">Delivery Information</a>
-                        <a href="{{ route('about') }}#C">Terms & Conditions</a>
+                        <a href="{{ route('about') }}#delivery">Delivery Information</a>
+                        <a href="{{ route('about') }}#terms">Terms & Conditions</a>
+                        <a href="{{ route('delivery') }}#refund">Refund</a>
                     </div>
                 </div>
 
