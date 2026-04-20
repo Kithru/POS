@@ -337,7 +337,7 @@ body{
 
 
 <!-- CONTACT -->
-<section class="contact-box">
+<section class="contact-box" id="contactus">
 
     <h2 class="section-title" style="color:#fff; margin-bottom:10px;">Contact Us</h2>
     <p style="text-align:center; color:rgba(255,255,255,.85); margin-bottom:30px;">
