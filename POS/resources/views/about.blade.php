@@ -287,14 +287,6 @@ body{
 
         <div class="detail-item">
             <p>
-                <i class="fas fa-building"></i>
-                <strong>Dealer</strong><br>
-                Uni Lanka Exports
-            </p>
-        </div>
-
-        <div class="detail-item">
-            <p>
                 <i class="fas fa-user-tie"></i>
                 <strong>Company Representative</strong><br>
                 Loku Singamkutti Kankanamalage Hemachandra Upali
@@ -328,6 +320,14 @@ body{
                 110-65, Funyu,<br>
                 Chikusei Shi, Ibaraki Ken,<br>
                 Japan
+            </p>
+        </div>
+
+        <div class="detail-item">
+            <p>
+                <i class="fas fa-building"></i>
+                <strong>Dealer</strong><br>
+                Uni Lanka Exports
             </p>
         </div>
 
