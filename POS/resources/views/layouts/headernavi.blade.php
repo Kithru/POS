@@ -81,26 +81,38 @@ document.addEventListener("DOMContentLoaded", function () {
     const aboutDropdown = document.getElementById("aboutDropdown");
     const aboutMenu = document.getElementById("aboutMenu");
 
-    if (dropdown && menu) {
+    function setupDropdown(dropdown, menu) {
+        if (dropdown && menu) {
 
-        dropdown.addEventListener("click", function (e) {
-            e.stopPropagation();
+            dropdown.addEventListener("click", function(e){
+                e.stopPropagation();
 
-            const isOpen = menu.classList.contains("show");
-            menu.classList.toggle("show");
-            dropdown.classList.toggle("open", !isOpen);
-        });
+                menu.classList.toggle("show");
+                dropdown.classList.toggle("open");
+            });
 
-        // prevent closing when clicking inside menu
-        menu.addEventListener("click", function (e) {
-            e.stopPropagation();
-        });
-
-        document.addEventListener("click", function () {
-            menu.classList.remove("show");
-            dropdown.classList.remove("open"); 
-        });
+            menu.addEventListener("click", function(e){
+                e.stopPropagation();
+            });
+        }
     }
+
+    setupDropdown(categoryDropdown, dropdownMenu);
+    setupDropdown(aboutDropdown, aboutMenu);
+
+    document.addEventListener("click", function () {
+
+        if(dropdownMenu){
+            dropdownMenu.classList.remove("show");
+            categoryDropdown.classList.remove("open");
+        }
+
+        if(aboutMenu){
+            aboutMenu.classList.remove("show");
+            aboutDropdown.classList.remove("open");
+        }
+
+    });
 
     window.updateCartCount = function(count) {
         const el = document.getElementById("cartCount");
