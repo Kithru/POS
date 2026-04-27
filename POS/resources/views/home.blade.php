@@ -201,6 +201,14 @@
 <script src="{{ asset('js/home.js') }}"></script>
 
 <script>
+function formatPrice(price) {
+    price = Number(price);
+    return price % 1 === 0 ? price.toLocaleString() : price.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const filterForm = document.querySelector('.explore-filter-form');
