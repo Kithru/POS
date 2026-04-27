@@ -136,7 +136,14 @@ small{
         <p><strong>Available Payment Methods / お支払い方法</strong></p>
         <ul>
             <li>Bank Transfer / 銀行振込</li>
-            <li>Cash on Delivery (COD) / 代金引換</li>
+            <li>Cash on Delivery (COD) / 代金引換
+                <ul>
+                    <li>Under 10,000 yen – 330 yen / 1万円未満 – 330円</li>
+                    <li>Under 30,000 yen – 440 yen / 3万円未満 – 440円</li>
+                    <li>Under 100,000 yen – 660 yen / 6万円未満 – 660円</li>
+                    <li>Up to 300,000 yen – 1,100 yen / 30万円未満 – 1,100円</li>
+                </ul>
+            </li>
             <li>Convenience Store Prepayment / コンビニ前払い</li>
         </ul>
 
@@ -150,7 +157,7 @@ small{
 
         <p><strong>Payment Deadline / 支払い期限</strong></p>
         <ul>
-            <li>Within 3 days after order / ご注文から3日以内</li>
+            <li>Within 3 days after order / ご注文から3日以内入金確認後 </li>
         </ul>
     </section>
 
@@ -184,8 +191,9 @@ small{
         </div>
         <ul>
             <li>1–10kg → ¥330 / 1〜10kg → 330円</li>
-            <li>10–30kg → ¥1,499 / 10〜20kg → 1,499円</li>
-            <li>20–30kg → ¥1,999 / 20〜30kg → 1,999円</li>
+            <li>10–30kg → ¥440 / 10〜30kg → 440円</li>
+            <li>30–100kg → ¥660 / 30〜100kg → 660円</li>
+            <li>100–300kg → ¥1,100 / 100〜300kg → 1,100円</li>
         </ul>
         <p>
             <small>
