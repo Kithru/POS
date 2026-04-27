@@ -51,7 +51,8 @@
 
                     <span class="product-price">
                         {!! $item->currency_icon ?? '' !!}
-                        {{ number_format($item->price, 2) }}
+                        <!-- {{ number_format($item->price, 2) }} -->
+                        {{ number_format($item->price, $item->price == floor($item->price) ? 0 : 2) }}
                     </span>
 
                     <button class="orderBtn"
@@ -142,7 +143,8 @@
 
                                 <span class="product-price">
                                     {!! $item->currency_icon ?? '' !!}
-                                    {{ number_format($item->price, 2) }}
+                                    <!-- {{ number_format($item->price, 2) }} -->
+                                    {{ number_format($item->price, $item->price == floor($item->price) ? 0 : 2) }}
                                 </span>
 
                                 <button class="orderBtn"
