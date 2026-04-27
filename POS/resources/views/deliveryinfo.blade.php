@@ -183,7 +183,7 @@ small{
             <strong>Standard Shipping Rates / 標準送料</strong>
         </div>
         <ul>
-            <li>1–10kg → ¥999 / 1〜10kg → 999円</li>
+            <li>1–10kg → ¥330 / 1〜10kg → 330円</li>
             <li>10–20kg → ¥1,499 / 10〜20kg → 1,499円</li>
             <li>20–30kg → ¥1,999 / 20〜30kg → 1,999円</li>
         </ul>
