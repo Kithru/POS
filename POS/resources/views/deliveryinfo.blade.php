@@ -150,7 +150,7 @@ small{
         <p><strong>Additional Charges / 追加手数料</strong></p>
         <ul>
             <li>Convenience Store Fee: ¥220 / コンビニ手数料：220円</li>
-            <li>Cash on Delivery Fee: ¥49 / 代引き手数料：49円</li>
+            <li>Cash on Delivery Fee: ¥79 / 代引き手数料：79円</li>
             <li>Bank Transfer Fee: Free / 銀行振込手数料：無料</li>
             <li>Consumption Tax: 8% (not included) / 消費税：8%（商品価格に含まれません）</li>
         </ul>
