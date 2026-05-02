@@ -30,7 +30,7 @@
                 <!-- Price -->
                 <p class="price">
                     <span class="currency-icon">{{ $item['currency_icon'] ?? '' }}</span>
-                    {{ number_format($item['price'], 2) }}
+                    {{ number_format($item['price'], $item['price'] == floor($item['price']) ? 0 : 2) }}
                 </p>
 
                 <!-- Quantity -->
@@ -44,7 +44,10 @@
                 <p class="item-total">
                     Total:
                     <span class="currency-icon">{{ $item['currency_icon'] ?? '' }}</span>
-                    <span id="total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                    @php $itemTotal = $item['price'] * $item['quantity']; @endphp
+                    <span id="total-{{ $id }}">
+                        {{ number_format($itemTotal, $itemTotal == floor($itemTotal) ? 0 : 2) }}
+                    </span>
                 </p>
 
                 <!-- Remove -->
@@ -65,7 +68,9 @@
 
         <p>
             <span class="currency-icon">{{ collect($cart)->first()['currency_icon'] ?? '' }}</span>
-            <span id="cartTotal">{{ number_format($cartTotal, 2) }}</span>
+            <span id="cartTotal">
+                {{ number_format($cartTotal, $cartTotal == floor($cartTotal) ? 0 : 2) }}
+            </span>
         </p>
 
         <!-- Proceed to Checkout -->
