@@ -179,9 +179,9 @@ use Illuminate\Support\Facades\Crypt;
                 $totalPayable = $subtotal + $tax + $cod;
             @endphp
 
-            <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 2) }}</p>
-            <p><strong>Tax (8%):</strong> ¥ {{ number_format($tax, 2) }}</p>
-            <p><strong>COD Amount:</strong> ¥ {{ number_format($cod, 2) }}</p>
+            <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 0) }}</p>
+            <p><strong>Tax (8%):</strong> ¥ {{ number_format($tax, 0) }}</p>
+            <p><strong>COD Amount:</strong> ¥ {{ number_format($cod, 0) }}</p>
         </div>
 
         
@@ -205,30 +205,30 @@ use Illuminate\Support\Facades\Crypt;
                             <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                             <td>{{ $item->item->item_code ?? 'N/A' }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>¥ {{ number_format($item->price, 2) }}</td>
-                            <td>¥ {{ number_format($item->quantity * $item->price, 2) }}</td>
+                            <td>¥ {{ number_format($item->price, 0) }}</td>
+                            <td>¥ {{ number_format($item->quantity * $item->price, 0) }}</td>
                         </tr>
                     @endforeach
 
                     <tr>
                         <td colspan="4" style="text-align:right;"><strong>Subtotal</strong></td>
-                        <td>¥ {{ number_format($subtotal, 2) }}</td>
+                        <td>¥ {{ number_format($subtotal, 0) }}</td>
                     </tr>
 
                     <tr>
                         <td colspan="4" style="text-align:right;"><strong>Tax (8%)</strong></td>
-                        <td>¥ {{ number_format($tax, 2) }}</td>
+                        <td>¥ {{ number_format($tax, 0) }}</td>
                     </tr>
 
                     <tr>
                         <td colspan="4" style="text-align:right;"><strong>COD Amount</strong></td>
-                        <td>¥ {{ number_format($cod, 2) }}</td>
+                        <td>¥ {{ number_format($cod, 0) }}</td>
                     </tr>
 
                     <tr class="total-row">
                         <td colspan="4" style="text-align:right;"><strong>Total Payable</strong></td>
                         <td>
-                            <strong>¥ {{ number_format($totalPayable, 2) }}</strong>
+                            <strong>¥ {{ number_format($totalPayable, 0) }}</strong>
                         </td>
                     </tr>
                 </tbody>
