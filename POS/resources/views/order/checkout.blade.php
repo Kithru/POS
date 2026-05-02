@@ -155,24 +155,25 @@
                     @endphp
                     <p>
                         <span>{{ $item['name'] }} (x{{ $item['quantity'] }})</span>
-                        <span>¥ {{ number_format($subtotal, 2) }}</span>
+                        <span>¥ {{ number_format($subtotal, $subtotal == floor($subtotal) ? 0 : 2) }}</span>
+                        
                     </p>
                 @endforeach
 
                 <p style="margin-top:15px; padding-top:10px; border-top:1px solid #ddd;">
                     <span>Tax (8%)</span>
-                    <span id="taxAmount">¥ {{ number_format($total * 0.08, 2) }}</span>
+                    <span id="taxAmount">¥ {{ number_format($total * 0.08, ($total * 0.08) == floor($total * 0.08) ? 0 : 2) }}</span>
                 </p>
 
                 <!-- COD Amount -->
                 <p style="margin-top:10px;">
                     <span>COD Amount</span>
-                    <span id="codAmount">¥ 0.00</span>
+                    <span id="codAmount">¥ 0</span>
                 </p>
 
                 <!-- Final Total -->
                 <h4 style="margin-top:15px;padding-top:15px; border-top:1px solid #ddd;">
-                    Total: ¥ <span id="finalTotal">{{ number_format(($total * 1.08), 2) }}</span>
+                    Total: ¥ <span id="finalTotal">{{ number_format(($total * 1.08), ($total * 1.08) == floor($total * 1.08) ? 0 : 2) }}</span>
                 </h4>
 
                 <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
