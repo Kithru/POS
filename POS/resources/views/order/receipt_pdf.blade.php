@@ -100,15 +100,15 @@ th{
 @endforeach
 
 <p><strong>Items Total:</strong>
-¥ {{ number_format($itemsTotal,2) }}
+¥ {{ number_format($itemsTotal,0) }}
 </p>
 
 <p><strong>Tax:</strong>
-¥ {{ number_format($order->tax,2) }}
+¥ {{ number_format($order->tax,0) }}
 </p>
 
 <p><strong>COD:</strong>
-¥ {{ number_format($order->cod_amount,2) }}
+¥ {{ number_format($order->cod_amount,0) }}
 </p>
 
 </div>
@@ -132,31 +132,31 @@ th{
 <tr>
 <td>{{ $item->item->item_name ?? 'N/A' }}</td>
 <td>{{ $item->quantity }}</td>
-<td>¥ {{ number_format($item->price,2) }}</td>
-<td>¥ {{ number_format($item->subtotal,2) }}</td>
+<td>¥ {{ number_format($item->price,0) }}</td>
+<td>¥ {{ number_format($item->subtotal,0) }}</td>
 </tr>
 @endforeach
 
 <!-- NEW ROW: SUM OF ALL SUBTOTALS -->
 <tr>
 <td colspan="3" align="right"><strong>Items Subtotal</strong></td>
-<td><strong>¥ {{ number_format($itemsTotal,2) }}</strong></td>
+<td><strong>¥ {{ number_format($itemsTotal,0) }}</strong></td>
 </tr>
 
 <tr>
 <td colspan="3" align="right">Tax</td>
-<td>¥ {{ number_format($order->tax,2) }}</td>
+<td>¥ {{ number_format($order->tax,0) }}</td>
 </tr>
 
 <tr>
 <td colspan="3" align="right">COD</td>
-<td>¥ {{ number_format($order->cod_amount,2) }}</td>
+<td>¥ {{ number_format($order->cod_amount,0) }}</td>
 </tr>
 
 <tr class="total-row">
 <td colspan="3" align="right">Total</td>
 <td>
-¥ {{ number_format($order->total_amount,2) }}
+¥ {{ number_format($order->total_amount,0) }}
 </td>
 </tr>
 
