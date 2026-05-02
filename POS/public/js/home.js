@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         popupName.textContent = currentItem.name;
         popupDesc.textContent = currentItem.desc || 'No description';
-        popupPrice.innerHTML = "¥ " + currentItem.price.toFixed(2);
+        popupPrice.innerHTML = "¥ " + (currentItem.price % 1 === 0 ? currentItem.price : currentItem.price.toFixed(2));
+
         popupImage.src = currentItem.image || '/images/no-image.jpg';
 
         qtyInput.value = 1;
