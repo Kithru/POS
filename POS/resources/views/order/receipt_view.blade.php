@@ -10,6 +10,12 @@ $encryptedOrderId = Crypt::encryptString($order->order_id);
 /* Correct totals */
 $subtotal = $order->total_amount - $order->tax - $order->cod_amount;
 $grandTotal = $subtotal + $order->tax + $order->cod_amount;
+
+function formatPrice($price) {
+    return number_format($price, $price == floor($price) ? 0 : 2);
+}
+
+
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/receipt.css') }}">
@@ -89,9 +95,9 @@ $grandTotal = $subtotal + $order->tax + $order->cod_amount;
     <div class="section card">
         <h2>Payment Details</h2>
         <p><strong>Payment Method:</strong> Cash On Delivery</p>
-        <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 2) }}</p>
-        <p><strong>Tax (8%):</strong> ¥ {{ number_format($order->tax, 2) }}</p>
-        <p><strong>COD Amount:</strong> ¥ {{ number_format($order->cod_amount, 2) }}</p>
+        <p><strong>Subtotal:</strong> ¥ {{ formatPrice($subtotal) }}</p>
+        <p><strong>Tax (8%):</strong> ¥ {{ formatPrice($order->tax) }}</p>
+        <p><strong>COD Amount:</strong> ¥ {{ formatPrice($order->cod_amount) }}</p>
     </div>
 
     <!-- Items -->
@@ -113,29 +119,29 @@ $grandTotal = $subtotal + $order->tax + $order->cod_amount;
                 <tr>
                     <td>{{ $item->item->item_name ?? 'N/A' }}</td>
                     <td>{{ $item->quantity }}</td>
-                    <td>¥ {{ number_format($item->price, 2) }}</td>
-                    <td>¥ {{ number_format($item->subtotal, 2) }}</td>
+                    <td>¥ {{ formatPrice($item->price) }}</td>
+                    <td>¥ {{ formatPrice($item->subtotal) }}</td>
                 </tr>
                 @endforeach
 
                 <tr>
                     <td colspan="3" style="text-align:right;">Subtotal</td>
-                    <td>¥ {{ number_format($subtotal, 2) }}</td>
+                    <td>¥ {{ formatPrice($subtotal) }}</td>
                 </tr>
 
                 <tr>
                     <td colspan="3" style="text-align:right;">Tax</td>
-                    <td>¥ {{ number_format($order->tax, 2) }}</td>
+                    <td>¥ {{ formatPrice($order->tax) }}</td>
                 </tr>
 
                 <tr>
                     <td colspan="3" style="text-align:right;">COD Amount</td>
-                    <td>¥ {{ number_format($order->cod_amount, 2) }}</td>
+                    <td>¥ {{ formatPrice($order->cod_amount) }}</td>
                 </tr>
 
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right;"><strong>Total Amount</strong></td>
-                    <td><strong>¥ {{ number_format($grandTotal, 2) }}</strong></td>
+                    <td><strong>¥ {{ formatPrice($grandTotal) }}</strong></td>
                 </tr>
             </tbody>
         </table>
