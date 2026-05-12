@@ -1,6 +1,6 @@
 # Online web application
 
 
-### CRUD Operation for Supermarket
+### CRUD Operation for Restaurant
 
 ### Laravel-based online shopping website.
