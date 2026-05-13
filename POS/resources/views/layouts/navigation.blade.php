@@ -133,6 +133,17 @@
 
     </ul>
 
+    <!-- POS -->
+    <div class="logout-section">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="link-text">Logout</span>
+            </button>
+        </form>
+    </div>
+
     <!-- LOGOUT -->
     <div class="logout-section">
         <form method="POST" action="{{ route('logout') }}">
@@ -143,7 +154,7 @@
             </button>
         </form>
     </div>
-    
+
 </div>
 
 <!-- OVERLAY (MOBILE ONLY) -->
