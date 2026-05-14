@@ -138,7 +138,6 @@
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="logout-btn">
-                <!-- <i class="fas fa-sign-out-alt"></i> -->
                 <span class="link-text">POS</span>
             </button>
         </form>
