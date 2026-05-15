@@ -135,12 +135,11 @@
 
     <!-- POS -->
     <div class="logout-section">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="logout-btn">
-                <span class="link-text">POS</span>
-            </button>
-        </form>
+        <button type="button"
+                class="logout-btn"
+                onclick="window.open('{{ route('pos.index') }}', '_blank')">
+            <span class="link-text">POS</span>
+        </button>
     </div>
 
     <!-- LOGOUT -->
