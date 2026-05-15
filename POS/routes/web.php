@@ -118,3 +118,7 @@ Route::get('/filter-items', [ItemController::class, 'filterItems'])->name('items
 Route::get('/prefecture', [SettingsController::class, 'index'])->name('prefecture.index');
 Route::post('/prefecture/save', [SettingsController::class, 'save'])->name('prefecture.save');
 Route::get('/prefecture/delete/{id}', [SettingsController::class, 'delete'])->name('prefecture.delete');
+
+
+// POS
+Route::get('/pos', [ItemController::class, 'pos'])->name('pos');
