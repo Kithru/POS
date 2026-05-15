@@ -2,11 +2,9 @@
 <html>
 <head>
     <title>POS System</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="{{ asset('public/css/pos.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/pos.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -14,35 +12,29 @@
 
 <div class="pos-container">
 
-    <!-- Sidebar -->
+    <!-- ================= SIDEBAR ================= -->
     <div class="sidebar">
 
         <div class="logo">
             POS SYSTEM
         </div>
 
-        <input type="text"
-               id="search"
-               placeholder="Search items...">
+        <input type="text" id="search" placeholder="Search items...">
 
         <div class="category-list">
 
             @foreach($categories as $category)
-
                 <button class="category-btn"
-                        data-category="{{ $category->id }}">
-
+                        data-category="{{ $category->category_id }}">
                     {{ $category->category_name }}
-
                 </button>
-
             @endforeach
 
         </div>
 
     </div>
 
-    <!-- Products -->
+    <!-- ================= PRODUCTS ================= -->
     <div class="products-section">
 
         <div class="products-grid" id="productsGrid">
@@ -54,28 +46,20 @@
                      data-name="{{ strtolower($item->item_name) }}">
 
                     <div class="product-image">
-
-                        <img src="{{ asset($item->image) }}"
-                             alt="">
-
+                        <img src="{{ asset($item->image) }}" alt="">
                     </div>
 
                     <div class="product-info">
-
                         <h3>{{ $item->item_name }}</h3>
-
-                        <p>
-                            Rs. {{ number_format($item->price,2) }}
-                        </p>
-
+                        <p>Rs. {{ number_format($item->price,2) }}</p>
                     </div>
 
                     <button class="add-cart-btn"
-                            data-id="{{ $item->id }}"
+                            data-id="{{ $item->item_id }}"
                             data-name="{{ $item->item_name }}"
                             data-price="{{ $item->price }}">
 
-                        Add
+                        <i class="fa fa-cart-plus"></i> Add
 
                     </button>
 
@@ -87,23 +71,20 @@
 
     </div>
 
-    <!-- Cart -->
+    <!-- ================= CART ================= -->
     <div class="cart-section">
 
         <div class="cart-header">
-            Cart
+            <i class="fa fa-shopping-cart"></i> Cart
         </div>
 
-        <div class="cart-items" id="cartItems">
-
-        </div>
+        <div class="cart-items" id="cartItems"></div>
 
         <div class="cart-footer">
 
-            <h2>
-                Total :
-                Rs. <span id="cartTotal">0.00</span>
-            </h2>
+            <h3>
+                Total: Rs. <span id="cartTotal">0.00</span>
+            </h3>
 
             <button class="checkout-btn">
                 Checkout
@@ -115,7 +96,7 @@
 
 </div>
 
-<script src="{{ asset('resources/js/pos.js') }}"></script>
+<script src="{{ asset('js/pos.js') }}"></script>
 
 </body>
 </html>

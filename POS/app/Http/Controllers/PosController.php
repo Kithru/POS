@@ -33,41 +33,28 @@ class PosController extends Controller {
     public function getItems(Request $request) {
         $query = Item::query();
 
+        // Only active items
         $query->where('status', 1);
 
-        // Category Filter
+        // Category filter
         if ($request->category_id) {
-
-            $query->where(
-                'category_id',
-                $request->category_id
-            );
+            $query->where('category_id', $request->category_id);
         }
 
-        // Subcategory Filter
+        // Subcategory filter
         if ($request->subcategory_id) {
-
-            $query->where(
-                'subcategory_id',
-                $request->subcategory_id
-            );
+            $query->where('subcategory_id', $request->subcategory_id);
         }
 
-        // Search
+        // Search filter
         if ($request->search) {
-
-            $query->where(function ($q) use ($request) {
-
-                $q->where(
-                    'item_name',
-                    'LIKE',
-                    '%' . $request->search . '%'
-                );
-
-            });
+            $query->where('item_name', 'LIKE', '%' . $request->search . '%');
         }
 
-        $items = $query->latest()->get();
+        // IMPORTANT: use your custom date column (NOT created_at)
+        $items = $query
+            ->orderBy('added_date', 'desc')
+            ->get();
 
         return response()->json($items);
     }
