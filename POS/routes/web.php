@@ -122,4 +122,6 @@ Route::get('/prefecture/delete/{id}', [SettingsController::class, 'delete'])->na
 
 
 // POS
-Route::get('/pos', [ItemController::class, 'pos'])->name('pos');
+Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+Route::get('/pos/subcategories/{category_id}', [PosController::class, 'getSubcategories']) ->name('pos.subcategories');
+Route::get('/pos/items', [PosController::class, 'getItems']) ->name('pos.items');
