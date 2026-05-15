@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PosController;
 
 // Default home page
 // Route::get('/', function () {return view('home');})->name('home');
