@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Item;
 
-class PosController extends Controller
-{
+class PosController extends Controller {
+    
     public function index() {
         $categories = Category::where('status', 1)
             ->orderBy('category_name')
             ->get();
 
         $items = Item::where('status', 1)
-            ->latest()
+            ->orderBy('added_date', 'desc')
             ->get();
 
-        return view('posview', compact(
-            'categories',
-            'items'
-        ));
+        return view('pos.posview', compact('categories','items'));
     }
 
     public function getSubcategories($category_id) {
