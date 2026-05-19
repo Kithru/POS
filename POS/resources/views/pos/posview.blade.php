@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POS System</title>
+    <title>Rajarata Sakura POS</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ asset('css/pos.css') }}">
@@ -17,6 +18,7 @@
 
         <div class="logo">
             POS SYSTEM
+
             <button id="themeToggle" class="theme-toggle">
                 <i class="fa fa-moon"></i>
             </button>
@@ -55,7 +57,9 @@
 
                     <div class="product-info">
                         <h3>{{ $item->item_name }}</h3>
-                        <p>Rs. {{ number_format($item->price,2) }}</p>
+
+                        <!-- FIXED: Rs → ¥ -->
+                        <p>¥ {{ number_format($item->price, 0) }}</p>
                     </div>
 
                     <button class="add-cart-btn"
@@ -87,7 +91,7 @@
         <div class="cart-footer">
 
             <h3>
-                Total: Rs. <span id="cartTotal">0.00</span>
+                Total: ¥ <span id="cartTotal">0</span>
             </h3>
 
             <button class="checkout-btn">
