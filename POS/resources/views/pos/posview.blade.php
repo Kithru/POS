@@ -17,7 +17,7 @@
     <div class="sidebar">
 
         <div class="logo">
-            POS SYSTEM
+            Rajarata Sakura POS
 
             <button id="themeToggle" class="theme-toggle">
                 <i class="fa fa-moon"></i>
