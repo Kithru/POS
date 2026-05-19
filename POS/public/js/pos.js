@@ -123,3 +123,36 @@ document.querySelectorAll('.category-btn').forEach(btn => {
 
     });
 });
+
+
+// =======================
+// THEME TOGGLE
+// =======================
+
+const toggleBtn = document.getElementById('themeToggle');
+
+function setTheme(theme) {
+    document.body.className = theme;
+    localStorage.setItem('pos-theme', theme);
+
+    toggleBtn.innerHTML =
+        theme === 'dark'
+        ? '<i class="fa fa-sun"></i>'
+        : '<i class="fa fa-moon"></i>';
+}
+
+// Load saved theme
+let savedTheme = localStorage.getItem('pos-theme') || 'light';
+setTheme(savedTheme);
+
+// Toggle click
+toggleBtn.addEventListener('click', () => {
+
+    let current = document.body.classList.contains('dark')
+        ? 'dark'
+        : 'light';
+
+    let next = current === 'dark' ? 'light' : 'dark';
+
+    setTheme(next);
+});

@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="light">
 
 <div class="pos-container">
 
@@ -17,6 +17,10 @@
 
         <div class="logo">
             POS SYSTEM
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fa fa-moon"></i>
+            </button>
+
         </div>
 
         <input type="text" id="search" placeholder="Search items...">
