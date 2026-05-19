@@ -1,6 +1,9 @@
 let cart = [];
 
-// Add to cart
+/* =========================
+   ADD TO CART
+========================= */
+
 document.querySelectorAll('.add-cart-btn').forEach(btn => {
     btn.addEventListener('click', () => {
 
@@ -25,7 +28,10 @@ document.querySelectorAll('.add-cart-btn').forEach(btn => {
     });
 });
 
-// Render Cart
+/* =========================
+   RENDER CART
+========================= */
+
 function renderCart() {
 
     let cartBox = document.getElementById('cartItems');
@@ -37,28 +43,24 @@ function renderCart() {
 
     cart.forEach((item, index) => {
 
-        total += item.price * item.qty;
+        let itemTotal = item.price * item.qty;
+        total += itemTotal;
 
         cartBox.innerHTML += `
             <div class="cart-item">
 
                 <div class="cart-info">
-                    <b>${item.name}</b><br>
-                    Rs. ${item.price.toFixed(2)}
+                    <b>${item.name}</b>
                 </div>
 
                 <div class="qty-box">
-
                     <button onclick="decreaseQty(${index})">-</button>
-
                     <span>${item.qty}</span>
-
                     <button onclick="increaseQty(${index})">+</button>
-
                 </div>
 
                 <div class="cart-price">
-                    Rs. ${(item.price * item.qty).toFixed(2)}
+                    ¥ ${itemTotal.toFixed(0)}
                 </div>
 
                 <button class="remove-btn" onclick="removeItem(${index})">
@@ -69,16 +71,18 @@ function renderCart() {
         `;
     });
 
-    totalBox.innerText = total.toFixed(2);
+    totalBox.innerText = `¥ ${total.toFixed(0)}`;
 }
 
-// Increase qty
+/* =========================
+   QTY CONTROL
+========================= */
+
 function increaseQty(index) {
     cart[index].qty++;
     renderCart();
 }
 
-// Decrease qty
 function decreaseQty(index) {
     cart[index].qty--;
 
@@ -89,13 +93,19 @@ function decreaseQty(index) {
     renderCart();
 }
 
-// Remove item
+/* =========================
+   REMOVE ITEM
+========================= */
+
 function removeItem(index) {
     cart.splice(index, 1);
     renderCart();
 }
 
-// Search filter
+/* =========================
+   SEARCH FILTER
+========================= */
+
 document.getElementById('search').addEventListener('keyup', function () {
 
     let value = this.value.toLowerCase();
@@ -108,7 +118,10 @@ document.getElementById('search').addEventListener('keyup', function () {
     });
 });
 
-// Category filter
+/* =========================
+   CATEGORY FILTER
+========================= */
+
 document.querySelectorAll('.category-btn').forEach(btn => {
 
     btn.addEventListener('click', () => {
@@ -124,35 +137,39 @@ document.querySelectorAll('.category-btn').forEach(btn => {
     });
 });
 
-
-// =======================
-// THEME TOGGLE
-// =======================
+/* =========================
+   THEME TOGGLE
+========================= */
 
 const toggleBtn = document.getElementById('themeToggle');
 
 function setTheme(theme) {
+
     document.body.className = theme;
     localStorage.setItem('pos-theme', theme);
 
-    toggleBtn.innerHTML =
-        theme === 'dark'
-        ? '<i class="fa fa-sun"></i>'
-        : '<i class="fa fa-moon"></i>';
+    if (toggleBtn) {
+        toggleBtn.innerHTML =
+            theme === 'dark'
+                ? '<i class="fa fa-sun"></i>'
+                : '<i class="fa fa-moon"></i>';
+    }
 }
 
-// Load saved theme
+// Load theme
 let savedTheme = localStorage.getItem('pos-theme') || 'light';
 setTheme(savedTheme);
 
 // Toggle click
-toggleBtn.addEventListener('click', () => {
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
 
-    let current = document.body.classList.contains('dark')
-        ? 'dark'
-        : 'light';
+        let current = document.body.classList.contains('dark')
+            ? 'dark'
+            : 'light';
 
-    let next = current === 'dark' ? 'light' : 'dark';
+        let next = current === 'dark' ? 'light' : 'dark';
 
-    setTheme(next);
-});
+        setTheme(next);
+    });
+}
