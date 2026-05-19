@@ -1,8 +1,6 @@
 let cart = [];
 
-/* =========================
-   ADD TO CART
-========================= */
+/* ================= ADD ================= */
 
 document.querySelectorAll('.add-cart-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -11,165 +9,120 @@ document.querySelectorAll('.add-cart-btn').forEach(btn => {
         let name = btn.dataset.name;
         let price = parseFloat(btn.dataset.price);
 
-        let existing = cart.find(item => item.id === id);
+        let item = cart.find(i => i.id === id);
 
-        if (existing) {
-            existing.qty += 1;
+        if (item) {
+            item.qty++;
         } else {
-            cart.push({
-                id: id,
-                name: name,
-                price: price,
-                qty: 1
-            });
+            cart.push({ id, name, price, qty: 1 });
         }
 
         renderCart();
     });
 });
 
-/* =========================
-   RENDER CART
-========================= */
+/* ================= RENDER ================= */
 
 function renderCart() {
 
-    let cartBox = document.getElementById('cartItems');
+    let box = document.getElementById('cartItems');
     let totalBox = document.getElementById('cartTotal');
 
-    cartBox.innerHTML = "";
+    box.innerHTML = "";
 
     let total = 0;
 
-    cart.forEach((item, index) => {
+    cart.forEach((item, i) => {
 
-        let itemTotal = item.price * item.qty;
-        total += itemTotal;
+        let sub = item.price * item.qty;
+        total += sub;
 
-        cartBox.innerHTML += `
-            <div class="cart-item">
+        box.innerHTML += `
+        <div class="cart-item">
 
-                <div class="cart-info">
-                    <b>${item.name}</b>
-                </div>
+            <div class="cart-info">${item.name}</div>
 
-                <div class="qty-box">
-                    <button onclick="decreaseQty(${index})">-</button>
-                    <span>${item.qty}</span>
-                    <button onclick="increaseQty(${index})">+</button>
-                </div>
-
-                <div class="cart-price">
-                    ¥ ${itemTotal.toFixed(0)}
-                </div>
-
-                <button class="remove-btn" onclick="removeItem(${index})">
-                    <i class="fa fa-trash"></i>
-                </button>
-
+            <div class="qty-box">
+                <button onclick="dec(${i})">-</button>
+                <span>${item.qty}</span>
+                <button onclick="inc(${i})">+</button>
             </div>
-        `;
+
+            <div class="cart-price">¥ ${sub.toFixed(0)}</div>
+
+            <button class="remove-btn" onclick="removeItem(${i})">
+                <i class="fa fa-trash"></i>
+            </button>
+
+        </div>`;
     });
 
     totalBox.innerText = `¥ ${total.toFixed(0)}`;
 }
 
-/* =========================
-   QTY CONTROL
-========================= */
+/* ================= QTY ================= */
 
-function increaseQty(index) {
-    cart[index].qty++;
+function inc(i){ cart[i].qty++; renderCart(); }
+
+function dec(i){
+    cart[i].qty--;
+    if(cart[i].qty <= 0) cart.splice(i,1);
     renderCart();
 }
 
-function decreaseQty(index) {
-    cart[index].qty--;
+/* ================= REMOVE ================= */
 
-    if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
-    }
-
+function removeItem(i){
+    cart.splice(i,1);
     renderCart();
 }
 
-/* =========================
-   REMOVE ITEM
-========================= */
+/* ================= SEARCH ================= */
 
-function removeItem(index) {
-    cart.splice(index, 1);
-    renderCart();
-}
+document.getElementById('search').addEventListener('input', e => {
 
-/* =========================
-   SEARCH FILTER
-========================= */
+    let val = e.target.value.toLowerCase();
 
-document.getElementById('search').addEventListener('keyup', function () {
-
-    let value = this.value.toLowerCase();
-
-    document.querySelectorAll('.product-card').forEach(card => {
-
-        let name = card.dataset.name;
-
-        card.style.display = name.includes(value) ? "block" : "none";
+    document.querySelectorAll('.product-card').forEach(c => {
+        c.style.display = c.dataset.name.includes(val) ? "block" : "none";
     });
 });
 
-/* =========================
-   CATEGORY FILTER
-========================= */
+/* ================= CATEGORY ================= */
 
 document.querySelectorAll('.category-btn').forEach(btn => {
 
     btn.addEventListener('click', () => {
 
-        let category = btn.dataset.category;
+        let cat = btn.dataset.category;
 
-        document.querySelectorAll('.product-card').forEach(card => {
-
-            card.style.display =
-                (card.dataset.category === category) ? "block" : "none";
+        document.querySelectorAll('.product-card').forEach(c => {
+            c.style.display = (c.dataset.category === cat) ? "block" : "none";
         });
 
     });
 });
 
-/* =========================
-   THEME TOGGLE
-========================= */
+/* ================= THEME ================= */
 
-const toggleBtn = document.getElementById('themeToggle');
+const toggle = document.getElementById('themeToggle');
 
-function setTheme(theme) {
+function setTheme(t){
+    document.body.className = t;
+    localStorage.setItem('theme', t);
 
-    document.body.className = theme;
-    localStorage.setItem('pos-theme', theme);
-
-    if (toggleBtn) {
-        toggleBtn.innerHTML =
-            theme === 'dark'
-                ? '<i class="fa fa-sun"></i>'
-                : '<i class="fa fa-moon"></i>';
+    if(toggle){
+        toggle.innerHTML = t === 'dark'
+            ? '<i class="fa fa-sun"></i>'
+            : '<i class="fa fa-moon"></i>';
     }
 }
 
-// Load theme
-let savedTheme = localStorage.getItem('pos-theme') || 'light';
-setTheme(savedTheme);
+setTheme(localStorage.getItem('theme') || 'light');
 
-// Toggle click
-if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-
-        let current = document.body.classList.contains('dark')
-            ? 'dark'
-            : 'light';
-
-        let next = current === 'dark' ? 'light' : 'dark';
-
-        setTheme(next);
-    });
+if(toggle){
+    toggle.onclick = () => {
+        let t = document.body.classList.contains('dark') ? 'light' : 'dark';
+        setTheme(t);
+    }
 }
