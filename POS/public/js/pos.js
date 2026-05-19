@@ -57,7 +57,7 @@ function renderCart() {
         </div>`;
     });
 
-    totalBox.innerText = `¥ ${total.toFixed(0)}`;
+    totalBox.innerText = `${total.toFixed(0)}`;
 }
 
 /* ================= QTY ================= */
