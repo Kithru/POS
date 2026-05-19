@@ -79,7 +79,7 @@
     <div class="cart-section">
 
         <div class="cart-header">
-            <i class="fa fa-shopping-cart"></i> Cart
+            <i class="fa fa-shopping-cart"></i> Item List
         </div>
 
         <div class="cart-items" id="cartItems"></div>
