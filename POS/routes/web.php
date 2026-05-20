@@ -120,8 +120,15 @@ Route::get('/prefecture', [SettingsController::class, 'index'])->name('prefectur
 Route::post('/prefecture/save', [SettingsController::class, 'save'])->name('prefecture.save');
 Route::get('/prefecture/delete/{id}', [SettingsController::class, 'delete'])->name('prefecture.delete');
 
-
 // POS
 Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
 Route::get('/pos/subcategories/{category_id}', [PosController::class, 'getSubcategories']) ->name('pos.subcategories');
 Route::get('/pos/items', [PosController::class, 'getItems']) ->name('pos.items');
+
+Route::get('/add-table', [SettingsController::class, 'addTable'])->name('table.add');
+Route::post('/save-table', [SettingsController::class, 'saveTable'])->name('table.save');
+Route::get('/save-table', function () { return redirect()->route('table.add');});
+
+// Status control
+Route::get('/table/activate/{id}', [SettingsController::class, 'activateTable'])->name('table.activate');
+Route::get('/table/deactivate/{id}', [SettingsController::class, 'deactivateTable'])->name('table.deactivate');

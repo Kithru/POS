@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prefecture;
+use App\Models\TableModel;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller {
@@ -12,8 +13,7 @@ class SettingsController extends Controller {
         return view('settings.prefecture', compact('prefectures'));
     }
 
-    public function save(Request $request)
-{
+    public function save(Request $request) {
     $name = trim($request->name);
     $amount = $request->amount;
     $id = $request->id;
@@ -48,4 +48,57 @@ class SettingsController extends Controller {
         return redirect()->route('prefecture.index')
             ->with('success', 'Prefecture deleted successfully.');
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    public function addTable(){
+        $tables = TableModel::orderBy('id', 'desc')->paginate(10);
+        return view('table.addtable', compact('tables'));
+    }
+
+    public function saveTable(Request $request) {
+        $request->validate([
+            'table_number'          => 'required|unique:tables,table_number',
+            'availability'          => 'required|in:0,1',
+            'table_status'          => 'required|in:0,1',
+            'reservation_starttime' => 'nullable|date',
+            'reservation_endtime'   => 'nullable|date|after:reservation_starttime',
+            'max_pax'               => 'required|integer|min:1',
+            'min_pax'               => 'required|integer|min:1|lte:max_pax',
+        ]);
+
+        TableModel::create([
+            'table_number'          => $request->table_number,
+            'availability'          => $request->availability,
+            'table_status'          => $request->table_status,
+            'reservation_starttime' => $request->reservation_starttime,
+            'reservation_endtime'   => $request->reservation_endtime,
+            'max_pax'               => $request->max_pax,
+            'min_pax'               => $request->min_pax,
+        ]);
+
+        return redirect()->route('table.add')
+            ->with('success', 'Table added successfully');
+    }
+
+    public function activateTable($id) {
+        $table = TableModel::findOrFail($id);
+
+        $table->table_status = 1;
+        $table->save();
+
+        return redirect()->route('table.add')
+            ->with('success', 'Table activated successfully');
+    }
+
+    public function deactivateTable($id) {
+        $table = TableModel::findOrFail($id);
+
+        $table->table_status = 0;
+        $table->save();
+        return redirect()->route('table.add')
+            ->with('success', 'Table deactivated successfully');
+    }
+
+
 }
