@@ -1,0 +1,5 @@
+return [
+    'welcome' => 'Welcome',
+    'cart' => 'Cart',
+    'checkout' => 'Checkout',
+];
