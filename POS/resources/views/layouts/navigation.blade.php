@@ -128,6 +128,12 @@
                 <!-- <li><a href="{{ route('order.view') }}"><i class="fas fa-eye"></i>View Orders</a></li> -->
                 <!-- <li><a href="#"><i class="fas fa-eye"></i> View</a></li> -->
             </ul>
+            <li>
+            <a href="{{ route('table.add') }}"
+               class="{{ request()->routeIs('table.*') ? 'active' : '' }}">
+                <i class="fas fa-table"></i>
+                Restuarant Tables </a>
+        </li>
         </li>
         @endif
 
