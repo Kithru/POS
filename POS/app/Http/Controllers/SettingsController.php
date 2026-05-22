@@ -58,21 +58,29 @@ class SettingsController extends Controller {
 
     public function saveTable(Request $request) {
         $request->validate([
-            'table_number' => 'required|unique:tables,table_number',
-            'max_pax'      => 'required|integer|min:1',
-            'min_pax'      => 'required|integer|min:1|lte:max_pax',
+            'table_number' => 'required',
+            'min_pax' => 'required|integer|min:1',
+            'max_pax' => 'required|integer|min:1|gte:min_pax',
         ]);
+        if ($request->id) {
+            $table = TableModel::findOrFail($request->id);
+            $table->update([
+                'table_number' => $request->table_number,
+                'min_pax' => $request->min_pax,
+                'max_pax' => $request->max_pax,
+            ]);
 
+            return redirect()->back()->with('success', 'Table updated successfully');
+        }
         TableModel::create([
             'table_number' => $request->table_number,
-            'availability' => 1,   
-            'table_status' => 1,  
-            'max_pax'      => $request->max_pax,
-            'min_pax'      => $request->min_pax,
+            'min_pax' => $request->min_pax,
+            'max_pax' => $request->max_pax,
+            'availability' => 1,
+            'table_status' => 1,
         ]);
 
-        return redirect()->route('table.add')
-            ->with('success', 'Table added successfully');
+        return redirect()->back()->with('success', 'Table created successfully');
     }
 
 
