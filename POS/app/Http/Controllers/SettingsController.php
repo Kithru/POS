@@ -51,61 +51,47 @@ class SettingsController extends Controller {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    public function addTable(){
+    public function addTable() {
         $tables = TableModel::orderBy('id', 'desc')->paginate(10);
         return view('settings.addtable', compact('tables'));
     }
 
     public function saveTable(Request $request) {
         $request->validate([
-            'table_number'          => 'required|unique:tables,table_number',
-            'availability'          => 'required|in:0,1',
-            'table_status'          => 'required|in:0,1',
-            'reservation_starttime' => 'nullable|date',
-            'reservation_endtime'   => 'nullable|date|after:reservation_starttime',
-            'max_pax'               => 'required|integer|min:1',
-            'min_pax'               => 'required|integer|min:1|lte:max_pax',
+            'table_number' => 'required|unique:tables,table_number',
+            'max_pax'      => 'required|integer|min:1',
+            'min_pax'      => 'required|integer|min:1|lte:max_pax',
         ]);
 
         TableModel::create([
-            'table_number'          => $request->table_number,
-            'availability'          => $request->availability,
-            'table_status'          => $request->table_status,
-            'reservation_starttime' => $request->reservation_starttime,
-            'reservation_endtime'   => $request->reservation_endtime,
-            'max_pax'               => $request->max_pax,
-            'min_pax'               => $request->min_pax,
+            'table_number' => $request->table_number,
+            'availability' => 1,   
+            'table_status' => 1,  
+            'max_pax'      => $request->max_pax,
+            'min_pax'      => $request->min_pax,
         ]);
 
-        return redirect()->route('settings.addtable')->with('success', 'Table added successfully');
+        return redirect()->route('table.add')
+            ->with('success', 'Table added successfully');
     }
 
 
 
-    public function changeStatus($id){
-        $table = Table::findOrFail($id);
-        if ($table->table_status == 1) {
-            $table->table_status = 0;
-        } else {
-            $table->table_status = 1;
-        }
+    public function changeStatus($id) {
+        $table = TableModel::findOrFail($id);
+
+        $table->table_status = !$table->table_status;
         $table->save();
 
-        return redirect()->back()->with('success', 'Table status updated successfully.');
+        return back()->with('success', 'Table status updated successfully.');
     }
 
     public function changeAvailability($id) {
-        $table = Table::findOrFail($id);
+        $table = TableModel::findOrFail($id);
 
-        if ($table->availability == 1) {
-            $table->availability = 0;
-        } else {
-            $table->availability = 1;
-        }
-
+        $table->availability = !$table->availability;
         $table->save();
-
-        return redirect()->back()->with('success', 'Table availability updated successfully.');
+        return back()->with('success', 'Table availability updated successfully.');
     }
 
 }

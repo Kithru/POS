@@ -127,7 +127,6 @@ Route::get('/pos/items', [PosController::class, 'getItems']) ->name('pos.items')
 
 Route::get('/add-table', [SettingsController::class, 'addTable'])->name('table.add');
 Route::post('/save-table', [SettingsController::class, 'saveTable'])->name('table.save');
-Route::get('/save-table', function () { return redirect()->route('table.add');});
 
 Route::get('/table/status/{id}', [SettingsController::class, 'changeStatus'])->name('table.status');
 Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvailability'])->name('table.availability');
