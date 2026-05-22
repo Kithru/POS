@@ -94,5 +94,18 @@ class SettingsController extends Controller {
         return redirect()->back()->with('success', 'Table status updated successfully.');
     }
 
+    public function changeAvailability($id) {
+        $table = Table::findOrFail($id);
+
+        if ($table->availability == 1) {
+            $table->availability = 0;
+        } else {
+            $table->availability = 1;
+        }
+
+        $table->save();
+
+        return redirect()->back()->with('success', 'Table availability updated successfully.');
+    }
 
 }
