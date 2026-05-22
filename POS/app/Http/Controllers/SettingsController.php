@@ -53,7 +53,7 @@ class SettingsController extends Controller {
 
     public function addTable(){
         $tables = TableModel::orderBy('id', 'desc')->paginate(10);
-        return view('table.addtable', compact('tables'));
+        return view('settings.addtable', compact('tables'));
     }
 
     public function saveTable(Request $request) {
@@ -77,27 +77,21 @@ class SettingsController extends Controller {
             'min_pax'               => $request->min_pax,
         ]);
 
-        return redirect()->route('table.add')
-            ->with('success', 'Table added successfully');
+        return redirect()->route('settings.addtable')->with('success', 'Table added successfully');
     }
 
-    public function activateTable($id) {
-        $table = TableModel::findOrFail($id);
 
-        $table->table_status = 1;
+
+    public function changeStatus($id){
+        $table = Table::findOrFail($id);
+        if ($table->table_status == 1) {
+            $table->table_status = 0;
+        } else {
+            $table->table_status = 1;
+        }
         $table->save();
 
-        return redirect()->route('table.add')
-            ->with('success', 'Table activated successfully');
-    }
-
-    public function deactivateTable($id) {
-        $table = TableModel::findOrFail($id);
-
-        $table->table_status = 0;
-        $table->save();
-        return redirect()->route('table.add')
-            ->with('success', 'Table deactivated successfully');
+        return redirect()->back()->with('success', 'Table status updated successfully.');
     }
 
 

@@ -13,8 +13,6 @@ class TableModel extends Model
         'table_number',
         'availability',
         'table_status',
-        'reservation_starttime',
-        'reservation_endtime',
         'max_pax',
         'min_pax',
     ];
