@@ -129,6 +129,5 @@ Route::get('/add-table', [SettingsController::class, 'addTable'])->name('table.a
 Route::post('/save-table', [SettingsController::class, 'saveTable'])->name('table.save');
 Route::get('/save-table', function () { return redirect()->route('table.add');});
 
-// Status control
-Route::get('/table/activate/{id}', [SettingsController::class, 'activateTable'])->name('table.activate');
-Route::get('/table/deactivate/{id}', [SettingsController::class, 'deactivateTable'])->name('table.deactivate');
+Route::get('/table/status/{id}', [SettingsController::class, 'changeStatus'])->name('table.status');
+Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvailability'])->name('table.availability');

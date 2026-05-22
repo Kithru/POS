@@ -25,9 +25,6 @@ public function up(): void {
             $table->tinyInteger('table_status')
                   ->default(1)
                   ->comment('1 = Active, 0 = Inactive');
-
-            $table->dateTime('reservation_starttime')->nullable();
-            $table->dateTime('reservation_endtime')->nullable();
             $table->integer('max_pax');
             $table->integer('min_pax');
             $table->timestamps();
