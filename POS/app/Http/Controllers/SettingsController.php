@@ -80,7 +80,7 @@ class SettingsController extends Controller {
             'table_status' => 1,
         ]);
 
-        return redirect()->back()->with('success', 'Table created successfully');
+        return redirect()->back()->with('success', 'Table created successfully.');
     }
 
 
