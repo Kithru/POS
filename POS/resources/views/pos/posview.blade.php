@@ -52,7 +52,7 @@
                      data-name="{{ strtolower($item->item_name) }}">
 
                     <div class="product-image">
-                        <img src="{{ asset($item->image) }}" alt="">
+                        <img src="{{ $item->image ? asset('images/uploads/'.$item->image) : asset('images/no-image.jpg') }}" alt="">
                     </div>
 
                     <div class="product-info">
