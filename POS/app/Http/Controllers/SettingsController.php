@@ -102,14 +102,4 @@ class SettingsController extends Controller {
         return back()->with('success', 'Table availability updated successfully.');
     }
 
-    public function pos() {
-        $categories = Category::all();
-        $items = Item::where('status', 1)->get();
-        $tables = TableModel::where('availability', 0)
-                    ->orderBy('table_number')
-                    ->get();
-
-        return view('pos', compact('categories','items', 'tables'));
-    }
-
 }
