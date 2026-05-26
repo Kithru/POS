@@ -126,3 +126,27 @@ if(toggle){
         setTheme(t);
     }
 }
+
+
+const dineInBtn = document.getElementById('dineInBtn');
+const takeAwayBtn = document.getElementById('takeAwayBtn');
+const tableSection = document.getElementById('tableSection');
+let orderType = 'dine_in';
+
+dineInBtn.addEventListener('click', () => {
+
+    orderType = 'dine_in';
+    dineInBtn.classList.add('active');
+    takeAwayBtn.classList.remove('active');
+    tableSection.style.display = 'block';
+
+});
+
+takeAwayBtn.addEventListener('click', () => {
+
+    orderType = 'take_away';
+    takeAwayBtn.classList.add('active');
+    dineInBtn.classList.remove('active');
+    tableSection.style.display = 'none';
+
+});
