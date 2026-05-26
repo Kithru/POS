@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Item;
+use App\Models\TableModel;
 
 class PosController extends Controller {
     
@@ -18,7 +19,11 @@ class PosController extends Controller {
             ->orderBy('added_date', 'desc')
             ->get();
 
-        return view('pos.posview', compact('categories','items'));
+         $tables = TableModel::where('availability', 0)
+        ->orderBy('table_number', 'asc')
+        ->get();
+
+        return view('pos.posview', compact( 'categories','items', 'tables' ));
     }
 
     public function getSubcategories($category_id) {
@@ -57,5 +62,15 @@ class PosController extends Controller {
             ->get();
 
         return response()->json($items);
+    }
+
+    public function pos() {
+        $categories = Category::all();
+        $items = Item::where('status', 1)->get();
+        $tables = TableModel::where('availability', 0)
+                    ->orderBy('table_number')
+                    ->get();
+
+        return view('pos', compact('categories','items', 'tables'));
     }
 }

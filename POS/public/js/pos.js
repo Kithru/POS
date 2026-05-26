@@ -131,22 +131,35 @@ if(toggle){
 const dineInBtn = document.getElementById('dineInBtn');
 const takeAwayBtn = document.getElementById('takeAwayBtn');
 const tableSection = document.getElementById('tableSection');
-let orderType = 'dine_in';
+const orderTypeInput = document.getElementById('orderType');
+
+function setOrderType(type) {
+
+    if (type === 'dine_in') {
+
+        dineInBtn.classList.add('active');
+        takeAwayBtn.classList.remove('active');
+
+        tableSection.style.display = 'block';
+        orderTypeInput.value = 'dine_in';
+
+    } else {
+
+        takeAwayBtn.classList.add('active');
+        dineInBtn.classList.remove('active');
+
+        tableSection.style.display = 'none';
+        orderTypeInput.value = 'take_away';
+
+        // optional: reset table selection
+        document.getElementById('tableSelect').value = "";
+    }
+}
 
 dineInBtn.addEventListener('click', () => {
-
-    orderType = 'dine_in';
-    dineInBtn.classList.add('active');
-    takeAwayBtn.classList.remove('active');
-    tableSection.style.display = 'block';
-
+    setOrderType('dine_in');
 });
 
 takeAwayBtn.addEventListener('click', () => {
-
-    orderType = 'take_away';
-    takeAwayBtn.classList.add('active');
-    dineInBtn.classList.remove('active');
-    tableSection.style.display = 'none';
-
+    setOrderType('take_away');
 });
