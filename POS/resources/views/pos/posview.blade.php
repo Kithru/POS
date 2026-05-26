@@ -68,38 +68,73 @@
                             data-price="{{ $item->price }}">
 
                         <i class="fa fa-cart-plus"></i> Add
-
                     </button>
-
                 </div>
-
             @endforeach
-
         </div>
-
     </div>
 
     <!-- ================= CART ================= -->
     <div class="cart-section">
-
-        <div class="cart-header">
-            <i class="fa fa-shopping-cart"></i> Item List
-        </div>
-
+        <div class="cart-header"> <i class="fa fa-shopping-cart"></i> Item List </div>
         <div class="cart-items" id="cartItems"></div>
 
         <div class="cart-footer">
 
-            <h3>
-                Total: ¥ <span id="cartTotal">0</span>
-            </h3>
+            <div class="order-type-section">
 
-            <button class="checkout-btn">
-                Place Order
-            </button>
+                <label class="section-label">
+                    Order Type
+                </label>
 
+                <div class="order-type-buttons">
+
+                    <button type="button"
+                            class="order-type-btn active"
+                            id="dineInBtn"
+                            data-type="dine_in">
+
+                        <i class="fa fa-utensils"></i>
+                        Dine In
+                    </button>
+
+                    <button type="button"
+                            class="order-type-btn"
+                            id="takeAwayBtn"
+                            data-type="take_away">
+
+                        <i class="fa fa-bag-shopping"></i>
+                        Take Away
+
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="table-section" id="tableSection">
+
+                <label class="section-label"> Select Table </label>
+                <select id="tableSelect" class="table-select">
+
+                    <option value=""> -- Select Table -- </option>
+
+                    @foreach($tables as $table)
+                        @if($table->availability == 0)
+                            <option value="{{ $table->id }}">
+                                Table {{ $table->table_number }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="cart-total">
+                <span>Total</span>
+                <span>¥ <span id="cartTotal">0</span></span>
+            </div>
+
+            <button class="checkout-btn"> Place Order </button>
         </div>
-
     </div>
 
 </div>
