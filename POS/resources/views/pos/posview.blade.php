@@ -95,7 +95,7 @@
             </h3>
 
             <button class="checkout-btn">
-                Checkout
+                Place Order
             </button>
 
         </div>
