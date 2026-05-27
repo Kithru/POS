@@ -112,7 +112,21 @@ function renderCart() {
 
 /* ================= INCREASE QTY ================= */
 
+function inc(i) {
 
+    let item = cart[i];
+
+    if (item.countable === 1) {
+
+        if (item.qty >= item.availableQty) {
+            alert(item.name + ' available items are over.');
+            return;
+        }
+    }
+    item.qty++;
+
+    renderCart();
+}
 
 
 /* ================= DECREASE QTY ================= */
