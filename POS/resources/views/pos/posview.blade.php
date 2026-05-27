@@ -68,16 +68,13 @@
                     </div>
 
                     <button class="add-cart-btn"
-                            data-id="{{ $item->item_id }}"
-                            data-name="{{ $item->item_name }}"
-                            data-price="{{ $item->price }}">
+                            data-id="{{ $item->item_id }}" data-name="{{ $item->item_name }}"
+                            data-price="{{ $item->price }}" data-qty="{{ $item->quantity }}" data-countable="{{ $item->countable }}">
 
                         <i class="fa fa-cart-plus"></i> Add
                     </button>
                 </div>
-
             @endforeach
-
         </div>
 
     </div>
