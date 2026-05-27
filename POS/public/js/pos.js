@@ -144,7 +144,6 @@ function dec(i) {
 function removeItem(i) {
 
     cart.splice(i, 1);
-
     renderCart();
 }
 
@@ -155,7 +154,6 @@ function updateAmount(i, value) {
 
     // clean input
     value = value.replace(/[^0-9.]/g, '');
-
     let amount = parseFloat(value);
 
     if (isNaN(amount) || amount < 0) {
@@ -164,7 +162,6 @@ function updateAmount(i, value) {
 
     if (cart[i].qty <= 0) return;
     cart[i].price = amount / cart[i].qty;
-
     renderCart();
 }
 
@@ -174,7 +171,6 @@ function updateAmount(i, value) {
 document.getElementById('search').addEventListener('input', e => {
 
     let val = e.target.value.toLowerCase();
-
     document.querySelectorAll('.product-card').forEach(c => {
 
         c.style.display =
