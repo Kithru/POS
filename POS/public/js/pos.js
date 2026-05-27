@@ -1,5 +1,4 @@
 let cart = [];
-
 /* ================= ADD TO CART ================= */
 
 document.querySelectorAll('.add-cart-btn').forEach(btn => {
@@ -164,7 +163,6 @@ function updateAmount(i, value) {
     }
 
     if (cart[i].qty <= 0) return;
-
     cart[i].price = amount / cart[i].qty;
 
     renderCart();
