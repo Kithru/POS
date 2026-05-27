@@ -132,16 +132,13 @@ function inc(i) {
 /* ================= DECREASE QTY ================= */
 
 function dec(i) {
-
     cart[i].qty--;
 
     if (cart[i].qty <= 0) {
         cart.splice(i, 1);
     }
-
     renderCart();
 }
-
 
 /* ================= REMOVE ITEM ================= */
 
