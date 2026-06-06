@@ -416,3 +416,52 @@ body{
 .order-type-btn i {
     font-size: 14px;
 }
+
+/* =========================
+   CUSTOM SELECT DROPDOWN
+========================= */
+
+.table-select {
+    width: 100%;
+    padding: 10px 12px;
+
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 10px;
+
+    background-color: var(--card, #ffffff);
+    color: var(--text, #111827);
+
+    font-size: 14px;
+    outline: none;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    /* remove default arrow styling */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* custom arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%236b7280' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.5 7l4.5 5 4.5-5H5.5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+}
+
+/* hover */
+.table-select:hover {
+    border-color: var(--primary, #8e44ad);
+}
+
+/* focus */
+.table-select:focus {
+    border-color: var(--primary, #8e44ad);
+    box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15);
+}
+
+/* disabled option styling (optional) */
+.table-select option {
+    padding: 10px;
+}
