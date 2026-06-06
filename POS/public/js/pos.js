@@ -127,7 +127,6 @@ function inc(i) {
     renderCart();
 }
 
-
 /* ================= DECREASE QTY ================= */
 
 function dec(i) {
@@ -164,7 +163,6 @@ function updateAmount(i, value) {
     cart[i].price = amount / cart[i].qty;
     renderCart();
 }
-
 
 /* ================= SEARCH ================= */
 
@@ -240,7 +238,6 @@ if (toggle) {
         setTheme(t);
     };
 }
-
 
 /* ================= ORDER TYPE ================= */
 
