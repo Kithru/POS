@@ -272,3 +272,89 @@ function setOrderType(type) {
 
 dineInBtn.addEventListener('click', () => setOrderType('dine_in'));
 takeAwayBtn.addEventListener('click', () => setOrderType('take_away'));
+
+const modal = document.getElementById("checkoutModal");
+const placeOrderBtn = document.querySelector(".checkout-btn");
+const closeBtn = document.querySelector(".close-modal");
+
+placeOrderBtn.addEventListener("click", () => {
+
+    if(cart.length === 0){
+        alert("Cart is empty");
+        return;
+    }
+
+    modal.style.display = "flex";
+
+    const itemContainer = document.getElementById("popupItemList");
+    const popupTotal = document.getElementById("popupTotal");
+
+    itemContainer.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        const subTotal = item.price * item.qty;
+
+        total += subTotal;
+
+        itemContainer.innerHTML += `
+            <div class="popup-item">
+                <div>
+                    <strong>${item.name}</strong>
+                    <small> × ${item.qty}</small>
+                </div>
+
+                <div>
+                    ¥ ${subTotal.toFixed(0)}
+                </div>
+            </div>
+        `;
+    });
+
+    popupTotal.innerText = total.toFixed(0);
+
+    // Copy selected order type
+    if(orderTypeInput.value === "dine_in"){
+        document.getElementById("popupDineIn").classList.add("active");
+        document.getElementById("popupTakeAway").classList.remove("active");
+    }else{
+        document.getElementById("popupTakeAway").classList.add("active");
+        document.getElementById("popupDineIn").classList.remove("active");
+    }
+});
+
+closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+window.addEventListener("click", function(e){
+    if(e.target === modal){
+        modal.style.display = "none";
+    }
+});
+
+/* Order Type Toggle */
+
+document.querySelectorAll(".toggle-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+
+        document.querySelectorAll(".toggle-btn")
+            .forEach(b => b.classList.remove("active"));
+
+        this.classList.add("active");
+    });
+});
+
+/* Payment Toggle */
+
+document.querySelectorAll(".payment-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+
+        document.querySelectorAll(".payment-btn")
+            .forEach(b => b.classList.remove("active"));
+
+        this.classList.add("active");
+    });
+});
