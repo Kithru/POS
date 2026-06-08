@@ -2,6 +2,7 @@ let cart = [];
 let currentOrderType = "take_away";
 let currentPayment = "paid";
 
+/* ================= INIT ================= */
 document.addEventListener("DOMContentLoaded", () => {
 
     bindCartButtons();
@@ -105,6 +106,7 @@ function renderCart() {
 
 /* ================= QTY ================= */
 function inc(i) {
+
     let item = cart[i];
 
     if (item.countable === 1 && item.qty >= item.availableQty) {
@@ -131,10 +133,12 @@ function removeItem(i) {
 function bindUI() {
 
     document.getElementById("search")?.addEventListener("input", e => {
+
         let val = e.target.value.toLowerCase();
 
         document.querySelectorAll(".product-card").forEach(card => {
-            card.style.display = card.dataset.name.includes(val) ? "block" : "none";
+            card.style.display =
+                card.dataset.name.includes(val) ? "block" : "none";
         });
     });
 
@@ -150,7 +154,6 @@ function bindUI() {
             btn.classList.add("active-category");
 
             document.querySelectorAll(".product-card").forEach(card => {
-
                 card.style.display =
                     cat === "all" || card.dataset.category === cat
                         ? "block"
@@ -160,7 +163,7 @@ function bindUI() {
     });
 }
 
-/* ================= POPUP (FIXED CORE ISSUE) ================= */
+/* ================= POPUP ================= */
 function bindPopup() {
 
     const modal = document.getElementById("checkoutModal");
@@ -170,14 +173,9 @@ function bindPopup() {
     const takeBtn = document.getElementById("popupTakeAway");
     const dineBtn = document.getElementById("popupDineIn");
 
-    const orderTypeInput = document.getElementById("orderType");
+    if (!modal || !openBtn) return;
 
-    if (!modal || !openBtn) {
-        console.error("Popup elements missing");
-        return;
-    }
-
-    /* OPEN POPUP */
+    /* OPEN */
     openBtn.addEventListener("click", () => {
 
         if (cart.length === 0) {
@@ -185,7 +183,8 @@ function bindPopup() {
             return;
         }
 
-        modal.style.display = "flex";   // 🔥 IMPORTANT FIX
+        modal.style.display = "flex";
+
         renderPopup();
         syncPopup();
         syncPayment();
@@ -200,15 +199,13 @@ function bindPopup() {
         if (e.target === modal) modal.style.display = "none";
     });
 
-    /* ORDER TYPE */
+    /* ORDER TYPE TOGGLE */
     takeBtn?.addEventListener("click", () => {
-        currentOrderType = "take_away";
-        syncPopup();
+        setOrderType("take_away");
     });
 
     dineBtn?.addEventListener("click", () => {
-        currentOrderType = "dine_in";
-        syncPopup();
+        setOrderType("dine_in");
     });
 
     /* PAYMENT */
@@ -225,6 +222,23 @@ function bindPopup() {
         });
     });
 
+}
+
+/* ================= ORDER TYPE ================= */
+function setOrderType(type) {
+
+    currentOrderType = type;
+
+    const takeBtn = document.getElementById("popupTakeAway");
+    const dineBtn = document.getElementById("popupDineIn");
+
+    if (type === "dine_in") {
+        dineBtn?.classList.add("active");
+        takeBtn?.classList.remove("active");
+    } else {
+        takeBtn?.classList.add("active");
+        dineBtn?.classList.remove("active");
+    }
 }
 
 /* ================= POPUP RENDER ================= */
@@ -257,26 +271,6 @@ function renderPopup() {
     totalBox.innerText = total.toFixed(0);
 }
 
-/* ================= SYNC POPUP ================= */
-function syncPopup() {
-
-    const takeBtn = document.getElementById("popupTakeAway");
-    const dineBtn = document.getElementById("popupDineIn");
-    const input = document.getElementById("orderType");
-
-    if (!input) return;
-
-    input.value = currentOrderType;
-
-    if (currentOrderType === "dine_in") {
-        dineBtn?.classList.add("active");
-        takeBtn?.classList.remove("active");
-    } else {
-        takeBtn?.classList.add("active");
-        dineBtn?.classList.remove("active");
-    }
-}
-
 /* ================= PAYMENT DEFAULT ================= */
 function syncPayment() {
 
@@ -287,6 +281,11 @@ function syncPayment() {
 
     document.querySelector('.payment-btn[data-payment="paid"]')
         ?.classList.add("active");
+}
+
+/* ================= SYNC POPUP ================= */
+function syncPopup() {
+    setOrderType(currentOrderType);
 }
 
 /* ================= THEME ================= */
@@ -316,4 +315,34 @@ function initTheme() {
 
         setTheme(t);
     });
+}
+
+function setOrderType(type) {
+
+    currentOrderType = type;
+
+    const takeBtn = document.getElementById("popupTakeAway");
+    const dineBtn = document.getElementById("popupDineIn");
+
+    const tableGroup = document.getElementById("tableSelectGroup");
+    const tableSelect = document.getElementById("tableSelect");
+
+    if (type === "dine_in") {
+
+        dineBtn?.classList.add("active");
+        takeBtn?.classList.remove("active");
+
+        // SHOW TABLE
+        if (tableGroup) tableGroup.style.display = "block";
+
+    } else {
+
+        takeBtn?.classList.add("active");
+        dineBtn?.classList.remove("active");
+
+        // HIDE TABLE
+        if (tableGroup) tableGroup.style.display = "none";
+
+        if (tableSelect) tableSelect.value = "";
+    }
 }
