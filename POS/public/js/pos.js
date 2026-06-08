@@ -1,70 +1,83 @@
 let cart = [];
-/* ================= ADD TO CART ================= */
+let currentOrderType = "take_away";
+let currentPayment = "paid";
 
-document.querySelectorAll('.add-cart-btn').forEach(btn => {
+/* ================= INIT ================= */
+document.addEventListener("DOMContentLoaded", () => {
 
-    btn.addEventListener('click', () => {
+    initCartEvents();
+    initUIEvents();
+    initPopupEvents();
+    initTheme();
 
-        let id = btn.dataset.id;
-        let name = btn.dataset.name;
-        let price = parseFloat(btn.dataset.price);
-
-        let availableQty = parseInt(btn.dataset.qty) || 0;
-        let countable = parseInt(btn.dataset.countable) || 0;
-
-        let item = cart.find(i => i.id === id);
-
-        // EXISTING ITEM
-        if (item) {
-
-            if (item.countable === 1 && item.qty >= item.availableQty) {
-                alert('Available items are over.');
-                return;
-            }
-
-            item.qty++;
-
-        } else {
-
-            if (countable === 1 && availableQty <= 0) {
-                alert('Item out of stock.');
-                return;
-            }
-
-            cart.push({
-                id,
-                name,
-                price,
-                qty: 1,
-                availableQty,
-                countable
-            });
-        }
-
-        renderCart();
-    });
 });
 
+/* ================= CART EVENTS ================= */
+function initCartEvents() {
 
-/* ================= RENDER CART ================= */
+    document.querySelectorAll('.add-cart-btn').forEach(btn => {
 
+        btn.addEventListener('click', () => {
+
+            const id = btn.dataset.id;
+            const name = btn.dataset.name;
+            const price = parseFloat(btn.dataset.price);
+            const availableQty = parseInt(btn.dataset.qty) || 0;
+            const countable = parseInt(btn.dataset.countable) || 0;
+
+            let item = cart.find(i => i.id === id);
+
+            if (item) {
+
+                if (item.countable === 1 && item.qty >= item.availableQty) {
+                    alert("Stock limit reached");
+                    return;
+                }
+
+                item.qty++;
+
+            } else {
+
+                if (countable === 1 && availableQty <= 0) {
+                    alert("Out of stock");
+                    return;
+                }
+
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    qty: 1,
+                    availableQty,
+                    countable
+                });
+            }
+
+            renderCart();
+        });
+    });
+}
+
+/* ================= CART RENDER ================= */
 function renderCart() {
 
-    let box = document.getElementById('cartItems');
-    let totalBox = document.getElementById('cartTotal');
-    let cartCount = document.getElementById('cartCount');
+    const box = document.getElementById("cartItems");
+    const totalBox = document.getElementById("cartTotal");
+    const countBox = document.getElementById("cartCount");
+
+    if (!box) return;
+
+    let total = 0;
+    let qty = 0;
 
     box.innerHTML = "";
 
-    let total = 0;
-    let totalQty = 0;
-
     cart.forEach((item, i) => {
 
-        let sub = item.price * item.qty;
+        const sub = item.price * item.qty;
 
         total += sub;
-        totalQty += item.qty;
+        qty += item.qty;
 
         box.innerHTML += `
         <div class="cart-item">
@@ -73,29 +86,13 @@ function renderCart() {
                 <div class="cart-item-name">${item.name}</div>
             </div>
 
-            <!-- QTY -->
             <div class="qty-box">
-
                 <button onclick="dec(${i})">-</button>
-
-                <span class="qty-text">${item.qty}</span>
-
+                <span>${item.qty}</span>
                 <button onclick="inc(${i})">+</button>
-
             </div>
 
-            <!-- AMOUNT (EDITABLE LABEL) -->
-            <div class="cart-price">
-
-                <span class="currency">¥</span>
-
-                <span class="amount-label"
-                      contenteditable="true"
-                      onblur="updateAmount(${i}, this.innerText)">
-                    ${sub.toFixed(0)}
-                </span>
-
-            </div>
+            <div class="cart-price">¥ ${sub.toFixed(0)}</div>
 
             <button class="remove-btn" onclick="removeItem(${i})">
                 <i class="fa fa-trash"></i>
@@ -104,236 +101,220 @@ function renderCart() {
         </div>`;
     });
 
-    totalBox.innerText = total.toFixed(0);
-    cartCount.innerText = totalQty;
+    if (totalBox) totalBox.innerText = total.toFixed(0);
+    if (countBox) countBox.innerText = qty;
 }
 
-
-/* ================= INCREASE QTY ================= */
-
+/* ================= QTY ================= */
 function inc(i) {
 
     let item = cart[i];
 
-    if (item.countable === 1) {
-
-        if (item.qty >= item.availableQty) {
-            alert(item.name + ' available items are over.');
-            return;
-        }
+    if (item.countable === 1 && item.qty >= item.availableQty) {
+        alert("Stock limit reached");
+        return;
     }
-    item.qty++;
 
+    item.qty++;
     renderCart();
 }
 
-/* ================= DECREASE QTY ================= */
-
 function dec(i) {
+
     cart[i].qty--;
 
     if (cart[i].qty <= 0) {
         cart.splice(i, 1);
     }
+
     renderCart();
 }
 
-/* ================= REMOVE ITEM ================= */
-
 function removeItem(i) {
-
     cart.splice(i, 1);
     renderCart();
 }
 
-
-/* ================= UPDATE AMOUNT ================= */
-
-function updateAmount(i, value) {
-
-    // clean input
-    value = value.replace(/[^0-9.]/g, '');
-    let amount = parseFloat(value);
-
-    if (isNaN(amount) || amount < 0) {
-        amount = 0;
-    }
-
-    if (cart[i].qty <= 0) return;
-    cart[i].price = amount / cart[i].qty;
-    renderCart();
-}
-
 /* ================= SEARCH ================= */
+function initUIEvents() {
 
-document.getElementById('search').addEventListener('input', e => {
+    document.getElementById("search")?.addEventListener("input", e => {
 
-    let val = e.target.value.toLowerCase();
-    document.querySelectorAll('.product-card').forEach(c => {
+        const val = e.target.value.toLowerCase();
 
-        c.style.display =
-            c.dataset.name.includes(val)
-                ? "block"
-                : "none";
-    });
-});
-
-
-/* ================= CATEGORY FILTER ================= */
-
-document.querySelectorAll('.category-btn').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
-        let cat = btn.dataset.category;
-
-        document.querySelectorAll('.category-btn')
-            .forEach(b => b.classList.remove('active-category'));
-
-        btn.classList.add('active-category');
-
-        document.querySelectorAll('.product-card').forEach(c => {
-
-            if (cat === 'all') {
-                c.style.display = "block";
-            } else {
-                c.style.display =
-                    (c.dataset.category === cat)
-                        ? "block"
-                        : "none";
-            }
+        document.querySelectorAll(".product-card").forEach(card => {
+            card.style.display = card.dataset.name.includes(val) ? "block" : "none";
         });
     });
-});
 
+    document.querySelectorAll(".category-btn").forEach(btn => {
+
+        btn.addEventListener("click", () => {
+
+            const cat = btn.dataset.category;
+
+            document.querySelectorAll(".category-btn")
+                .forEach(b => b.classList.remove("active-category"));
+
+            btn.classList.add("active-category");
+
+            document.querySelectorAll(".product-card").forEach(card => {
+
+                card.style.display =
+                    (cat === "all" || card.dataset.category === cat)
+                        ? "block"
+                        : "none";
+            });
+        });
+    });
+}
 
 /* ================= THEME ================= */
+function initTheme() {
 
-const toggle = document.getElementById('themeToggle');
+    const toggle = document.getElementById("themeToggle");
 
-function setTheme(t) {
+    function setTheme(t) {
 
-    document.body.className = t;
+        document.body.className = t;
+        localStorage.setItem("theme", t);
 
-    localStorage.setItem('theme', t);
-
-    if (toggle) {
-        toggle.innerHTML =
-            t === 'dark'
+        if (toggle) {
+            toggle.innerHTML = t === "dark"
                 ? '<i class="fa fa-sun"></i>'
                 : '<i class="fa fa-moon"></i>';
+        }
     }
-}
 
-setTheme(localStorage.getItem('theme') || 'light');
+    setTheme(localStorage.getItem("theme") || "light");
 
-if (toggle) {
+    toggle?.addEventListener("click", () => {
 
-    toggle.onclick = () => {
-
-        let t = document.body.classList.contains('dark')
-            ? 'light'
-            : 'dark';
+        const t = document.body.classList.contains("dark")
+            ? "light"
+            : "dark";
 
         setTheme(t);
-    };
+    });
 }
 
+/* ================= POPUP ================= */
+function initPopupEvents() {
 
-const modal = document.getElementById("checkoutModal");
-const placeOrderBtn = document.querySelector(".checkout-btn");
-const closeBtn = document.querySelector(".close-modal");
+    const modal = document.getElementById("checkoutModal");
+    const btn = document.querySelector(".checkout-btn");
+    const closeBtn = document.querySelector(".close-modal");
 
+    const takeAway = document.getElementById("popupTakeAway");
+    const dineIn = document.getElementById("popupDineIn");
 
-placeOrderBtn.addEventListener("click", () => {
+    /* OPEN */
+    btn?.addEventListener("click", () => {
 
-    if(cart.length === 0){
-        alert("Cart is empty");
-        return;
-    }
+        if (cart.length === 0) {
+            alert("Cart is empty");
+            return;
+        }
 
-    modal.style.display = "flex";
-    const itemContainer = document.getElementById("popupItemList");
-    const popupTotal = document.getElementById("popupTotal");
+        modal.style.display = "flex";
 
-    itemContainer.innerHTML = "";
+        renderPopup();
+        syncPopupOrderType();
+        syncPaymentDefault();
+    });
+
+    /* CLOSE */
+    closeBtn?.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    });
+
+    /* ORDER TYPE */
+    takeAway?.addEventListener("click", () => {
+        currentOrderType = "take_away";
+        syncPopupOrderType();
+    });
+
+    dineIn?.addEventListener("click", () => {
+        currentOrderType = "dine_in";
+        syncPopupOrderType();
+    });
+
+    /* PAYMENT */
+    document.querySelectorAll(".payment-btn").forEach(btn => {
+
+        btn.addEventListener("click", () => {
+
+            document.querySelectorAll(".payment-btn")
+                .forEach(b => b.classList.remove("active"));
+
+            btn.classList.add("active");
+
+            currentPayment = btn.dataset.payment;
+        });
+    });
+}
+
+/* ================= POPUP RENDER ================= */
+function renderPopup() {
+
+    const box = document.getElementById("popupItemList");
+    const totalBox = document.getElementById("popupTotal");
+
+    if (!box || !totalBox) return;
 
     let total = 0;
+    box.innerHTML = "";
 
     cart.forEach(item => {
-        const subTotal = item.price * item.qty;
-        total += subTotal;
-        itemContainer.innerHTML += `
-            <div class="popup-item">
-                <div>
-                    <strong>${item.name}</strong>
-                    <small> × ${item.qty}</small>
-                </div>
 
-                <div>
-                    ¥ ${subTotal.toFixed(0)}
-                </div>
+        const sub = item.price * item.qty;
+        total += sub;
+
+        box.innerHTML += `
+        <div class="popup-item">
+            <div>
+                <strong>${item.name}</strong>
+                <small> × ${item.qty}</small>
             </div>
-        `;
+            <div>¥ ${sub.toFixed(0)}</div>
+        </div>`;
     });
 
-    popupTotal.innerText = total.toFixed(0);
+    totalBox.innerText = total.toFixed(0);
+}
 
-    // Copy selected order type
-    if(orderTypeInput.value === "dine_in"){
-        document.getElementById("popupDineIn").classList.add("active");
-        document.getElementById("popupTakeAway").classList.remove("active");
-    }else{
-        document.getElementById("popupTakeAway").classList.add("active");
-        document.getElementById("popupDineIn").classList.remove("active");
+/* ================= SYNC ORDER TYPE ================= */
+function syncPopupOrderType() {
+
+    const takeAway = document.getElementById("popupTakeAway");
+    const dineIn = document.getElementById("popupDineIn");
+    const input = document.getElementById("orderType");
+
+    if (!input) return;
+
+    input.value = currentOrderType;
+
+    if (currentOrderType === "dine_in") {
+        dineIn?.classList.add("active");
+        takeAway?.classList.remove("active");
+    } else {
+        takeAway?.classList.add("active");
+        dineIn?.classList.remove("active");
     }
-});
+}
 
-closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-});
-window.addEventListener("click", function(e){
-    if(e.target === modal){
-        modal.style.display = "none";
-    }
-});
+/* ================= PAYMENT DEFAULT ================= */
+function syncPaymentDefault() {
 
-/* Order Type Toggle */
+    currentPayment = "paid";
 
-document.querySelectorAll(".toggle-btn").forEach(btn => {
-    btn.addEventListener("click", function(){
+    document.querySelectorAll(".payment-btn")
+        .forEach(b => b.classList.remove("active"));
 
-        document.querySelectorAll(".toggle-btn")
-            .forEach(b => b.classList.remove("active"));
-
-        this.classList.add("active");
-    });
-});
-
-/* Payment Toggle */
-
-document.querySelectorAll(".payment-btn").forEach(btn => {
-    btn.addEventListener("click", function(){
-
-        document.querySelectorAll(".payment-btn")
-            .forEach(b => b.classList.remove("active"));
-
-        this.classList.add("active");
-    });
-});
-
-document.getElementById("popupTakeAway").addEventListener("click", function(){
-
-    this.classList.add("active");
-    document.getElementById("popupDineIn").classList.remove("active");
-
-    setOrderType("take_away");
-});
-
-document.getElementById("popupDineIn").addEventListener("click", function(){
-
-    this.classList.add("active");
-    document.getElementById("popupTakeAway").classList.remove("active");
-
-    setOrderType("dine_in");
-});
+    document.querySelector('.payment-btn[data-payment="paid"]')
+        ?.classList.add("active");
+}
