@@ -143,6 +143,22 @@
                 </button>
             </div>
         </div>
+        <div class="form-group" id="tableSelectGroup" style="display:none;">
+            <label for="tableSelect">Select Table</label>
+            <div class="select-wrapper">
+                <select id="tableSelect" class="table-select">
+                    <option value="">-- Select Table --</option>
+                    @foreach($tables as $table)
+                        @if($table->availability == 1)
+                            <option value="{{ $table->id }}">
+                                Table {{ $table->table_name }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
 
         {{-- CUSTOMER --}}
         <div class="form-group">
