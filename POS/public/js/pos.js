@@ -354,3 +354,19 @@ document.querySelectorAll(".payment-btn").forEach(btn => {
         this.classList.add("active");
     });
 });
+
+document.getElementById("popupTakeAway").addEventListener("click", function(){
+
+    this.classList.add("active");
+    document.getElementById("popupDineIn").classList.remove("active");
+
+    setOrderType("take_away");
+});
+
+document.getElementById("popupDineIn").addEventListener("click", function(){
+
+    this.classList.add("active");
+    document.getElementById("popupTakeAway").classList.remove("active");
+
+    setOrderType("dine_in");
+});
