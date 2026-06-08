@@ -239,39 +239,7 @@ if (toggle) {
     };
 }
 
-/* ================= ORDER TYPE ================= */
 
-const dineInBtn = document.getElementById('dineInBtn');
-const takeAwayBtn = document.getElementById('takeAwayBtn');
-const tableSection = document.getElementById('tableSection');
-const orderTypeInput = document.getElementById('orderType');
-
-function setOrderType(type) {
-
-    if (type === 'dine_in') {
-
-        dineInBtn.classList.add('active');
-        takeAwayBtn.classList.remove('active');
-
-        tableSection.style.display = 'block';
-
-        orderTypeInput.value = 'dine_in';
-
-    } else {
-
-        takeAwayBtn.classList.add('active');
-        dineInBtn.classList.remove('active');
-
-        tableSection.style.display = 'none';
-
-        orderTypeInput.value = 'take_away';
-
-        document.getElementById('tableSelect').value = "";
-    }
-}
-
-dineInBtn.addEventListener('click', () => setOrderType('dine_in'));
-takeAwayBtn.addEventListener('click', () => setOrderType('take_away'));
 const modal = document.getElementById("checkoutModal");
 const placeOrderBtn = document.querySelector(".checkout-btn");
 const closeBtn = document.querySelector(".close-modal");
