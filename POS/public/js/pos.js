@@ -2,28 +2,27 @@ let cart = [];
 let currentOrderType = "take_away";
 let currentPayment = "paid";
 
-/* ================= INIT ================= */
 document.addEventListener("DOMContentLoaded", () => {
 
-    initCartEvents();
-    initUIEvents();
-    initPopupEvents();
+    bindCartButtons();
+    bindUI();
+    bindPopup();
     initTheme();
 
 });
 
-/* ================= CART EVENTS ================= */
-function initCartEvents() {
+/* ================= CART ================= */
+function bindCartButtons() {
 
-    document.querySelectorAll('.add-cart-btn').forEach(btn => {
+    document.querySelectorAll(".add-cart-btn").forEach(btn => {
 
-        btn.addEventListener('click', () => {
+        btn.addEventListener("click", () => {
 
             const id = btn.dataset.id;
             const name = btn.dataset.name;
             const price = parseFloat(btn.dataset.price);
-            const availableQty = parseInt(btn.dataset.qty) || 0;
-            const countable = parseInt(btn.dataset.countable) || 0;
+            const qty = parseInt(btn.dataset.qty || 0);
+            const countable = parseInt(btn.dataset.countable || 0);
 
             let item = cart.find(i => i.id === id);
 
@@ -38,7 +37,7 @@ function initCartEvents() {
 
             } else {
 
-                if (countable === 1 && availableQty <= 0) {
+                if (countable === 1 && qty <= 0) {
                     alert("Out of stock");
                     return;
                 }
@@ -48,7 +47,7 @@ function initCartEvents() {
                     name,
                     price,
                     qty: 1,
-                    availableQty,
+                    availableQty: qty,
                     countable
                 });
             }
@@ -58,7 +57,7 @@ function initCartEvents() {
     });
 }
 
-/* ================= CART RENDER ================= */
+/* ================= RENDER CART ================= */
 function renderCart() {
 
     const box = document.getElementById("cartItems");
@@ -67,17 +66,16 @@ function renderCart() {
 
     if (!box) return;
 
-    let total = 0;
-    let qty = 0;
-
     box.innerHTML = "";
+
+    let total = 0;
+    let count = 0;
 
     cart.forEach((item, i) => {
 
         const sub = item.price * item.qty;
-
         total += sub;
-        qty += item.qty;
+        count += item.qty;
 
         box.innerHTML += `
         <div class="cart-item">
@@ -101,13 +99,12 @@ function renderCart() {
         </div>`;
     });
 
-    if (totalBox) totalBox.innerText = total.toFixed(0);
-    if (countBox) countBox.innerText = qty;
+    totalBox.innerText = total.toFixed(0);
+    countBox.innerText = count;
 }
 
 /* ================= QTY ================= */
 function inc(i) {
-
     let item = cart[i];
 
     if (item.countable === 1 && item.qty >= item.availableQty) {
@@ -120,13 +117,8 @@ function inc(i) {
 }
 
 function dec(i) {
-
     cart[i].qty--;
-
-    if (cart[i].qty <= 0) {
-        cart.splice(i, 1);
-    }
-
+    if (cart[i].qty <= 0) cart.splice(i, 1);
     renderCart();
 }
 
@@ -135,12 +127,11 @@ function removeItem(i) {
     renderCart();
 }
 
-/* ================= SEARCH ================= */
-function initUIEvents() {
+/* ================= UI ================= */
+function bindUI() {
 
     document.getElementById("search")?.addEventListener("input", e => {
-
-        const val = e.target.value.toLowerCase();
+        let val = e.target.value.toLowerCase();
 
         document.querySelectorAll(".product-card").forEach(card => {
             card.style.display = card.dataset.name.includes(val) ? "block" : "none";
@@ -151,7 +142,7 @@ function initUIEvents() {
 
         btn.addEventListener("click", () => {
 
-            const cat = btn.dataset.category;
+            let cat = btn.dataset.category;
 
             document.querySelectorAll(".category-btn")
                 .forEach(b => b.classList.remove("active-category"));
@@ -161,12 +152,141 @@ function initUIEvents() {
             document.querySelectorAll(".product-card").forEach(card => {
 
                 card.style.display =
-                    (cat === "all" || card.dataset.category === cat)
+                    cat === "all" || card.dataset.category === cat
                         ? "block"
                         : "none";
             });
         });
     });
+}
+
+/* ================= POPUP (FIXED CORE ISSUE) ================= */
+function bindPopup() {
+
+    const modal = document.getElementById("checkoutModal");
+    const openBtn = document.querySelector(".checkout-btn");
+    const closeBtn = document.querySelector(".close-modal");
+
+    const takeBtn = document.getElementById("popupTakeAway");
+    const dineBtn = document.getElementById("popupDineIn");
+
+    const orderTypeInput = document.getElementById("orderType");
+
+    if (!modal || !openBtn) {
+        console.error("Popup elements missing");
+        return;
+    }
+
+    /* OPEN POPUP */
+    openBtn.addEventListener("click", () => {
+
+        if (cart.length === 0) {
+            alert("Cart is empty");
+            return;
+        }
+
+        modal.style.display = "flex";   // 🔥 IMPORTANT FIX
+        renderPopup();
+        syncPopup();
+        syncPayment();
+    });
+
+    /* CLOSE */
+    closeBtn?.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    });
+
+    /* ORDER TYPE */
+    takeBtn?.addEventListener("click", () => {
+        currentOrderType = "take_away";
+        syncPopup();
+    });
+
+    dineBtn?.addEventListener("click", () => {
+        currentOrderType = "dine_in";
+        syncPopup();
+    });
+
+    /* PAYMENT */
+    document.querySelectorAll(".payment-btn").forEach(btn => {
+
+        btn.addEventListener("click", () => {
+
+            document.querySelectorAll(".payment-btn")
+                .forEach(b => b.classList.remove("active"));
+
+            btn.classList.add("active");
+
+            currentPayment = btn.dataset.payment;
+        });
+    });
+
+}
+
+/* ================= POPUP RENDER ================= */
+function renderPopup() {
+
+    const box = document.getElementById("popupItemList");
+    const totalBox = document.getElementById("popupTotal");
+
+    if (!box || !totalBox) return;
+
+    box.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        let sub = item.price * item.qty;
+        total += sub;
+
+        box.innerHTML += `
+        <div class="popup-item">
+            <div>
+                <strong>${item.name}</strong>
+                <small> × ${item.qty}</small>
+            </div>
+            <div>¥ ${sub.toFixed(0)}</div>
+        </div>`;
+    });
+
+    totalBox.innerText = total.toFixed(0);
+}
+
+/* ================= SYNC POPUP ================= */
+function syncPopup() {
+
+    const takeBtn = document.getElementById("popupTakeAway");
+    const dineBtn = document.getElementById("popupDineIn");
+    const input = document.getElementById("orderType");
+
+    if (!input) return;
+
+    input.value = currentOrderType;
+
+    if (currentOrderType === "dine_in") {
+        dineBtn?.classList.add("active");
+        takeBtn?.classList.remove("active");
+    } else {
+        takeBtn?.classList.add("active");
+        dineBtn?.classList.remove("active");
+    }
+}
+
+/* ================= PAYMENT DEFAULT ================= */
+function syncPayment() {
+
+    currentPayment = "paid";
+
+    document.querySelectorAll(".payment-btn")
+        .forEach(b => b.classList.remove("active"));
+
+    document.querySelector('.payment-btn[data-payment="paid"]')
+        ?.classList.add("active");
 }
 
 /* ================= THEME ================= */
@@ -190,131 +310,10 @@ function initTheme() {
 
     toggle?.addEventListener("click", () => {
 
-        const t = document.body.classList.contains("dark")
+        let t = document.body.classList.contains("dark")
             ? "light"
             : "dark";
 
         setTheme(t);
     });
-}
-
-/* ================= POPUP ================= */
-function initPopupEvents() {
-
-    const modal = document.getElementById("checkoutModal");
-    const btn = document.querySelector(".checkout-btn");
-    const closeBtn = document.querySelector(".close-modal");
-
-    const takeAway = document.getElementById("popupTakeAway");
-    const dineIn = document.getElementById("popupDineIn");
-
-    /* OPEN */
-    btn?.addEventListener("click", () => {
-
-        if (cart.length === 0) {
-            alert("Cart is empty");
-            return;
-        }
-
-        modal.style.display = "flex";
-
-        renderPopup();
-        syncPopupOrderType();
-        syncPaymentDefault();
-    });
-
-    /* CLOSE */
-    closeBtn?.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) modal.style.display = "none";
-    });
-
-    /* ORDER TYPE */
-    takeAway?.addEventListener("click", () => {
-        currentOrderType = "take_away";
-        syncPopupOrderType();
-    });
-
-    dineIn?.addEventListener("click", () => {
-        currentOrderType = "dine_in";
-        syncPopupOrderType();
-    });
-
-    /* PAYMENT */
-    document.querySelectorAll(".payment-btn").forEach(btn => {
-
-        btn.addEventListener("click", () => {
-
-            document.querySelectorAll(".payment-btn")
-                .forEach(b => b.classList.remove("active"));
-
-            btn.classList.add("active");
-
-            currentPayment = btn.dataset.payment;
-        });
-    });
-}
-
-/* ================= POPUP RENDER ================= */
-function renderPopup() {
-
-    const box = document.getElementById("popupItemList");
-    const totalBox = document.getElementById("popupTotal");
-
-    if (!box || !totalBox) return;
-
-    let total = 0;
-    box.innerHTML = "";
-
-    cart.forEach(item => {
-
-        const sub = item.price * item.qty;
-        total += sub;
-
-        box.innerHTML += `
-        <div class="popup-item">
-            <div>
-                <strong>${item.name}</strong>
-                <small> × ${item.qty}</small>
-            </div>
-            <div>¥ ${sub.toFixed(0)}</div>
-        </div>`;
-    });
-
-    totalBox.innerText = total.toFixed(0);
-}
-
-/* ================= SYNC ORDER TYPE ================= */
-function syncPopupOrderType() {
-
-    const takeAway = document.getElementById("popupTakeAway");
-    const dineIn = document.getElementById("popupDineIn");
-    const input = document.getElementById("orderType");
-
-    if (!input) return;
-
-    input.value = currentOrderType;
-
-    if (currentOrderType === "dine_in") {
-        dineIn?.classList.add("active");
-        takeAway?.classList.remove("active");
-    } else {
-        takeAway?.classList.add("active");
-        dineIn?.classList.remove("active");
-    }
-}
-
-/* ================= PAYMENT DEFAULT ================= */
-function syncPaymentDefault() {
-
-    currentPayment = "paid";
-
-    document.querySelectorAll(".payment-btn")
-        .forEach(b => b.classList.remove("active"));
-
-    document.querySelector('.payment-btn[data-payment="paid"]')
-        ?.classList.add("active");
 }
