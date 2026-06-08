@@ -272,10 +272,10 @@ function setOrderType(type) {
 
 dineInBtn.addEventListener('click', () => setOrderType('dine_in'));
 takeAwayBtn.addEventListener('click', () => setOrderType('take_away'));
-
 const modal = document.getElementById("checkoutModal");
 const placeOrderBtn = document.querySelector(".checkout-btn");
 const closeBtn = document.querySelector(".close-modal");
+
 
 placeOrderBtn.addEventListener("click", () => {
 
@@ -285,7 +285,6 @@ placeOrderBtn.addEventListener("click", () => {
     }
 
     modal.style.display = "flex";
-
     const itemContainer = document.getElementById("popupItemList");
     const popupTotal = document.getElementById("popupTotal");
 
@@ -294,11 +293,8 @@ placeOrderBtn.addEventListener("click", () => {
     let total = 0;
 
     cart.forEach(item => {
-
         const subTotal = item.price * item.qty;
-
         total += subTotal;
-
         itemContainer.innerHTML += `
             <div class="popup-item">
                 <div>
