@@ -346,3 +346,49 @@ function setOrderType(type) {
         if (tableSelect) tableSelect.value = "";
     }
 }
+
+/* ================= CART ================= */
+function bindCartButtons() {
+
+    document.querySelectorAll(".product-card").forEach(card => {
+
+        card.addEventListener("click", () => {
+
+            const btn = card.querySelector(".add-cart-btn");
+
+            const id = btn.dataset.id;
+            const name = btn.dataset.name;
+            const price = parseFloat(btn.dataset.price);
+            const qty = parseInt(btn.dataset.qty || 0);
+            const countable = parseInt(btn.dataset.countable || 0);
+
+            let item = cart.find(i => i.id === id);
+
+            if (item) {
+
+                if (item.countable === 1 && item.qty >= item.availableQty) {
+                    alert("Stock limit reached");
+                    return;
+                }
+                item.qty++;
+
+            } else {
+
+                if (countable === 1 && qty <= 0) {
+                    alert("Out of stock");
+                    return;
+                }
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    qty: 1,
+                    availableQty: qty,
+                    countable
+                });
+            }
+            renderCart();
+        });
+    });
+
+}
