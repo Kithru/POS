@@ -22,9 +22,6 @@ return new class extends Migration
                 ->comment('KOD item - 1, Normal item - 0')
                 ->after('updated_at');
 
-            $table->string('table_no', 20)
-                ->nullable()
-                ->after('KOD_status');
         });
     }
 
@@ -33,8 +30,7 @@ return new class extends Migration
             $table->dropColumn([
                 'final_amount',
                 'updated_at',
-                'KOD_status',
-                'table_no'
+                'KOD_status'
             ]);
         });
     }
