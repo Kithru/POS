@@ -21,6 +21,7 @@ return new class extends Migration
                 ->default(0)
                 ->comment('KOD item - 1, Normal item - 0')
                 ->after('updated_at');
+
         });
     }
 

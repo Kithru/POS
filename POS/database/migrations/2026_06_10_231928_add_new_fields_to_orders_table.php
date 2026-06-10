@@ -24,6 +24,10 @@ return new class extends Migration
             $table->dateTime('payment_date')
                 ->nullable()
                 ->after('payment_status');
+
+            $table->string('table_no', 20)
+                ->nullable()
+                ->after('cancelled_reason');
         });
     }
 
@@ -33,7 +37,8 @@ return new class extends Migration
                 'final_amount',
                 'order_type',
                 'payment_status',
-                'payment_date'
+                'payment_date',
+                'table_no'
             ]);
         });
     }
