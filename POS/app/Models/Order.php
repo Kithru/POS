@@ -28,7 +28,8 @@ class Order extends Model
         'cod_amount',
         'cancelled_date',
         'cancelled_by',
-        'cancelled_reason'
+        'cancelled_reason',
+        'table_no'
     ];
 
     protected $casts = [
