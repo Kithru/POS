@@ -15,7 +15,7 @@ class OrderItem extends Model
         'item_id',
         'price',
         'quantity',
-        'subtotal'
+        'subtotal',
         'final_amount',
         'KOD_status',
         'updated_at'

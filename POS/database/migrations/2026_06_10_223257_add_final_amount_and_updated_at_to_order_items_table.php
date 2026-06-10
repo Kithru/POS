@@ -8,21 +8,28 @@ return new class extends Migration
 {
     public function up(): void{
         Schema::table('order_items', function (Blueprint $table) {
+
             $table->decimal('final_amount', 10, 2)
-                  ->default(0)
-                  ->after('subtotal');
+                ->default(0)
+                ->after('subtotal');
 
             $table->timestamp('updated_at')
-                  ->nullable()
-                  ->after('final_amount');
+                ->nullable()
+                ->after('final_amount');
+
+            $table->tinyInteger('KOD_status')
+                ->default(0)
+                ->comment('KOD item - 1, Normal item - 0')
+                ->after('updated_at');
         });
     }
 
-    public function down(): void {
+    public function down(): void{
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropColumn([
                 'final_amount',
-                'updated_at'
+                'updated_at',
+                'KOD_status'
             ]);
         });
     }
