@@ -15,10 +15,18 @@ class OrderItem extends Model
         'item_id',
         'price',
         'quantity',
-        'subtotal'
+        'subtotal',
         'final_amount',
         'KOD_status',
         'updated_at'
+    ];
+
+     protected $casts = [
+        'price' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'final_amount' => 'decimal:2',
+        'KOD_status' => 'integer',
+        'updated_at' => 'datetime',
     ];
 
     // Relationship with Order
