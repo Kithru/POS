@@ -20,11 +20,23 @@ class Order extends Model
         'status',
         'notes',
         'total_amount',
+        'final_amount',
+        'order_type',
+        'payment_status',
+        'payment_date',
         'modified_by',
         'cod_amount',
         'cancelled_date',
         'cancelled_by',
         'cancelled_reason'
+    ];
+
+    protected $casts = [
+        'payment_date' => 'datetime',
+        'order_type' => 'integer',
+        'payment_status' => 'integer',
+        'total_amount' => 'decimal:2',
+        'final_amount' => 'decimal:2',
     ];
 
     public function items(){
