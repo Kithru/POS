@@ -16,6 +16,9 @@ class OrderItem extends Model
         'price',
         'quantity',
         'subtotal'
+        'final_amount',
+        'KOD_status',
+        'updated_at'
     ];
 
     // Relationship with Order
