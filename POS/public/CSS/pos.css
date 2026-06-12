@@ -553,10 +553,45 @@ body {
     width: 100%;
 }
 
-/* ensures same height as inputs */
+/* Make select look like input field */
 .select-wrapper .table-select {
     width: 100%;
     height: 42px;
+    padding: 8px 12px;
+    font-size: 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+
+    background-color: #fff;
+    color: #111827;
+
+    outline: none;
+
+    /* remove default arrow styling differences */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    cursor: pointer;
+}
+
+/* focus style like input fields */
+.select-wrapper .table-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* optional: custom dropdown arrow */
+.select-wrapper::after {
+    content: "▼";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 10px;
+    color: #6b7280;
 }
 
 /* optional label styling consistency */
