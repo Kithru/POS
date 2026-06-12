@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Item;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\TableModel;
 
 class PosController extends Controller {
@@ -73,4 +75,7 @@ class PosController extends Controller {
 
         return view('pos', compact('categories','items', 'tables'));
     }
+
+   
+
 }

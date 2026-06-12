@@ -130,3 +130,5 @@ Route::post('/save-table', [SettingsController::class, 'saveTable'])->name('tabl
 
 Route::get('/table/status/{id}', [SettingsController::class, 'changeStatus'])->name('table.status');
 Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvailability'])->name('table.availability');
+
+Route::post('/checkout', [PosController::class, 'checkout']);
