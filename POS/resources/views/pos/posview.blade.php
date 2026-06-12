@@ -145,15 +145,16 @@
         </div>
         <div class="form-group" id="tableSelectGroup" style="display:none;">
             <label for="tableSelect">Select Table</label>
+
             <div class="select-wrapper">
-                <select id="tableSelect" class="table-select">
+                <select id="tableSelect" name="table_id" class="table-select">
                     <option value="">-- Select Table --</option>
+
                     @foreach($tables as $table)
-                        @if($table->availability == 1)
-                            <option value="{{ $table->id }}">
-                                Table {{ $table->table_name }}
-                            </option>
-                        @endif
+                        <option value="{{ $table->id }}">
+                            Table {{ $table->table_number }}
+                            ({{ $table->min_pax }} - {{ $table->max_pax }} Pax)
+                        </option>
                     @endforeach
                 </select>
             </div>
