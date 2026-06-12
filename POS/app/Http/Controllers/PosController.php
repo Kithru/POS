@@ -78,11 +78,10 @@ class PosController extends Controller {
 
   
 
-public function create()
-{
-    $tables = TableModel::where('availability', 1)->get();
+    public function create() {
+        $tables = TableModel::where('availability', 1)->get();
 
-    return view('your-view', compact('tables'));
-}
+        return view('your-view', compact('tables'));
+    }
 
 }
