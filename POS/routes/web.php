@@ -132,3 +132,5 @@ Route::get('/table/status/{id}', [SettingsController::class, 'changeStatus'])->n
 Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvailability'])->name('table.availability');
 
 Route::post('/checkout', [PosController::class, 'checkout']);
+
+Route::post('/pos/store', [PosController::class, 'store'])->name('pos.store');
