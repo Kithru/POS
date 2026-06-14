@@ -152,7 +152,7 @@
 
                     @foreach($tables as $table)
                         <option value="{{ $table->id }}">
-                            Table {{ $table->table_number }}
+                            {{ $table->table_number }}
                             ({{ $table->min_pax }} - {{ $table->max_pax }} Pax)
                         </option>
                     @endforeach
