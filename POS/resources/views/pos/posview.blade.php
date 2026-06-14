@@ -202,7 +202,7 @@
         </div>
 
         {{-- SUBMIT --}}
-        <button class="confirm-order-btn">
+        <button class="confirm-order-btn" id="addOrderBtn">
             <i class="fa fa-plus"></i> Add Order
         </button>
 

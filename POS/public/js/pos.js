@@ -172,9 +172,11 @@ function bindPopup() {
 
     const takeBtn = document.getElementById("popupTakeAway");
     const dineBtn = document.getElementById("popupDineIn");
+    const addOrderBtn = document.getElementById("addOrderBtn");
 
     if (!modal || !openBtn) return;
 
+    addOrderBtn?.addEventListener("click", saveOrder);
     /* OPEN */
     openBtn.addEventListener("click", () => {
 
@@ -400,3 +402,67 @@ function bindCartButtons() {
     });
 }
 
+function saveOrder() {
+
+    if (cart.length === 0) {
+        alert("Cart is empty");
+        return;
+    }
+
+    let customerName = document.getElementById("customerName").value;
+    let customerPhone = document.getElementById("customerMobile").value;
+    let tableNo = document.getElementById("tableSelect")?.value || "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.qty;
+    });
+
+    const payload = {
+        customer_name: customerName,
+        customer_phone: customerPhone,
+
+        order_type: currentOrderType === "dine_in" ? 2 : 3,
+        payment_status: currentPayment === "paid" ? 1 : 0,
+
+        table_no: tableNo,
+
+        total_amount: total,
+        final_amount: total,
+
+        items: cart
+    };
+
+    fetch("/pos/store", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN":
+                document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.success) {
+
+            alert("Order Saved Successfully");
+
+            cart = [];
+            renderCart();
+
+            document.getElementById("checkoutModal").style.display = "none";
+
+            document.getElementById("customerName").value = "";
+            document.getElementById("customerMobile").value = "";
+        } else {
+            alert(data.message || "Failed to save order");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Something went wrong");
+    });
+}
