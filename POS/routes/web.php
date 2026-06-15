@@ -133,4 +133,4 @@ Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvaila
 
 Route::post('/checkout', [PosController::class, 'checkout']);
 
-Route::post('/pos/store', [PosController::class, 'store'])->name('pos.store');
+Route::post('/pos/store', [PosController::class, 'store'])->name('pos.store')
