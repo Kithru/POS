@@ -443,7 +443,15 @@ function saveOrder() {
         },
         body: JSON.stringify(payload)
     })
-    .then(res => res.json())
+    .then(async res => {
+    const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.message || `HTTP ${res.status}`);
+        }
+
+        return data;
+    })
     .then(data => {
 
         if (data.success) {
@@ -462,7 +470,7 @@ function saveOrder() {
         }
     })
     .catch(error => {
-        console.error(error);
-        alert("Something went wrong");
+        console.error("Error:", error);
+        alert(error.message);
     });
 }
