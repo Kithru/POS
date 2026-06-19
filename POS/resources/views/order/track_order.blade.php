@@ -169,19 +169,21 @@ use Illuminate\Support\Facades\Crypt;
             <h2 style="text-align:center;">Payment Details</h2>
 
             @php
-                $subtotal = 0;
-                foreach ($order->items as $item) {
-                    $subtotal += $item->price * $item->quantity;
-                }
-
-                $tax = $order->tax ?? ($subtotal * 0.08);
-                $cod = $order->cod_amount ?? 0;
-                $totalPayable = $subtotal + $tax + $cod;
+                    $subtotal = 0;
+                    foreach ($order->items as $item) {
+                        $subtotal += $item->price * $item->quantity;
+                    }
+                
+                    $tax = $order->tax ?? ($subtotal * 0.08);
+                    $cod = $order->cod_amount ?? 0;
+                    $boxAmount = $order->box_amount ?? 350;
+                
+                    $totalPayable = $subtotal + $tax + $cod + $boxAmount;
             @endphp
 
             <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 0) }}</p>
             <p><strong>Tax (8%):</strong> ¥ {{ number_format($tax, 0) }}</p>
-            <p><strong>COD Amount:</strong> ¥ {{ number_format($cod, 0) }}</p>
+            <p><strong>Delivery Charges:</strong> ¥ {{ number_format($cod, 0) }}</p>
         </div>
 
         
@@ -221,7 +223,7 @@ use Illuminate\Support\Facades\Crypt;
                     </tr>
 
                     <tr>
-                        <td colspan="4" style="text-align:right;"><strong>COD Amount</strong></td>
+                        <td colspan="4" style="text-align:right;"><strong>Delivery Charges</strong></td>
                         <td>¥ {{ number_format($cod, 0) }}</td>
                     </tr>
 
