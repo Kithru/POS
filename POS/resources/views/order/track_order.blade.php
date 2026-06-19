@@ -184,6 +184,7 @@ use Illuminate\Support\Facades\Crypt;
             <p><strong>Subtotal:</strong> ¥ {{ number_format($subtotal, 0) }}</p>
             <p><strong>Tax (8%):</strong> ¥ {{ number_format($tax, 0) }}</p>
             <p><strong>Delivery Charges:</strong> ¥ {{ number_format($cod, 0) }}</p>
+            <p><strong>Box Charges:</strong> ¥ {{ number_format($boxAmount, 0) }}</p>
         </div>
 
         
@@ -225,6 +226,11 @@ use Illuminate\Support\Facades\Crypt;
                     <tr>
                         <td colspan="4" style="text-align:right;"><strong>Delivery Charges</strong></td>
                         <td>¥ {{ number_format($cod, 0) }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="4" style="text-align:right;"><strong>Box Charges</strong></td>
+                        <td>¥ {{ number_format($boxAmount, 0) }}</td>
                     </tr>
 
                     <tr class="total-row">
