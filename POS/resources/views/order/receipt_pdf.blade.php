@@ -154,16 +154,22 @@ th{
 </tr>
 
 <tr>
-<td colspan="3" align="right">COD</td>
+<td colspan="3" align="right">Delivery Charges</td>
 <td>¥ {{ number_format($order->cod_amount,0) }}</td>
+</tr>
+
+<tr>
+<td colspan="3" align="right">Box Charges</td>
+<td>¥ {{ number_format($boxAmount,0) }}</td>
 </tr>
 
 <tr class="total-row">
 <td colspan="3" align="right">Total</td>
 <td>
-¥ {{ number_format($order->total_amount,0) }}
+¥ {{ number_format($order->total_amount + $boxAmount,0) }}
 </td>
 </tr>
+
 
 </tbody>
 </table>
