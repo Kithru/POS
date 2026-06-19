@@ -166,9 +166,10 @@ th{
 <tr class="total-row">
 <td colspan="3" align="right">Total</td>
 <td>
-¥ {{ number_format($order->total_amount,0) }}
+¥ {{ number_format($order->total_amount + $boxAmount,0) }}
 </td>
 </tr>
+
 
 </tbody>
 </table>
