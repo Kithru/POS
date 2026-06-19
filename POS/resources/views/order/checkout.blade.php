@@ -167,8 +167,14 @@
 
                 <!-- COD Amount -->
                 <p style="margin-top:10px;">
-                    <span>COD Amount</span>
+                    <span>Delivery Charges</span>
                     <span id="codAmount">¥ 0</span>
+                </p>
+                
+                <!-- BOX Amount -->
+                <p style="margin-top:10px;">
+                    <span>Box Chargers</span>
+                    <span id="boxAmount">¥ 350</span>
                 </p>
 
                 <!-- Final Total -->
@@ -177,6 +183,7 @@
                 </h4>
 
                 <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
+                <input type="hidden" name="box_amount" id="box_amount_input" value="350">
 
             @else
                 <p>Your cart is empty.</p>
@@ -213,6 +220,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let baseTotal = {{ $total ?? 0 }};
     let taxAmount = baseTotal * 0.08;
+    
+    const boxAmount = 350;
+    document.getElementById('box_amount_input').value = boxAmount;
 
     function updateCOD(selectElement) {
         if (!selectElement || selectElement.selectedIndex < 0) return;
@@ -225,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById('taxAmount').innerText = '¥ ' + taxAmount.toFixed(2);
 
-        const finalTotal = baseTotal + taxAmount + codAmount;
+        const finalTotal = baseTotal + taxAmount + codAmount + boxAmount;
         finalTotalEl.innerText = finalTotal.toFixed(2);
     }
 
