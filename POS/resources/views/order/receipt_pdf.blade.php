@@ -14,7 +14,7 @@ body{
     padding:20px;
 }
 h1{
-    text-align:center;
+    text-align:center;it
 }
 h2{
     font-size:18px;
@@ -88,6 +88,7 @@ th{
 
 @php
     $itemsTotal = 0;
+    $boxAmount = $order->box_amount ?? 350;
 @endphp
 
 <div class="section">
@@ -107,8 +108,12 @@ th{
 ¥ {{ number_format($order->tax,0) }}
 </p>
 
-<p><strong>COD:</strong>
+<p><strong>Delivery Charges:</strong>
 ¥ {{ number_format($order->cod_amount,0) }}
+</p>
+
+<p><strong>Box Charges:</strong>
+¥ {{ number_format($boxAmount,0) }}
 </p>
 
 </div>
