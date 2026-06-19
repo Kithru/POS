@@ -179,7 +179,7 @@
 
                 <!-- Final Total -->
                 <h4 style="margin-top:15px;padding-top:15px; border-top:1px solid #ddd;">
-                    Total: ¥ <span id="finalTotal">{{ number_format(($total * 1.08), ($total * 1.08) == floor($total * 1.08) ? 0 : 2) }}</span>
+                    Total: ¥ <span id="finalTotal">{{ number_format(($total * 1.08) + 350, (($total * 1.08) + 350) == floor(($total * 1.08) + 350) ? 0 : 2) }}</span>
                 </h4>
 
                 <input type="hidden" name="cod_amount" id="cod_amount_input" value="0">
