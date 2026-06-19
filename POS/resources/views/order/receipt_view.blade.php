@@ -11,7 +11,7 @@ $boxAmount = $order->box_amount ?? 350;
 
 /* Correct totals */
 
-$subtotal = $order->total_amount - $order->tax - $order->cod_amount - $boxAmount;
+$subtotal = $order->total_amount - $order->tax - $order->cod_amount;
 $grandTotal = $subtotal + $order->tax + $order->cod_amount + $boxAmount;
 
 function formatPrice($price) {
@@ -100,7 +100,7 @@ function formatPrice($price) {
         <p><strong>Payment Method:</strong> Cash On Delivery</p>
         <p><strong>Subtotal:</strong> ¥ {{ formatPrice($subtotal) }}</p>
         <p><strong>Tax (8%):</strong> ¥ {{ formatPrice($order->tax) }}</p>
-        <p><strong>COD Amount:</strong> ¥ {{ formatPrice($order->cod_amount) }}</p>
+        <p><strong>Delivery Charges:</strong> ¥ {{ formatPrice($order->cod_amount) }}</p>
         <p><strong>Box Charges:</strong> ¥ {{ formatPrice($boxAmount) }}</p>
     </div>
 
@@ -139,7 +139,7 @@ function formatPrice($price) {
                 </tr>
 
                 <tr>
-                    <td colspan="3" style="text-align:right;">COD Amount</td>
+                    <td colspan="3" style="text-align:right;">Delivery Charges</td>
                     <td>¥ {{ formatPrice($order->cod_amount) }}</td>
                 </tr>
                 
