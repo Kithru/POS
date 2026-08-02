@@ -259,9 +259,7 @@
                 timelineBox.style.background = '#ffe5e5';
 
                 // Ordered Date
-                const orderedDate = order.status_times[0] 
-                    ? new Date(order.status_times[0]).toLocaleString() 
-                    : 'N/A';
+                const orderedDate = order.status_times[0] ? new Date(order.status_times[0]).toLocaleString() : 'N/A';
 
                 const li1 = document.createElement('li');
                 li1.innerHTML = `(Ordered Date) Pending: ${orderedDate}`;
@@ -320,8 +318,28 @@
             });
 
             html += `<tr class="total-row">
-                <td colspan="3">Total:</td>
+                <td colspan="3">Subtotal:</td>
                 <td>¥ ${total.toFixed(2)}</td>
+            </tr>`;
+
+            html += `<tr class="total-row">
+                <td colspan="3">Tax (8%):</td>
+                <td>¥ ${ (tax * 0.08).toFixed(2) }</td>
+            </tr>`;
+                   
+            html += `<tr class="total-row">
+                <td colspan="3">Delivery Charges:</td>
+                <td>¥ ${cod.toFixed(2)}</td>
+            </tr>`;
+
+            html += `<tr class="total-row">
+                <td colspan="3">Box Charges:</td>
+                <td>¥ ${boxAmount.toFixed(2)}</td>
+            </tr>`;
+
+            html += `<tr class="total-row">
+                <td colspan="3">Total Payable:</td>
+                <td>¥ ${totalPayable.toFixed(2)}</td>
             </tr>`;
 
             document.getElementById('itemsContent').innerHTML = html;
