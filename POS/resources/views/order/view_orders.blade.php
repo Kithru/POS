@@ -204,7 +204,6 @@
     </div>
 </div>
 
-
 <script>
     function viewItems(orderId){
         fetch("{{ url('/orders/items') }}/" + orderId)
