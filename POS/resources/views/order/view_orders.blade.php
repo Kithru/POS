@@ -187,18 +187,17 @@
             <strong>Status History:</strong>
             <ul id="statusHistory" style="margin:5px 0 0 0; padding-left:18px; list-style-type:disc;"></ul>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Price (Rs)</th>
-                    <th>Subtotal (Rs)</th>
-                </tr>
-            </thead>
-            <tbody id="itemsContent"></tbody>
-        </table>
-
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Price (Rs)</th>
+                        <th>Subtotal (Rs)</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsContent"></tbody>
+            </table>
         <br>
         <button onclick="closeModal()" class="action-btn edit-btn">Close</button>
     </div>
