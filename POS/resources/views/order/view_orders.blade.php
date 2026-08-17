@@ -483,7 +483,7 @@ function viewItems(orderId) {
 
             // Discount
             html += `
-                <tr class="total-row">
+                <tr class="total-row1">
                     <td colspan="3">
                         Discount:
                     </td>
@@ -496,7 +496,7 @@ function viewItems(orderId) {
 
             // Tax
             html += `
-                <tr class="total-row">
+                <tr class="total-row1">
                     <td colspan="3">
                         Tax (8%):
                     </td>
