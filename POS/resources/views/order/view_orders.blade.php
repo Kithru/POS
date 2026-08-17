@@ -204,41 +204,132 @@
 </div>
 
 <script>
-    function viewItems(orderId){
-        fetch("{{ url('/orders/items') }}/" + orderId)
-        .then(res => res.json())
-        .then(data => {
-            const order = data.order;
-            const items = data.items;
+function viewItems(orderId) {
+    fetch("{{ url('/orders/items') }}/" + orderId)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('HTTP error! Status: ' + res.status);
+            }
 
-            // --- Order Info ---
-            document.getElementById('orderCode').textContent = order.order_code;
-            document.getElementById('orderAdded').textContent = new Date(order.created_at).toLocaleString();
-            document.getElementById('currentStatus').textContent = getStatusText(order.status);
+            return res.json();
+        })
+        .then(data => {
+
+            console.log('Order response:', data);
+
+            const order = data.order;
+            const items = data.items || [];
+
+            if (!order) {
+                throw new Error('Order data not found.');
+            }
+
+            // --------------------------------
+            // Order Amount Values
+            // --------------------------------
+            const tax = parseFloat(order.tax || 0);
+            const cod = parseFloat(order.cod_amount || 0);
+            const totalPayable = parseFloat(order.total_amount || 0);
+            const discount = parseFloat(order.discount || 0);
+
+            // If box_amount exists in the database
+            const boxAmount = parseFloat(order.box_amount || 0);
+
+
+            // --------------------------------
+            // Order Info
+            // --------------------------------
+            document.getElementById('orderCode').textContent =
+                order.order_code || 'N/A';
+
+            document.getElementById('orderAdded').textContent =
+                order.created_at
+                    ? new Date(order.created_at).toLocaleString()
+                    : 'N/A';
+
+            document.getElementById('currentStatus').textContent =
+                getStatusText(order.status);
+
+
+            // --------------------------------
+            // Customer & Delivery Details
+            // --------------------------------
+            const customer = order.customer || {};
+            const receiver = order.receiver || {};
+
             const customerHTML = `
                 <div style="line-height:1.8; font-size:13px;">
+
                     <div style="margin-bottom:10px;">
-                        <strong style="color:#4b0f3a; margin-bottom:-20px;">Customer Details</strong><br>
-                        <span><b>Name:</b> ${order.customer.name}</span><br>
-                        <span><b>Email:</b> ${order.customer.email}</span><br>
-                        <span><b>Phone:</b> ${order.customer.phone}</span>
+                        <strong style="color:#4b0f3a;">
+                            Customer Details
+                        </strong>
+                        <br>
+
+                        <span>
+                            <b>Name:</b>
+                            ${customer.name || 'N/A'}
+                        </span>
+                        <br>
+
+                        <span>
+                            <b>Email:</b>
+                            ${customer.email || 'N/A'}
+                        </span>
+                        <br>
+
+                        <span>
+                            <b>Phone:</b>
+                            ${customer.phone || 'N/A'}
+                        </span>
                     </div>
 
+
                     <div style="margin-top:20px;">
-                        <strong style="color:#4b0f3a; margin-bottom:-20px;">Delivery Details</strong><br>
-                        <span><b>Name:</b> ${order.receiver.name}</span><br>
-                        <span><b>Email:</b> ${order.receiver.email}</span><br>
-                        <span><b>Phone:</b> ${order.receiver.phone}</span><br>
-                        <span><b>Address:</b> ${order.receiver.address}</span>
+                        <strong style="color:#4b0f3a;">
+                            Delivery Details
+                        </strong>
+                        <br>
+
+                        <span>
+                            <b>Name:</b>
+                            ${receiver.name || 'N/A'}
+                        </span>
+                        <br>
+
+                        <span>
+                            <b>Email:</b>
+                            ${receiver.email || 'N/A'}
+                        </span>
+                        <br>
+
+                        <span>
+                            <b>Phone:</b>
+                            ${receiver.phone || 'N/A'}
+                        </span>
+                        <br>
+
+                        <span>
+                            <b>Address:</b>
+                            ${receiver.address || 'N/A'}
+                        </span>
                     </div>
 
                 </div>
             `;
 
-            document.getElementById('customerDetails').innerHTML = customerHTML;
+            document.getElementById('customerDetails').innerHTML =
+                customerHTML;
 
-            const statusHistoryEl = document.getElementById('statusHistory');
-            const timelineBox = document.getElementById('statusTimeline');
+
+            // --------------------------------
+            // Status History
+            // --------------------------------
+            const statusHistoryEl =
+                document.getElementById('statusHistory');
+
+            const timelineBox =
+                document.getElementById('statusTimeline');
 
             statusHistoryEl.innerHTML = '';
 
@@ -250,106 +341,255 @@
                 4: 'Cancelled'
             };
 
-            //  CANCELLED ORDER UI
-            if (order.status == 4) {
+            const statusTimes = order.status_times || {};
 
-                // Light red background
+
+            // --------------------------------
+            // Cancelled Order
+            // --------------------------------
+            if (parseInt(order.status) === 4) {
+
                 timelineBox.style.background = '#ffe5e5';
 
                 // Ordered Date
-                const orderedDate = order.status_times[0] ? new Date(order.status_times[0]).toLocaleString() : 'N/A';
+                const orderedDate = statusTimes[0]
+                    ? new Date(statusTimes[0]).toLocaleString()
+                    : 'N/A';
 
                 const li1 = document.createElement('li');
-                li1.innerHTML = `(Ordered Date) Pending: ${orderedDate}`;
+
+                li1.innerHTML =
+                    `(Ordered Date) Pending: ${orderedDate}`;
+
                 statusHistoryEl.appendChild(li1);
 
-                // Cancelled Date (RED)
-                const cancelledDate = order.status_times[4] 
-                    ? new Date(order.status_times[4]).toLocaleString() 
+
+                // Cancelled Date
+                const cancelledDate = statusTimes[4]
+                    ? new Date(statusTimes[4]).toLocaleString()
                     : 'N/A';
 
                 const li2 = document.createElement('li');
+
                 li2.innerHTML = `
-                    <strong style="color:#d32f2f;">Cancelled:</strong> 
-                    <span style="color:#d32f2f; font-weight:600;">${cancelledDate}</span>
+                    <strong style="color:#d32f2f;">
+                        Cancelled:
+                    </strong>
+
+                    <span style="color:#d32f2f; font-weight:600;">
+                        ${cancelledDate}
+                    </span>
                 `;
+
                 statusHistoryEl.appendChild(li2);
 
+
             } else {
+
                 timelineBox.style.background = '#f9f9f9';
 
-                for (const [key, val] of Object.entries(order.status_times)) {
+                for (const [key, val] of Object.entries(statusTimes)) {
 
-                    // Skip cancelled
-                    if (parseInt(key) === 4) continue;
+                    // Skip cancelled status
+                    if (parseInt(key) === 4) {
+                        continue;
+                    }
 
-                    let displayVal = val 
-                        ? new Date(val).toLocaleString() 
+                    const displayVal = val
+                        ? new Date(val).toLocaleString()
                         : 'N/A';
 
                     const li = document.createElement('li');
+
                     if (parseInt(key) === 0) {
-                        li.innerHTML = `(Ordered Date) Pending: ${displayVal}`;
+
+                        li.innerHTML =
+                            `(Ordered Date) Pending: ${displayVal}`;
+
                     } else {
-                        li.textContent = `${statuses[key]}: ${displayVal}`;
+
+                        li.textContent =
+                            `${statuses[key] || 'Unknown'}: ${displayVal}`;
                     }
 
                     statusHistoryEl.appendChild(li);
                 }
             }
 
-            // --- Items Table ---
+
+            // --------------------------------
+            // Items Table
+            // --------------------------------
             let html = '';
-            let total = 0;
+            let subtotal = 0;
 
-            items.forEach(item => {
-                let price = parseFloat(item.price);
-                let subtotal = item.quantity * price;
-                total += subtotal;
+            if (items.length > 0) {
 
-                html += `<tr>
-                    <td>${item.item_name}</td>
-                    <td>${item.quantity}</td>
-                    <td>¥ ${price.toFixed(2)}</td>
-                    <td>¥ ${subtotal.toFixed(2)}</td>
-                </tr>`;
-            });
+                items.forEach(item => {
 
-            html += `<tr class="total-row">
-                <td colspan="3">Subtotal:</td>
-                <td>¥ ${total.toFixed(2)}</td>
-            </tr>`;
+                    const price =
+                        parseFloat(item.price || 0);
 
-            html += `<tr class="total-row">
-                <td colspan="3">Tax (8%):</td>
-                <td>¥ ${ (tax * 0.08).toFixed(2) }</td>
-            </tr>`;
-                   
-            html += `<tr class="total-row">
-                <td colspan="3">Delivery Charges:</td>
-                <td>¥ ${cod.toFixed(2)}</td>
-            </tr>`;
+                    const quantity =
+                        parseInt(item.quantity || 0);
 
-            html += `<tr class="total-row">
-                <td colspan="3">Box Charges:</td>
-                <td>¥ ${boxAmount.toFixed(2)}</td>
-            </tr>`;
+                    const itemSubtotal =
+                        quantity * price;
 
-            html += `<tr class="total-row">
-                <td colspan="3">Total Payable:</td>
-                <td>¥ ${totalPayable.toFixed(2)}</td>
-            </tr>`;
+                    subtotal += itemSubtotal;
 
-            document.getElementById('itemsContent').innerHTML = html;
 
-            // Show modal
-            document.getElementById('itemsModal').style.display = 'flex';
+                    html += `
+                        <tr>
+                            <td>${item.item_name || 'N/A'}</td>
+
+                            <td>${quantity}</td>
+
+                            <td>
+                                ¥ ${price.toFixed(2)}
+                            </td>
+
+                            <td>
+                                ¥ ${itemSubtotal.toFixed(2)}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+            } else {
+
+                html += `
+                    <tr>
+                        <td colspan="4"
+                            style="text-align:center; padding:15px;">
+                            No items found.
+                        </td>
+                    </tr>
+                `;
+            }
+
+
+            // --------------------------------
+            // Subtotal
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        Subtotal:
+                    </td>
+
+                    <td>
+                        ¥ ${subtotal.toFixed(2)}
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Discount
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        Discount:
+                    </td>
+
+                    <td>
+                        - ¥ ${discount.toFixed(2)}
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Tax
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        Tax (8%):
+                    </td>
+
+                    <td>
+                        ¥ ${tax.toFixed(2)}
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Delivery Charges
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        Delivery Charges:
+                    </td>
+
+                    <td>
+                        ¥ ${cod.toFixed(2)}
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Box Charges
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        Box Charges:
+                    </td>
+
+                    <td>
+                        ¥ ${boxAmount.toFixed(2)}
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Total Payable
+            // --------------------------------
+            html += `
+                <tr class="total-row">
+                    <td colspan="3">
+                        <strong>Total Payable:</strong>
+                    </td>
+
+                    <td>
+                        <strong>
+                            ¥ ${totalPayable.toFixed(2)}
+                        </strong>
+                    </td>
+                </tr>
+            `;
+
+
+            // --------------------------------
+            // Display Items
+            // --------------------------------
+            document.getElementById('itemsContent').innerHTML =
+                html;
+
+
+            // --------------------------------
+            // Show Modal
+            // --------------------------------
+            document.getElementById('itemsModal').style.display =
+                'flex';
         })
-        .catch(err => { 
-            console.error(err); 
-            alert('Failed to fetch order items.'); 
+
+        .catch(err => {
+
+            console.error('View Items Error:', err);
+
+            alert(
+                'Failed to fetch order items. Please check the browser console.'
+            );
         });
-    }
+}
     function getStatusText(status){
         switch(parseInt(status)){
             case 0: return 'Pending';

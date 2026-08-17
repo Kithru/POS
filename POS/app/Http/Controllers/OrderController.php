@@ -274,6 +274,10 @@ class OrderController extends Controller
                 'order_code' => $order->order_code,
                 'status' => $order->status,
                 'created_at' => $order->added_date,
+                'total_amount'  => $order->total_amount ?? 0,
+                'discount'      => $order->discount ?? 0,
+                'tax'           => $order->tax ?? 0,
+                'cod_amount'    => $order->cod_amount ?? 0,
 
                 'customer' => [
                     'name' => $order->customer 
