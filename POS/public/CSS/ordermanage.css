@@ -127,6 +127,11 @@
     text-align: right;
     border-top: 2px solid #4b0f3a;
 }
+tr.total-row1 td{
+    font-weight: normal;
+    text-align: right;
+    border-top: 1px solid #ccc;
+}
 
 /* ------------------ Headings ------------------ */
 .modal-content h3 {

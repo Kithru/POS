@@ -468,10 +468,7 @@ function viewItems(orderId) {
                 `;
             }
 
-
-            // --------------------------------
             // Subtotal
-            // --------------------------------
             html += `
                 <tr class="total-row">
                     <td colspan="3">
@@ -484,10 +481,7 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
             // Discount
-            // --------------------------------
             html += `
                 <tr class="total-row">
                     <td colspan="3">
@@ -500,10 +494,7 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
             // Tax
-            // --------------------------------
             html += `
                 <tr class="total-row">
                     <td colspan="3">
@@ -516,12 +507,9 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
             // Delivery Charges
-            // --------------------------------
             html += `
-                <tr class="total-row">
+                <tr class="total-row1">
                     <td colspan="3">
                         Delivery Charges:
                     </td>
@@ -532,12 +520,9 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
             // Box Charges
-            // --------------------------------
             html += `
-                <tr class="total-row">
+                <tr class="total-row1">
                     <td colspan="3">
                         Box Charges:
                     </td>
@@ -548,10 +533,7 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
             // Total Payable
-            // --------------------------------
             html += `
                 <tr class="total-row">
                     <td colspan="3">
@@ -566,17 +548,9 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-
-            // --------------------------------
-            // Display Items
-            // --------------------------------
             document.getElementById('itemsContent').innerHTML =
                 html;
 
-
-            // --------------------------------
-            // Show Modal
-            // --------------------------------
             document.getElementById('itemsModal').style.display =
                 'flex';
         })
