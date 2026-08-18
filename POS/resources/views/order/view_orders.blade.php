@@ -199,6 +199,7 @@
                 <tbody id="itemsContent"></tbody>
             </table>
         <br>
+        <button onclick="printBill()" class="action-btn edit-btn"> <i class="fas fa-print"></i> Print </button>
         <button onclick="closeModal()" class="action-btn edit-btn">Close</button>
     </div>
 </div>
@@ -582,6 +583,121 @@ function viewItems(orderId) {
     function closeCancelModal() {
         document.getElementById('cancelModal').style.display = 'none';
     }
+
+    function printBill() {
+
+    const order = window.currentOrder;
+
+    if (!order) {
+        alert('Order details are not available.');
+        return;
+    }
+
+    const printWindow = window.open(
+        '',
+        '_blank',
+        'width=800,height=900'
+    );
+
+    const customer = order.customer || {};
+    const receiver = order.receiver || {};
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                Bill - ${order.order_code || 'N/A'}
+            </title>
+
+            <link rel="stylesheet"
+                  href="{{ asset('css/ordermanage.css') }}">
+
+        </head>
+
+        <body>
+
+            <div class="bill">
+
+                <div class="header">
+                    <h2>RESTAURANT BILL</h2>
+                    <p>Order Invoice</p>
+                </div>
+
+
+                <div class="order-info">
+
+                    <div>
+                        <strong>Order Code:</strong>
+                        ${order.order_code || 'N/A'}
+                    </div>
+
+                    <div>
+                        <strong>Date:</strong>
+                        ${
+                            order.created_at
+                                ? new Date(order.created_at).toLocaleString()
+                                : 'N/A'
+                        }
+                    </div>
+
+                </div>
+
+
+                <div class="customer-info">
+
+                    <strong>Customer Details</strong>
+                    <br>
+                    Nme:  ${customer.name || 'N/A'}
+                    <br>
+                    Email: ${customer.email || 'N/A'}
+                    <br>
+                    Phone: ${customer.phone || 'N/A'}
+
+                </div>
+
+
+                <div class="customer-info">
+
+                    <strong>Delivery Details</strong>
+                    <br>
+                    Name: ${receiver.name || 'N/A'}
+                    <br>
+                    Phone: ${receiver.phone || 'N/A'}
+                    <br>
+                    Address: ${receiver.address || 'N/A'}
+                </div>
+
+
+                ${generateBillItems(order)}
+
+
+                <div class="footer">
+                    Thank you for your order.
+                </div>
+
+            </div>
+
+
+            <script>
+
+                window.onload = function() {
+
+                    window.print();
+
+                };
+
+            <\/script>
+
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+}
 
     
 
