@@ -587,7 +587,6 @@ function viewItems(orderId) {
     function printBill() {
 
     const order = window.currentOrder;
-
     if (!order) {
         alert('Order details are not available.');
         return;
