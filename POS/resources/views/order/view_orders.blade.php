@@ -443,16 +443,9 @@ function viewItems(orderId) {
                     html += `
                         <tr>
                             <td>${item.item_name || 'N/A'}</td>
-
                             <td>${quantity}</td>
-
-                            <td>
-                                ¥ ${price.toFixed(2)}
-                            </td>
-
-                            <td>
-                                ¥ ${itemSubtotal.toFixed(2)}
-                            </td>
+                            <td> ¥ ${price.toFixed(2)} </td>
+                            <td> ¥ ${itemSubtotal.toFixed(2)} </td>
                         </tr>
                     `;
                 });
