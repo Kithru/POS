@@ -307,8 +307,4 @@ class OrderController extends Controller
         ]);
     }
 
-    
-
-
-    }
 }
