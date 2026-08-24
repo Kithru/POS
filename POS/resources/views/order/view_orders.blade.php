@@ -584,6 +584,103 @@ function viewItems(orderId) {
         document.getElementById('cancelModal').style.display = 'none';
     }
 
+    function generateBillItems(order) {
+
+    const items = order.items || [];
+
+    let subtotal = 0;
+
+    let html = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price (Rs)</th>
+                    <th>Subtotal (Rs)</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    items.forEach(item => {
+
+        const price = parseFloat(item.price || 0);
+        const quantity = parseInt(item.quantity || 0);
+        const itemSubtotal = quantity * price;
+
+        subtotal += itemSubtotal;
+
+        html += `
+            <tr>
+                <td>${item.item_name || 'N/A'}</td>
+                <td>${quantity}</td>
+                <td>¥ ${price.toFixed(2)}</td>
+                <td>¥ ${itemSubtotal.toFixed(2)}</td>
+            </tr>
+        `;
+    });
+
+    if (items.length === 0) {
+        html += `
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    No items found.
+                </td>
+            </tr>
+        `;
+    }
+
+    const discount = parseFloat(order.discount || 0);
+    const tax = parseFloat(order.tax || 0);
+    const cod = parseFloat(order.cod_amount || 0);
+    const boxAmount = parseFloat(order.box_amount || 0);
+    const totalPayable = parseFloat(order.total_amount || 0);
+
+    html += `
+        <tr class="total-row">
+            <td colspan="3">Subtotal:</td>
+            <td>¥ ${subtotal.toFixed(2)}</td>
+        </tr>
+
+        <tr class="total-row1">
+            <td colspan="3">Discount:</td>
+            <td>- ¥ ${discount.toFixed(2)}</td>
+        </tr>
+
+        <tr class="total-row1">
+            <td colspan="3">Tax:</td>
+            <td>¥ ${tax.toFixed(2)}</td>
+        </tr>
+
+        <tr class="total-row1">
+            <td colspan="3">Delivery Charges:</td>
+            <td>¥ ${cod.toFixed(2)}</td>
+        </tr>
+
+        <tr class="total-row1">
+            <td colspan="3">Box Charges:</td>
+            <td>¥ ${boxAmount.toFixed(2)}</td>
+        </tr>
+
+        <tr class="total-row">
+            <td colspan="3">
+                <strong>Total Payable:</strong>
+            </td>
+            <td>
+                <strong>¥ ${totalPayable.toFixed(2)}</strong>
+            </td>
+        </tr>
+    `;
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+    return html;
+}
+
     function printBill() {
 
     const order = window.currentOrder;
