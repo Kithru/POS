@@ -427,16 +427,10 @@ function viewItems(orderId) {
             if (items.length > 0) {
 
                 items.forEach(item => {
-
-                    const price =
-                        parseFloat(item.price || 0);
-
-                    const quantity =
-                        parseInt(item.quantity || 0);
-
+                    const price = parseFloat(item.price || 0);
+                    const quantity =  parseInt(item.quantity || 0);
                     const itemSubtotal = quantity * price;
                     subtotal += itemSubtotal;
-
                     html += `
                         <tr>
                             <td>${item.item_name || 'N/A'}</td>
@@ -462,52 +456,32 @@ function viewItems(orderId) {
             // Subtotal
             html += `
                 <tr class="total-row">
-                    <td colspan="3">
-                        Subtotal:
-                    </td>
-
-                    <td>
-                        ¥ ${subtotal.toFixed(2)}
-                    </td>
+                    <td colspan="3"> Subtotal:</td>
+                    <td> ¥ ${subtotal.toFixed(2)} </td>
                 </tr>
             `;
 
             // Discount
             html += `
                 <tr class="total-row1">
-                    <td colspan="3">
-                        Discount:
-                    </td>
-
-                    <td>
-                        - ¥ ${discount.toFixed(2)}
-                    </td>
+                    <td colspan="3"> Discount:</td>
+                    <td>  - ¥ ${discount.toFixed(2)} </td>
                 </tr>
             `;
 
             // Tax
             html += `
                 <tr class="total-row1">
-                    <td colspan="3">
-                        Tax (8%):
-                    </td>
-
-                    <td>
-                        ¥ ${tax.toFixed(2)}
-                    </td>
+                    <td colspan="3">Tax (8%):   </td>
+                    <td>  ¥ ${tax.toFixed(2)}  </td>
                 </tr>
             `;
 
             // Delivery Charges
             html += `
                 <tr class="total-row1">
-                    <td colspan="3">
-                        Delivery Charges:
-                    </td>
-
-                    <td>
-                        ¥ ${cod.toFixed(2)}
-                    </td>
+                    <td colspan="3"> Delivery Charges: </td>
+                    <td> ¥ ${cod.toFixed(2)}</td>
                 </tr>
             `;
 
