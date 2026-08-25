@@ -488,28 +488,16 @@ function viewItems(orderId) {
             // Box Charges
             html += `
                 <tr class="total-row1">
-                    <td colspan="3">
-                        Box Charges:
-                    </td>
-
-                    <td>
-                        ¥ ${boxAmount.toFixed(2)}
-                    </td>
+                    <td colspan="3"> Box Charges:</td>
+                    <td>¥ ${boxAmount.toFixed(2)}</td>
                 </tr>
             `;
 
             // Total Payable
             html += `
                 <tr class="total-row">
-                    <td colspan="3">
-                        <strong>Total Payable:</strong>
-                    </td>
-
-                    <td>
-                        <strong>
-                            ¥ ${totalPayable.toFixed(2)}
-                        </strong>
-                    </td>
+                    <td colspan="3"> <strong>Total Payable:</strong> </td>
+                    <td><strong>  ¥ ${totalPayable.toFixed(2)} </strong> </td>
                 </tr>
             `;
 
@@ -523,7 +511,6 @@ function viewItems(orderId) {
         .catch(err => {
 
             console.error('View Items Error:', err);
-
             alert(
                 'Failed to fetch order items. Please check the browser console.'
             );
