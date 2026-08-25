@@ -434,11 +434,8 @@ function viewItems(orderId) {
                     const quantity =
                         parseInt(item.quantity || 0);
 
-                    const itemSubtotal =
-                        quantity * price;
-
+                    const itemSubtotal = quantity * price;
                     subtotal += itemSubtotal;
-
 
                     html += `
                         <tr>
