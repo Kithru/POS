@@ -134,3 +134,6 @@ Route::get('/table/availability/{id}', [SettingsController::class, 'changeAvaila
 Route::post('/checkout', [PosController::class, 'checkout']);
 
 Route::post('/pos/store', [PosController::class, 'store'])->name('pos.store');
+
+//Print bill
+Route::get('/orders/{orderId}/print', [OrderController::class, 'printBill'])->name('order.print');
