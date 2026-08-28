@@ -307,4 +307,21 @@ class OrderController extends Controller
         ]);
     }
 
+    public function printBill($orderId){
+        try {
+
+            $order = Order::with([
+                'items.item',
+                'customer'
+            ])->findOrFail($orderId);
+
+            return view('order.print_bill', compact('order'));
+
+        } catch (\Exception $e) {
+
+            abort(404, 'Order not found.');
+        }
+    }
+    
+
 }
