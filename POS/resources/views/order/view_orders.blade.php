@@ -631,10 +631,23 @@ function viewItems(orderId) {
 
     function printBill() {
 
-    const order = window.currentOrder;
-    if (!order) {
-        alert('Order details are not available.');
-        return;
+        if (!window.currentOrderId) {
+
+            alert('Order ID is not available.');
+
+            return;
+        }
+
+        const url =
+            "{{ url('/orders') }}/"
+            + window.currentOrderId
+            + "/print";
+
+        window.open(
+            url,
+            '_blank',
+            'width=800,height=900'
+        );
     }
 
     const printWindow = window.open(
