@@ -551,7 +551,6 @@ function viewItems(orderId) {
                 </thead>
                 <tbody>
         `;
-
         items.forEach(item => {
 
             const price = parseFloat(item.price || 0);
