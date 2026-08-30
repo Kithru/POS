@@ -653,7 +653,6 @@ function viewItems(orderId) {
             'width=500,height=800'
         );
     }
-
 </script>
 
 </body>
