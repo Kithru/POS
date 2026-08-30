@@ -632,9 +632,7 @@ function viewItems(orderId) {
     function printBill() {
 
         if (!window.currentOrderId) {
-
             alert('Order ID is not available.');
-
             return;
         }
 
