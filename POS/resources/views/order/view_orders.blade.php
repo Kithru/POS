@@ -515,7 +515,7 @@ function viewItems(orderId) {
                 'Failed to fetch order items. Please check the browser console.'
             );
         });
-}
+    }
     function getStatusText(status){
         switch(parseInt(status)){
             case 0: return 'Pending';
@@ -536,7 +536,6 @@ function viewItems(orderId) {
     }
 
     function generateBillItems(order) {
-
         const items = order.items || [];
         let subtotal = 0;
         let html = `
