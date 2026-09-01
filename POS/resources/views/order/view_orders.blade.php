@@ -425,7 +425,6 @@ function viewItems(orderId) {
             let subtotal = 0;
 
             if (items.length > 0) {
-
                 items.forEach(item => {
                     const price = parseFloat(item.price || 0);
                     const quantity =  parseInt(item.quantity || 0);
