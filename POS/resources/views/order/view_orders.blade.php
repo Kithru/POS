@@ -509,7 +509,6 @@ function viewItems(orderId) {
         })
 
         .catch(err => {
-
             console.error('View Items Error:', err);
             alert(
                 'Failed to fetch order items. Please check the browser console.'
