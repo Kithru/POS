@@ -501,11 +501,8 @@ function viewItems(orderId) {
                 </tr>
             `;
 
-            document.getElementById('itemsContent').innerHTML =
-                html;
-
-            document.getElementById('itemsModal').style.display =
-                'flex';
+            document.getElementById('itemsContent').innerHTML = html;
+            document.getElementById('itemsModal').style.display = 'flex';
         })
 
         .catch(err => {
