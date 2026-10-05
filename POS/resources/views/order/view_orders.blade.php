@@ -396,21 +396,15 @@ function viewItems(orderId) {
                         continue;
                     }
 
-                    const displayVal = val
-                        ? new Date(val).toLocaleString()
-                        : 'N/A';
-
+                    const displayVal = val ? new Date(val).toLocaleString() : 'N/A';
                     const li = document.createElement('li');
 
                     if (parseInt(key) === 0) {
-
-                        li.innerHTML =
-                            `(Ordered Date) Pending: ${displayVal}`;
+                        li.innerHTML = `(Ordered Date) Pending: ${displayVal}`;
                     } else {
                         li.textContent =
                             `${statuses[key] || 'Unknown'}: ${displayVal}`;
                     }
-
                     statusHistoryEl.appendChild(li);
                 }
             }
