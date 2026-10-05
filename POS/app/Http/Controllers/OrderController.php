@@ -188,7 +188,6 @@ class OrderController extends Controller
         $order->cancelled_by = auth()->id();
         $order->cancelled_reason = $request->cancel_reason;
         $order->save();
-
         return back()->with('success', 'Order cancelled successfully.');
     }
 
