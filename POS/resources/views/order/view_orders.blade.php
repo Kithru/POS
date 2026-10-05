@@ -406,9 +406,7 @@ function viewItems(orderId) {
 
                         li.innerHTML =
                             `(Ordered Date) Pending: ${displayVal}`;
-
                     } else {
-
                         li.textContent =
                             `${statuses[key] || 'Unknown'}: ${displayVal}`;
                     }
