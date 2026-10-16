@@ -383,8 +383,6 @@ function viewItems(orderId) {
                 `;
 
                 statusHistoryEl.appendChild(li2);
-
-
             } else {
 
                 timelineBox.style.background = '#f9f9f9';
