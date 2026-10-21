@@ -318,7 +318,6 @@ function viewItems(orderId) {
 
                 </div>
             `;
-
             document.getElementById('customerDetails').innerHTML =
                 customerHTML;
 
