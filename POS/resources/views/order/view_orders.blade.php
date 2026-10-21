@@ -341,7 +341,6 @@ function viewItems(orderId) {
                 3: 'Handed Over',
                 4: 'Cancelled'
             };
-
             const statusTimes = order.status_times || {};
 
 
