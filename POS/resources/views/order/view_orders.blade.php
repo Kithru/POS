@@ -364,7 +364,6 @@ function viewItems(orderId) {
 
                 statusHistoryEl.appendChild(li1);
 
-
                 // Cancelled Date
                 const cancelledDate = statusTimes[4]
                     ? new Date(statusTimes[4]).toLocaleString()
