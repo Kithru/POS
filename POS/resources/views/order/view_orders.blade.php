@@ -343,7 +343,6 @@ function viewItems(orderId) {
             };
             const statusTimes = order.status_times || {};
 
-
             // --------------------------------
             // Cancelled Order
             // --------------------------------
